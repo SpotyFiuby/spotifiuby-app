@@ -6,7 +6,7 @@ import TabOneScreen from '../screens/TabOneScreen';
 import TabTwoScreen from '../screens/TabTwoScreen';
 import { Pressable } from 'react-native';
 import * as React from 'react';
-import { FontAwesome } from '@expo/vector-icons';
+import { FontAwesome, AntDesign, Ionicons, FontAwesome5, MaterialIcons } from '@expo/vector-icons';
 
 /**
  * A bottom tab navigator displays tab buttons on the bottom of the display to switch screens.
@@ -19,16 +19,16 @@ export default (props: RootTabScreenProps) => {
   const colorScheme = useColorScheme();
   return (
     <BottomTab.Navigator
-      initialRouteName="TabOne"
+      initialRouteName="Home"
       screenOptions={{
         tabBarActiveTintColor: Colors[colorScheme].tint,
       }}>
       <BottomTab.Screen
-        name="TabOne"
+        name="Home"
         component={TabOneScreen}
-        options={({ navigation }: RootTabScreenProps<'TabOne'>) => ({
-          title: 'Tab One',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+        options={({ navigation }: RootTabScreenProps<'Home'>) => ({
+          title: 'Inicio',
+          tabBarIcon: ({ color }) => <FontAwesome name="home" size={30} style={{ marginBottom: -3}} color={color} />,
           headerRight: () => (
             <Pressable
               onPress={() => navigation.navigate('Modal')}
@@ -46,13 +46,32 @@ export default (props: RootTabScreenProps) => {
         })}
       />
       <BottomTab.Screen
-        name="TabTwo"
+        name="Search"
         component={TabTwoScreen}
         options={{
-          title: 'Tab Two',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          title: 'Buscar',
+          tabBarIcon: ({ color }) => <MaterialIcons name="search" size={30} style={{ marginBottom: -3}} color={color} />,
         }}
       />
+
+      <BottomTab.Screen
+        name= "Library"
+        component={TabTwoScreen}
+        options={{
+          title: 'Tu Biblioteca',
+          tabBarIcon: ({ color }) => <Ionicons name="library-outline" size={30} style={{ marginBottom: -3}} color={color} />,
+        }}
+      />
+
+      <BottomTab.Screen
+        name= "Premium"
+        component={TabTwoScreen}
+        options={{
+          title: 'Premium',
+          tabBarIcon: ({ color }) => <FontAwesome5 name="star" size={30} style={{ marginBottom: -3}} color={color} />,
+        }}
+      />
+
     </BottomTab.Navigator>
   );
 }
