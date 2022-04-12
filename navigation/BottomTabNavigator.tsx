@@ -2,11 +2,11 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { RootTabParamList, RootTabScreenProps } from '../types';
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
-import TabOneScreen from '../screens/TabOneScreen';
+import HomeScreen from '../screens/HomeScreen';
 import TabTwoScreen from '../screens/TabTwoScreen';
 import { Pressable } from 'react-native';
 import * as React from 'react';
-import { FontAwesome, AntDesign, Ionicons, FontAwesome5, MaterialIcons } from '@expo/vector-icons';
+import { FontAwesome, FontAwesome5, Entypo, EvilIcons } from '@expo/vector-icons';
 
 /**
  * A bottom tab navigator displays tab buttons on the bottom of the display to switch screens.
@@ -25,10 +25,10 @@ export default (props: RootTabScreenProps) => {
       }}>
       <BottomTab.Screen
         name="Home"
-        component={TabOneScreen}
+        component={HomeScreen}
         options={({ navigation }: RootTabScreenProps<'Home'>) => ({
           title: 'Inicio',
-          tabBarIcon: ({ color }) => <FontAwesome name="home" size={30} style={{ marginBottom: -3}} color={color} />,
+          tabBarIcon: ({ color }) => <Entypo name="home" size={30} style={{ marginBottom: -3}} color={color} />,
           headerRight: () => (
             <Pressable
               onPress={() => navigation.navigate('Modal')}
@@ -50,7 +50,7 @@ export default (props: RootTabScreenProps) => {
         component={TabTwoScreen}
         options={{
           title: 'Buscar',
-          tabBarIcon: ({ color }) => <MaterialIcons name="search" size={30} style={{ marginBottom: -3}} color={color} />,
+          tabBarIcon: ({ color }) => <EvilIcons name="search" size={30} style={{ marginBottom: -3}} color={color} />,
         }}
       />
 
@@ -59,7 +59,11 @@ export default (props: RootTabScreenProps) => {
         component={TabTwoScreen}
         options={{
           title: 'Tu Biblioteca',
-          tabBarIcon: ({ color }) => <Ionicons name="library-outline" size={30} style={{ marginBottom: -3}} color={color} />,
+          tabBarIcon: ({ color }) => <FontAwesome name="bars" size={30} style={
+            { marginBottom: -3,
+              transform: [{ rotate: '90deg'}]
+            }
+          } color={color} />,
         }}
       />
 
@@ -68,7 +72,7 @@ export default (props: RootTabScreenProps) => {
         component={TabTwoScreen}
         options={{
           title: 'Premium',
-          tabBarIcon: ({ color }) => <FontAwesome5 name="star" size={30} style={{ marginBottom: -3}} color={color} />,
+          tabBarIcon: ({ color }) => <FontAwesome5 name="spotify" size={30} style={{ marginBottom: -3}} color={color} />,
         }}
       />
 
