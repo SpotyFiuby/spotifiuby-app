@@ -2,10 +2,18 @@ import { StyleSheet, Text, View } from 'react-native';
 
 import { RootTabScreenProps } from '../types';
 
+import Album from '../components/Album';
+
+const album = {
+  id: '1',
+  imageUri: 'https://i.scdn.co/image/ab67616d0000b273328e973ede81069ff83d552e',
+  artistsHeadline: 'Los palmeras, enganchado 24 hs.'
+}
+
 export default function HomeScreen({ navigation }: RootTabScreenProps<'Home'>) {
   return (
     <View style={styles.container}>
-      <Text style={{ color: 'white' }}>Hello home</Text>
+      <Album album={album} />
     </View>
   );
 }
