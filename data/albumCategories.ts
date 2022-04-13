@@ -1,6 +1,6 @@
 export default [{
     id: '1',
-    title: "Categoría 1",
+    title: "Cumbia",
     albums: [
       {
         id: '1',
@@ -25,7 +25,7 @@ export default [{
     ]
   },{
     id: '2',
-    title: "Categoría 2",
+    title: "Recomendados",
     albums: [
       {
         id: '1',
@@ -50,7 +50,7 @@ export default [{
     ]
   }, {
     id: '3',
-    title: "Categoría 3",
+    title: "Cumbia 2",
     albums: [
       {
         id: '1',
