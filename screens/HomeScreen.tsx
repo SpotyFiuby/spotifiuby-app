@@ -3,7 +3,7 @@ import { StyleSheet, FlatList, View } from 'react-native';
 
 import { RootTabScreenProps } from '../types';
 
-import AlbumCategory from '../components/AlmbumCategory';
+import AlbumCategory from '../components/AlbumCategory';
 import albumCategories from '../data/albumCategories';
 
 export default function HomeScreen({ navigation }: RootTabScreenProps<'Home'>) {
