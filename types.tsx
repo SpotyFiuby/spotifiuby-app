@@ -25,15 +25,31 @@ export type RootStackScreenProps<Screen extends keyof RootStackParamList> = Nati
 >;
 
 export type RootTabParamList = {
-  Home: undefined;
   Search: undefined;
   Library: undefined;
   Premium: undefined;
   AlbumScreen: undefined;
 };
 
+export type BottomTabParamList = {
+  TabOne: undefined;
+  TabTwo: undefined;
+};
+
+export type TabOneParamList = {
+  TabOneScreen: undefined;
+  AlbumScreen: undefined;
+};
+
+export type TabTwoParamList = {
+  TabTwoScreen: undefined;
+};
+
 export type Album = {
   id: string;
+  name: string;
+  by: string;
+  numberOfLikes: number;
   imageUri: string;
   artistsHeadline: string;
 }
@@ -44,6 +60,30 @@ export type Song = {
   title: string,
   artist: string,
 }
+
+/*
+export type TabOneParamList = {
+  TabOneScreen: undefined;
+  AlbumScreen: undefined;
+};
+
+
+
+export type Album = {
+  id: string;
+  imageUri: string;
+  artistsHeadline: string;
+  name: string;
+  by: string;
+  numberOfLikes: number;
+}
+
+export type Song = {
+  id: string,
+  imageUri: string,
+  title: string,
+  artist: string,
+}*/
 
 export type RootTabScreenProps<Screen extends keyof RootTabParamList> = CompositeScreenProps<
   BottomTabScreenProps<RootTabParamList, Screen>,
