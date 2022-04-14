@@ -29,6 +29,7 @@ export type RootTabParamList = {
   Search: undefined;
   Library: undefined;
   Premium: undefined;
+  AlbumScreen: undefined;
 };
 
 export type Album = {

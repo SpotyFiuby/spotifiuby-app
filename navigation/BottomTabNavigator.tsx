@@ -7,6 +7,7 @@ import TabTwoScreen from '../screens/TabTwoScreen';
 import { Pressable } from 'react-native';
 import * as React from 'react';
 import { FontAwesome, FontAwesome5, Entypo, EvilIcons } from '@expo/vector-icons';
+import AlbumScreen from '../screens/AlbumScreen';
 
 /**
  * A bottom tab navigator displays tab buttons on the bottom of the display to switch screens.
@@ -73,6 +74,14 @@ export default (props: RootTabScreenProps) => {
         options={{
           title: 'Premium',
           tabBarIcon: ({ color }) => <FontAwesome5 name="spotify" size={30} style={{ marginBottom: -3}} color={color} />,
+        }}
+      />
+
+      <BottomTab.Screen
+        name= "AlbumScreen"
+        component={AlbumScreen}
+        options={{
+          headerTitle: 'Album'
         }}
       />
 
