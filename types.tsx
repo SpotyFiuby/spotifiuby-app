@@ -38,6 +38,13 @@ export type Album = {
   artistsHeadline: string;
 }
 
+export type Song = {
+  id: string,
+  imageUri: string,
+  title: string,
+  artist: string,
+}
+
 export type RootTabScreenProps<Screen extends keyof RootTabParamList> = CompositeScreenProps<
   BottomTabScreenProps<RootTabParamList, Screen>,
   NativeStackScreenProps<RootStackParamList>
