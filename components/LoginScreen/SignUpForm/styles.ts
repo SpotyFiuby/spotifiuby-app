@@ -19,11 +19,31 @@ const styles = StyleSheet.create({
         marginBottom: 10,
     },
     signUpButton: (isValid) => ({
+        marginTop: 15,
         alignSelf: "center",
         borderRadius: 40,
         backgroundColor: isValid? '#3B71F3': '#A9BCEC',
         width: "40%",
     }),
+    signInCtn: {
+        flexDirection: "row",
+        justifyContent: "center",
+    },
+    signInText: {
+        alignSelf: "center",
+        color: "white",
+        fontSize: 16,
+        fontWeight: "bold",
+        marginTop: 10,
+    },
+    signInLink: {
+        alignSelf: "center",
+        padding: 5,
+        marginTop: 10,
+        fontSize: 16,
+        fontWeight: "bold",
+        color: "#3B71F3",
+    }
 });
 
 
