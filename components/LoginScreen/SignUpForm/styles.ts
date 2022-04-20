@@ -4,7 +4,6 @@ const styles = StyleSheet.create({
     container: {
         marginTop: 30,
         width: "100%",
-        // alignItems: "center",
     },
     inputField: {
         alignSelf: "center",
@@ -15,14 +14,10 @@ const styles = StyleSheet.create({
         borderWidth: 2,
         borderRadius: 4,
         paddingHorizontal: 10,
-        // marginVertical: 5,
         marginBottom: 10,
     },
     passwordContainer: {
         flexDirection: "row",
-        // justifyContent: "space-between",
-        // alignItems: "center",
-        // width: "100%",
     },
     passwordInputStyle: {
         flex: 1,
