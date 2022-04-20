@@ -1,5 +1,6 @@
 import react, {useState} from 'react';
-import { View, Text, TextInput } from 'react-native';
+import { View, Text, TextInput, Switch } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome5';
 import styles from './styles';
 import CustomButton from '../../CustomButton';
 import { Formik } from 'formik';
@@ -15,6 +16,7 @@ const SignInForm = ({navigation}) => {
             .min(MIN_PASSWORD_LEN, `Password must be at least ${MIN_PASSWORD_LEN} characters`)
     });
 
+    const [hidePass, setHidePass] = useState(true);
 
     return(
         <View style={styles.container}>
@@ -51,17 +53,27 @@ const SignInForm = ({navigation}) => {
                                 borderColor: 1 > values.password.length || values.password.length >= MIN_PASSWORD_LEN ? '#ccc' : 'red',
                             }
                         ]}>
-                            <TextInput
-                                placeholder='Password'
-                                placeholderTextColor='#444'
-                                autocapitalize= 'none'
-                                secureTextEntry= {true}
-                                autoCorrect= {false}
-                                textContentType= 'password'
-                                onChangeText={handleChange('password')}
-                                onBlur={handleBlur('password')}
-                                value={values.password}
-                            />
+                            <View style={styles.passwordContainer}>
+                                <TextInput
+                                    style={styles.passwordInputStyle}
+                                    placeholder='Password'
+                                    placeholderTextColor='#444'
+                                    autoCorrect={false}
+                                    autocapitalize= 'none'
+                                    autoCompleteType="password"
+                                    secureTextEntry={hidePass ? true : false}
+                                    textContentType= 'password'
+                                    onChangeText={handleChange('password')}
+                                    onBlur={handleBlur('password')}
+                                    value={values.password}
+                                    />
+                                <Icon
+                                    name={hidePass ? 'eye' : 'eye-slash'}
+                                    color='#000'
+                                    onPress={() => setHidePass(!hidePass)}
+                                    size={14}
+                                />
+                            </View>
                         </View>
 
                         <View style={styles.forgotPasswordCtn}> 

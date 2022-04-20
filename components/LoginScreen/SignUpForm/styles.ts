@@ -18,6 +18,15 @@ const styles = StyleSheet.create({
         // marginVertical: 5,
         marginBottom: 10,
     },
+    passwordContainer: {
+        flexDirection: "row",
+        // justifyContent: "space-between",
+        // alignItems: "center",
+        // width: "100%",
+    },
+    passwordInputStyle: {
+        flex: 1,
+    },
     signUpButton: (isValid) => ({
         marginTop: 15,
         alignSelf: "center",

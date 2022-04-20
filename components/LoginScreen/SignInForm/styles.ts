@@ -24,6 +24,15 @@ const styles = StyleSheet.create({
         backgroundColor: isValid? '#3B71F3': '#A9BCEC',
         width: "40%",
     }),
+    passwordContainer: {
+        flexDirection: "row",
+        // justifyContent: "space-between",
+        // alignItems: "center",
+        // width: "100%",
+    },
+    passwordInputStyle: {
+        flex: 1,
+    },
     forgotPasswordCtn: {
         alignItems: 'flex-end',
         marginTop: 2,
