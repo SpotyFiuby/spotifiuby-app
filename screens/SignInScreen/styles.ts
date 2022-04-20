@@ -2,36 +2,18 @@ import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
     root: {
-        paddingTop: 100,
-        justifyContent: 'center',
+        flex: 1,
+        paddingTop: 80,
         alignItems: 'center',
-        padding: 20,
+        paddingHorizontal: 12,
     },
-    signInForm: {
+    signInFormContainer: {
         marginTop: 30,
         width: '100%',
-        justifyContent: 'center',
+    },
+    federatedContainer: {
         alignItems: 'center',
-    },
-    signInButton: {
-        borderRadius: 40,
-        width: "40%"
-    },
-    signUpAccountText: {
-        marginTop: 15,
-        color: "white",
-        fontSize: 17,
-        fontWeight: "bold",
-    },
-    signUpButton: {
-        marginTop: 15,
-        width: "70%",
-        borderRadius: 60,
-    },
-    signUpText: {
-        color: "black",
-        fontSize: 16,
-        fontWeight: "bold",
+        width: '80%',
     },
     federatedFacebookButton: {
         marginTop: 15,
