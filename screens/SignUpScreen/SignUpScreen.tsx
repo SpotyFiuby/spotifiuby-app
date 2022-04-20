@@ -3,10 +3,10 @@ import { View, Text } from 'react-native';
 import styles from './styles';
 import SignUpForm from '../../components/LoginScreen/SignUpForm';
 
-const SignUpScreen = () => {
+const SignUpScreen = ({ navigation }) => {
     return (
         <View style={styles.root}>
-            <SignUpForm />
+            <SignUpForm navigation={navigation}/>
         </View>
     )
 };
