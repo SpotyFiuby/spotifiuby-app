@@ -74,7 +74,7 @@ const SignInForm = ({navigation}) => {
                             <Text style={{color: "grey"}}>_____________________________________</Text>
                             <Text style={styles.signUpAccountText}>Don't have an account?</Text>
                             <CustomButton 
-                                onPress={() => navigation.navigate('SignUpScreen')}
+                                onPress={() => navigation.push('SignUpScreen')}
                                 text="SIGN UP FOR SPOTIFIUBY"
                                 style={styles.signUpButton}
                                 styleText={styles.signUpText}

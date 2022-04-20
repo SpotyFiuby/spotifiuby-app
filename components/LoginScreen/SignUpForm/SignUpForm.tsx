@@ -7,7 +7,7 @@ import * as Yup from 'yup';
 import Validator from 'email-validator';
 const MIN_PASSWORD_LEN = 6;
 
-const SignUpForm = ({navigation}) => {
+const SignUpForm = ({ navigation }) => {
     const signUpFormSchema = Yup.object().shape({
         email: Yup.string().email()
             .required('Email is required'),
@@ -22,8 +22,6 @@ const SignUpForm = ({navigation}) => {
         <>
         <View style={{ alignSelf: 'flex-start', marginRight: 10 }}>
                 <Button title="Back" onPress={() => {
-                    console.debug("Back button pressed");
-                    console.debug(this);
                     return navigation.goBack();
                 }} />
         </View>
@@ -66,7 +64,6 @@ const SignUpForm = ({navigation}) => {
                                 placeholderTextColor='#444'
                                 autocapitalize= 'none'
                                 textContentType= 'username'
-                                autoFocus= {true}
                                 onChangeText={handleChange('username')}
                                 onBlur={handleBlur('username')}
                                 value={values.username}
@@ -91,6 +88,14 @@ const SignUpForm = ({navigation}) => {
                             />
                         </View>
                         <CustomButton onPress={handleSubmit} text="Sign Up" style={styles.signUpButton(isValid)}/>
+
+                        <View style={styles.signInCtn}>
+                            <Text style={styles.signInText}>Already got an account?</Text>
+                            <Text style={styles.signInLink} onPress={() => {
+                                return navigation.navigate('SignInScreen');
+                            }
+                            }>Sign In</Text>
+                        </View>
                     </>
                 )}
             </Formik>
