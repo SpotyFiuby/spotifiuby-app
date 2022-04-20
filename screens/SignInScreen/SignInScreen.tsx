@@ -1,16 +1,25 @@
 import React, {useState} from 'react';
 import { View, Text, Pressable } from 'react-native';
-import CustomInput from '../../components/CustomInput';
 import CustomButton from '../../components/CustomButton';
 import styles from './styles';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
+// import { auth } from '../../firebase';
+import SignInForm from '../../components/LoginScreen/SignInForm';
 
-const SignInScreen = () => {
+
+const SignInScreen = ({navigation}) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
     const onSignInPressed = () => {
         console.warn('Sign in pressed');
+        auth.signInWithEmailAndPassword(username, password)
+        .then(() => {
+            console.warn('Sign in success');
+        })
+        // .catch(() => {
+        //     console.warn('Sign in failed');
+        // });
     };
 
     const onForgotPasswordPressed = () => {
@@ -35,54 +44,38 @@ const SignInScreen = () => {
 
     return(
         <View style={styles.root}>
-            <View style={styles.federatedFacebookButton}>
-            <FontAwesome.Button
-                name="facebook"
-                backgroundColor="#3b5998"
-                onPress={onSignInFacebook}
-            >
-            Sign in with Facebook
-            </FontAwesome.Button>
-            </View>
-            <View style={styles.federatedGoogleButton}>
-                <FontAwesome.Button
-                    name="google"
-                    backgroundColor="#DD4D44"
-                    onPress={onSignInGoogle}
-                >
+            <View style={styles.federatedContainer}>
+                <View style={styles.federatedFacebookButton}>
+                    <FontAwesome.Button
+                        name="facebook"
+                        backgroundColor="#3b5998"
+                        onPress={onSignInFacebook}
+                    >
                     Sign in with Facebook
-                </FontAwesome.Button>
+                    </FontAwesome.Button>
+                </View>
+                <View style={styles.federatedGoogleButton}>
+                    <FontAwesome.Button
+                        name="google"
+                        backgroundColor="#DD4D44"
+                        onPress={onSignInGoogle}
+                    >
+                        Sign in with Facebook
+                    </FontAwesome.Button>
+                </View>
+                <View style={styles.federatedAppleButton}>
+                    <FontAwesome.Button
+                        name="apple"
+                        backgroundColor="#363636"
+                        onPress={onSignInApple}
+                    >
+                        Sign in with Facebook
+                    </FontAwesome.Button>
+                </View>
             </View>
-            <View style={styles.federatedAppleButton}>
-                <FontAwesome.Button
-                    name="apple"
-                    backgroundColor="#363636"
-                    onPress={onSignInApple}
-                >
-                    Sign in with Facebook
-                </FontAwesome.Button>
+            <View style={styles.signInFormContainer}>
+                <SignInForm navigation={navigation}/>
             </View>
-            <View style={styles.signInForm}>
-                <CustomInput placeholder="username" value={username} setValue={setUsername}/>
-                <CustomInput placeholder="password" value={password} setValue={setPassword} secureTextEntry/>
-            </View>
-            <CustomButton 
-                text="Forgot Password ?"
-                onPress={onForgotPasswordPressed}
-                bgColor="transparent"
-                fgColor="#FFFFFF"
-            />
-            <CustomButton onPress={onSignInPressed} text="Sign In" style={styles.signInButton}/>
-
-            <Text style={{color: "grey"}}>_____________________________________</Text>
-            <Text style={styles.signUpAccountText}>Don't have an account?</Text>
-            <CustomButton 
-                onPress={onSignUpPressed}
-                text="SIGN UP FOR SPOTIFIUBY"
-                style={styles.signUpButton}
-                styleText={styles.signUpText}
-            />
-
         </View>
     )
 }
