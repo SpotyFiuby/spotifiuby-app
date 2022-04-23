@@ -11,12 +11,15 @@ const SignInScreen = ({navigation}) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
-    const onSignInPressed = () => {
+    const onSignInPressed = (email, password) => {
         console.warn('Sign in pressed');
-        auth.signInWithEmailAndPassword(username, password)
-        .then(() => {
-            console.warn('Sign in success');
-        })
+       
+        // TODO: make request to backend to check auth
+        // const authRes = await axios.get('https://jsonplaceholder.typicode.com/users');
+        // console.warn(authRes);
+        // if(authRes.code == 200) {
+        //     navigation.navigate('Home');
+        // }
         // .catch(() => {
         //     console.warn('Sign in failed');
         // });
@@ -74,7 +77,7 @@ const SignInScreen = ({navigation}) => {
                 </View>
             </View>
             <View style={styles.signInFormContainer}>
-                <SignInForm navigation={navigation}/>
+                <SignInForm navigation={navigation} onSignIn={onSignInPressed}/>
             </View>
         </View>
     )

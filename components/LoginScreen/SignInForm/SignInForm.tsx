@@ -8,7 +8,7 @@ import * as Yup from 'yup';
 import Validator from 'email-validator';
 const MIN_PASSWORD_LEN = 6;
 
-const SignInForm = ({navigation}) => {
+const SignInForm = ({navigation, onSignIn}) => {
     const loginFormSchema = Yup.object().shape({
         email: Yup.string().email()
             .required('Email is required'),
@@ -25,6 +25,7 @@ const SignInForm = ({navigation}) => {
                 validationSchema={loginFormSchema}
                 onSubmit={(values) => {
                     console.log(values);
+                    onSignIn(values.email,values.password);
                 }}
                 validateOnMount={true}
             >{({handleChange, handleBlur, handleSubmit, values, isValid}) => (
