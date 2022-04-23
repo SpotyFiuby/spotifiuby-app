@@ -1,5 +1,6 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { RootTabParamList, RootTabScreenProps } from '../types';
+import { createStackNavigator } from '@react-navigation/stack';
+import { RootTabParamList, RootTabScreenProps, TabOneParamList } from '../types';
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
 import HomeScreen from '../screens/HomeScreen';
@@ -7,6 +8,7 @@ import TabTwoScreen from '../screens/TabTwoScreen';
 import { Pressable } from 'react-native';
 import * as React from 'react';
 import { FontAwesome, FontAwesome5, Entypo, EvilIcons } from '@expo/vector-icons';
+import AlbumScreen from '../screens/AlbumScreen';
 
 /**
  * A bottom tab navigator displays tab buttons on the bottom of the display to switch screens.
@@ -19,32 +21,18 @@ export default (props: RootTabScreenProps) => {
   const colorScheme = useColorScheme();
   return (
     <BottomTab.Navigator
-      initialRouteName="Home"
-      screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme].tint,
-      }}>
+      initialRouteName="TabOne"
+      tabBarOptions={{ activeTintColor: Colors[colorScheme].tint }}>
+        
       <BottomTab.Screen
-        name="Home"
-        component={HomeScreen}
-        options={({ navigation }: RootTabScreenProps<'Home'>) => ({
-          title: 'Inicio',
-          tabBarIcon: ({ color }) => <Entypo name="home" size={30} style={{ marginBottom: -3}} color={color} />,
-          headerRight: () => (
-            <Pressable
-              onPress={() => navigation.navigate('Modal')}
-              style={({ pressed }) => ({
-                opacity: pressed ? 0.5 : 1,
-              })}>
-              <FontAwesome
-                name="info-circle"
-                size={25}
-                color={Colors[colorScheme].text}
-                style={{ marginRight: 15 }}
-              />
-            </Pressable>
-          ),
-        })}
+        name="TabOne"
+        component={TabOneNavigator}
+        options={{
+          tabBarIcon: ({ color }) => <Entypo name="home" size={30} style={{ marginBottom: -3 }} color={color} />,
+          headerShown: false,
+        }}
       />
+      
       <BottomTab.Screen
         name="Search"
         component={TabTwoScreen}
@@ -79,7 +67,26 @@ export default (props: RootTabScreenProps) => {
     </BottomTab.Navigator>
   );
 }
- 
+
+const TabOneStack = createStackNavigator<TabOneParamList>();
+
+function TabOneNavigator() {
+  return (
+    <TabOneStack.Navigator>
+      <TabOneStack.Screen
+        name="Home"
+        component={HomeScreen}
+        options={{ headerTitle: 'Home' }}
+      />
+
+      <TabOneStack.Screen
+        name="AlbumScreen"
+        component={AlbumScreen}
+        options={{ headerTitle: 'Album' }}
+      />
+    </TabOneStack.Navigator>
+  );
+}
 
 /**
 * You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
