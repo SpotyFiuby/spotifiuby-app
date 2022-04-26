@@ -1,5 +1,5 @@
 import react, {useState} from 'react';
-import { View, Text, TextInput, Button } from 'react-native';
+import { View, Text, TextInput, Button, Alert} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import styles from './styles';
 import CustomButton from '../../CustomButton';
@@ -7,8 +7,10 @@ import { Formik } from 'formik';
 import * as Yup from 'yup';
 import Validator from 'email-validator';
 const MIN_PASSWORD_LEN = 6;
+import firebase from '../../../firebase';
 
-const SignUpForm = ({ navigation }) => {
+
+const SignUpForm = ({ navigation, signInData = { email: '', password: ''} }) => {
     const signUpFormSchema = Yup.object().shape({
         email: Yup.string().email()
             .required('Email is required'),
@@ -18,6 +20,15 @@ const SignUpForm = ({ navigation }) => {
             .min(MIN_PASSWORD_LEN, `Password must be at least ${MIN_PASSWORD_LEN} characters`)
     });
 
+    const onSignUp = async (email, password) => {
+        try {
+            await firebase.auth().createUserWithEmailAndPassword(email,password);
+            console.log("Firebase Sign Up successful", email, password);
+        } catch(error) {
+            Alert.alert(error.message);
+        }
+    }
+    const { email, password } = signInData;
     const [hidePass, setHidePass] = useState(true);
 
     return(
@@ -29,10 +40,10 @@ const SignUpForm = ({ navigation }) => {
         </View>
         <View style={styles.container}>
             <Formik 
-                initialValues={{email: '',username: '', password: ''}}
+                initialValues={{email,username: '', password}}
                 validationSchema={signUpFormSchema}
                 onSubmit={(values) => {
-                    console.log(values); // DO SOMETHING WITH VALUES HERE TO SIGN UP
+                    onSignUp(values.email, values.password)
                 }}
                 validateOnMount={true}
             >{({handleChange, handleBlur, handleSubmit, values, isValid}) => (
@@ -46,7 +57,7 @@ const SignUpForm = ({ navigation }) => {
                             <TextInput
                                 placeholder="Email"
                                 placeholderTextColor='#444'
-                                autocapitalize= 'none'
+                                autoCapitalize= 'none'
                                 keyboardType= 'email-address'
                                 textContentType= 'emailAddress'
                                 autoFocus= {true}
@@ -64,7 +75,7 @@ const SignUpForm = ({ navigation }) => {
                             <TextInput
                                 placeholder="Username"
                                 placeholderTextColor='#444'
-                                autocapitalize= 'none'
+                                autoCapitalize= 'none'
                                 textContentType= 'username'
                                 onChangeText={handleChange('username')}
                                 onBlur={handleBlur('username')}
@@ -83,7 +94,7 @@ const SignUpForm = ({ navigation }) => {
                                     placeholder='Password'
                                     placeholderTextColor='#444'
                                     autoCorrect={false}
-                                    autocapitalize= 'none'
+                                    autoCapitalize= 'none'
                                     autoCompleteType="password"
                                     secureTextEntry={hidePass ? true : false}
                                     textContentType= 'password'

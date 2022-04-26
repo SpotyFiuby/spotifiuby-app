@@ -3,10 +3,15 @@ import { View, Text } from 'react-native';
 import styles from './styles';
 import SignUpForm from '../../components/LoginScreen/SignUpForm';
 
-const SignUpScreen = ({ navigation }) => {
+const SignUpScreen = ({ navigation, route }) => {
+    let signInData = { email: '', password: ''};
+    if(route?.params) {
+        const { email, password } = route?.params;
+        signInData = { email, password };
+    }
     return (
         <View style={styles.root}>
-            <SignUpForm navigation={navigation}/>
+            <SignUpForm navigation={navigation} signInData={signInData}/>
         </View>
     )
 };
