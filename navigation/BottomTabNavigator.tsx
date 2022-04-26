@@ -22,7 +22,7 @@ export default (props: RootTabScreenProps) => {
   return (
     <BottomTab.Navigator
       initialRouteName="TabOne"
-      tabBarOptions={{ activeTintColor: Colors[colorScheme].tint }}>
+      >
         
       <BottomTab.Screen
         name="TabOne"

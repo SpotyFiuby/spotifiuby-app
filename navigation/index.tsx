@@ -15,13 +15,14 @@ import LinkingConfiguration from './LinkingConfiguration';
 import BottomTabNavigator from './BottomTabNavigator';
 import SignInScreen from '../screens/SignInScreen';
 import SignUpScreen from '../screens/SignUpScreen';
+import AuthNavigation from './AuthNavigation';
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   return (
     <NavigationContainer
       linking={LinkingConfiguration}
       theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <RootNavigator />
+      <AuthNavigation />
     </NavigationContainer>
   );
 }
@@ -35,7 +36,7 @@ const screenOptions = {
   headerShown: false,
 };
 
-function RootNavigator() {
+/*function RootNavigator() {
   return (
     <Stack.Navigator
       initialRouteName="SignInScreen"
@@ -50,5 +51,5 @@ function RootNavigator() {
       </Stack.Group>
     </Stack.Navigator>
   );
-}
+}*/
 

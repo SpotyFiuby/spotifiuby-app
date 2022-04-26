@@ -1,5 +1,5 @@
 import react, {useState} from 'react';
-import { View, Text, TextInput, Button } from 'react-native';
+import { View, Text, TextInput, Button, Alert} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import styles from './styles';
 import CustomButton from '../../CustomButton';
@@ -7,6 +7,8 @@ import { Formik } from 'formik';
 import * as Yup from 'yup';
 import Validator from 'email-validator';
 const MIN_PASSWORD_LEN = 6;
+import firebase from '../../../firebase';
+
 
 const SignUpForm = ({ navigation }) => {
     const signUpFormSchema = Yup.object().shape({
@@ -17,6 +19,15 @@ const SignUpForm = ({ navigation }) => {
         password: Yup.string().required()
             .min(MIN_PASSWORD_LEN, `Password must be at least ${MIN_PASSWORD_LEN} characters`)
     });
+
+    const onSignUp = async (email, password) => {
+        try {
+            await firebase.auth().createUserWithEmailAndPassword(email,password);
+            console.log("Firebase Sign Up successful", email, password);
+        } catch(error) {
+            Alert.alert(error.message);
+        }
+    }
 
     const [hidePass, setHidePass] = useState(true);
 
@@ -32,7 +43,7 @@ const SignUpForm = ({ navigation }) => {
                 initialValues={{email: '',username: '', password: ''}}
                 validationSchema={signUpFormSchema}
                 onSubmit={(values) => {
-                    console.log(values); // DO SOMETHING WITH VALUES HERE TO SIGN UP
+                    onSignUp(values.email, values.password)
                 }}
                 validateOnMount={true}
             >{({handleChange, handleBlur, handleSubmit, values, isValid}) => (
