@@ -10,7 +10,7 @@ const MIN_PASSWORD_LEN = 6;
 import firebase from '../../../firebase';
 
 
-const SignUpForm = ({ navigation }) => {
+const SignUpForm = ({ navigation, signInData = { email: '', password: ''} }) => {
     const signUpFormSchema = Yup.object().shape({
         email: Yup.string().email()
             .required('Email is required'),
@@ -28,7 +28,7 @@ const SignUpForm = ({ navigation }) => {
             Alert.alert(error.message);
         }
     }
-
+    const { email, password } = signInData;
     const [hidePass, setHidePass] = useState(true);
 
     return(
@@ -40,7 +40,7 @@ const SignUpForm = ({ navigation }) => {
         </View>
         <View style={styles.container}>
             <Formik 
-                initialValues={{email: '',username: '', password: ''}}
+                initialValues={{email,username: '', password}}
                 validationSchema={signUpFormSchema}
                 onSubmit={(values) => {
                     onSignUp(values.email, values.password)
@@ -57,7 +57,7 @@ const SignUpForm = ({ navigation }) => {
                             <TextInput
                                 placeholder="Email"
                                 placeholderTextColor='#444'
-                                autocapitalize= 'none'
+                                autoCapitalize= 'none'
                                 keyboardType= 'email-address'
                                 textContentType= 'emailAddress'
                                 autoFocus= {true}

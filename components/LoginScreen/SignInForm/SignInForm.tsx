@@ -26,8 +26,12 @@ const SignInForm = ({navigation}) => {
                 [
                   {text: 'OK', onPress: () => console.debug('User pressed modal button Ok'), style: 'cancel'},
                   {text: 'Sign Up', onPress: () => {
-                        console.debug('User pressed modal button Ok');
-                        return navigation.push('SignUpScreen');
+                        console.debug('User pressed modal button Sign Up');
+                        // return navigation.push('SignUpScreen');
+                        return navigation.navigate('SignUpScreen', {
+                            email,
+                            password,
+                          });
                     }},
                 ],
             );
