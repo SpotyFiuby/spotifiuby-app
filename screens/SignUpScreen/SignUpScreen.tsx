@@ -5,7 +5,7 @@ import SignUpForm from '../../components/LoginScreen/SignUpForm';
 
 const SignUpScreen = ({ navigation, route }) => {
     let signInData = { email: '', password: ''};
-    if(route.params) {
+    if(route?.params) {
         const { email, password } = route?.params;
         signInData = { email, password };
     }
