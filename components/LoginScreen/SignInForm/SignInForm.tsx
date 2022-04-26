@@ -53,7 +53,7 @@ const SignInForm = ({navigation}) => {
                             <TextInput
                                 placeholder="Username or email"
                                 placeholderTextColor='#444'
-                                autocapitalize= 'none'
+                                autoCapitalize= 'none'
                                 keyboardType= 'email-address'
                                 textContentType= 'emailAddress'
                                 autoFocus= {true}
@@ -74,7 +74,7 @@ const SignInForm = ({navigation}) => {
                                     placeholder='Password'
                                     placeholderTextColor='#444'
                                     autoCorrect={false}
-                                    autocapitalize= 'none'
+                                    autoCapitalize= 'none'
                                     autoCompleteType="password"
                                     secureTextEntry={hidePass ? true : false}
                                     textContentType= 'password'
