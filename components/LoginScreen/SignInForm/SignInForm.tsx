@@ -24,9 +24,12 @@ const SignInForm = ({navigation}) => {
             Alert.alert(
                 '⚠ Incorrect username or password.', '',
                 [
-                  {text: 'OK', onPress: () => console.log('OK'), style: 'cancel'},
-                  {text: 'Sign Up', onPress: () => navigation.push('SignUpScreen')},
-                ]
+                  {text: 'OK', onPress: () => console.debug('User pressed modal button Ok'), style: 'cancel'},
+                  {text: 'Sign Up', onPress: () => {
+                        console.debug('User pressed modal button Ok');
+                        return navigation.push('SignUpScreen');
+                    }},
+                ],
             );
         }
     }
@@ -54,6 +57,7 @@ const SignInForm = ({navigation}) => {
                                 placeholder="Username or email"
                                 placeholderTextColor='#444'
                                 autoCapitalize= 'none'
+                                autoCorrect={false}
                                 keyboardType= 'email-address'
                                 textContentType= 'emailAddress'
                                 autoFocus= {true}
