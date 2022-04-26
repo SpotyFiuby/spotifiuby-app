@@ -75,7 +75,7 @@ const SignUpForm = ({ navigation }) => {
                             <TextInput
                                 placeholder="Username"
                                 placeholderTextColor='#444'
-                                autocapitalize= 'none'
+                                autoCapitalize= 'none'
                                 textContentType= 'username'
                                 onChangeText={handleChange('username')}
                                 onBlur={handleBlur('username')}
@@ -94,7 +94,7 @@ const SignUpForm = ({ navigation }) => {
                                     placeholder='Password'
                                     placeholderTextColor='#444'
                                     autoCorrect={false}
-                                    autocapitalize= 'none'
+                                    autoCapitalize= 'none'
                                     autoCompleteType="password"
                                     secureTextEntry={hidePass ? true : false}
                                     textContentType= 'password'
