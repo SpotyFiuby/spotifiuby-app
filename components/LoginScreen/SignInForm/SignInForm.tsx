@@ -19,7 +19,7 @@ const SignInForm = ({navigation}:{navigation: any}) => {
     const onSignIn = async (email: string,password: string ) => {
         try {
             await firebase.auth().signInWithEmailAndPassword(email,password)
-            console.log("Firebase SingIn successful", email, password)
+            console.debug(`Firebase SingIn successful with email: ${email}`);
         } catch(error) {
             Alert.alert(
                 '⚠ Incorrect username or password.', '',
