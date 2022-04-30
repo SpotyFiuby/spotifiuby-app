@@ -1,5 +1,5 @@
 import react, {useState} from 'react';
-import { View, Text, TextInput, Switch, Alert} from 'react-native';
+import { View, Text, TextInput, Switch, Alert, Pressable} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import styles from './styles';
 import CustomButton from '../../CustomButton';
@@ -9,14 +9,14 @@ import Validator from 'email-validator';
 const MIN_PASSWORD_LEN = 6;
 import firebase from '../../../firebase';
 
-const SignInForm = ({navigation}) => {
+const SignInForm = ({navigation}:{navigation: any}) => {
     const loginFormSchema = Yup.object().shape({
         email: Yup.string().email()
             .required('Email is required'),
         password: Yup.string().required()
             .min(MIN_PASSWORD_LEN, `Password must be at least ${MIN_PASSWORD_LEN} characters`)
     });
-    const onSignIn = async (email,password) => {
+    const onSignIn = async (email: string,password: string ) => {
         try {
             await firebase.auth().signInWithEmailAndPassword(email,password)
             console.log("Firebase SingIn successful", email, password)
@@ -27,7 +27,6 @@ const SignInForm = ({navigation}) => {
                   {text: 'OK', onPress: () => console.debug('User pressed modal button Ok'), style: 'cancel'},
                   {text: 'Sign Up', onPress: () => {
                         console.debug('User pressed modal button Sign Up');
-                        // return navigation.push('SignUpScreen');
                         return navigation.navigate('SignUpScreen', {
                             email,
                             password,
@@ -37,6 +36,13 @@ const SignInForm = ({navigation}) => {
             );
         }
     }
+
+    const onForgotPassword = async (email: string) => {
+        console.log(`Forgot Password, email: ${email}`);
+        navigation.navigate('ForgotPasswordScreen', {
+            email,
+        });
+    };
 
     const [hidePass, setHidePass] = useState(true);
 
@@ -100,7 +106,7 @@ const SignInForm = ({navigation}) => {
                         </View>
 
                         <View style={styles.forgotPasswordCtn}> 
-                            <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
+                            <Text style={styles.forgotPasswordText} onPress={() => onForgotPassword(values.email)}>Forgot Password?</Text>
                         </View>
 
                         <CustomButton onPress={handleSubmit} text="Sign In" style={styles.signInButton(isValid)}/>
