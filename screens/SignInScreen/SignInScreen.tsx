@@ -1,36 +1,45 @@
 import React, {useState} from 'react';
-import { View, Text, Pressable } from 'react-native';
-import CustomButton from '../../components/CustomButton';
+import { View, Alert} from 'react-native';
 import styles from './styles';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
-// import { auth } from '../../firebase';
+import firebase from '../../firebase';
 import SignInForm from '../../components/LoginScreen/SignInForm';
 
 
-const SignInScreen = ({navigation}) => {
+const SignInScreen = ({ navigation }) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
-    const onSignInPressed = (email, password) => {
-        console.warn('Sign in pressed');
-       
-        // TODO: make request to backend to check auth
-        // const authRes = await axios.get('https://jsonplaceholder.typicode.com/users');
-        // console.warn(authRes);
-        // if(authRes.code == 200) {
-        //     navigation.navigate('Home');
-        // }
-        // .catch(() => {
-        //     console.warn('Sign in failed');
-        // });
-    };
-
-    const onForgotPasswordPressed = () => {
-        console.warn('Forgot password pressed');
+    const onSignInPressed = async (email: string,password: string ) => {
+        try {
+            await firebase.auth().signInWithEmailAndPassword(email,password)
+            console.debug(`Firebase SingIn successful with email: ${email}`);
+        } catch(error) {
+            Alert.alert(
+                '⚠ Incorrect username or password.', '',
+                [
+                    {text: 'OK', onPress: () => console.debug('User pressed modal button Ok'), style: 'cancel'},
+                    {text: 'Sign Up', onPress: () => {
+                        console.debug('User pressed modal button Sign Up');
+                        return navigation.navigate('SignUpScreen', {
+                            email,
+                            password,
+                            });
+                    }},
+                ],
+            );
+        }
+    }
+    
+    const onForgotPasswordPressed = async (email: string) => {
+        console.log(`Forgot Password, email: ${email}`);
+        navigation.navigate('ForgotPasswordScreen', {
+            email,
+        });
     };
 
     const onSignUpPressed = () => {
-        console.warn('Sign up pressed');
+        navigation.push('SignUpScreen')
     };
 
     const onSignInFacebook = () => {
@@ -77,7 +86,7 @@ const SignInScreen = ({navigation}) => {
                 </View>
             </View>
             <View style={styles.signInFormContainer}>
-                <SignInForm navigation={navigation} onSignIn={onSignInPressed}/>
+                <SignInForm navigation={navigation} onSignIn={onSignInPressed} onForgotPassword={onForgotPasswordPressed} onSignUp={onSignUpPressed}/>
             </View>
         </View>
     )
