@@ -1,5 +1,5 @@
 import react, {useState} from 'react';
-import { View, Text, TextInput, Switch, Alert, Pressable} from 'react-native';
+import { View, Text, TextInput} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import styles from './styles';
 import CustomButton from '../../CustomButton';
@@ -7,42 +7,14 @@ import { Formik } from 'formik';
 import * as Yup from 'yup';
 import Validator from 'email-validator';
 const MIN_PASSWORD_LEN = 6;
-import firebase from '../../../firebase';
 
-const SignInForm = ({navigation}:{navigation: any}) => {
+const SignInForm = ({navigation, onSignIn, onForgotPassword, onSignUp}:{navigation: any, onSignIn: any, onForgotPassword: any, onSignUp: any}) => {
     const loginFormSchema = Yup.object().shape({
         email: Yup.string().email()
             .required('Email is required'),
         password: Yup.string().required()
             .min(MIN_PASSWORD_LEN, `Password must be at least ${MIN_PASSWORD_LEN} characters`)
     });
-    const onSignIn = async (email: string,password: string ) => {
-        try {
-            await firebase.auth().signInWithEmailAndPassword(email,password)
-            console.debug(`Firebase SingIn successful with email: ${email}`);
-        } catch(error) {
-            Alert.alert(
-                '⚠ Incorrect username or password.', '',
-                [
-                  {text: 'OK', onPress: () => console.debug('User pressed modal button Ok'), style: 'cancel'},
-                  {text: 'Sign Up', onPress: () => {
-                        console.debug('User pressed modal button Sign Up');
-                        return navigation.navigate('SignUpScreen', {
-                            email,
-                            password,
-                          });
-                    }},
-                ],
-            );
-        }
-    }
-
-    const onForgotPassword = async (email: string) => {
-        console.log(`Forgot Password, email: ${email}`);
-        navigation.navigate('ForgotPasswordScreen', {
-            email,
-        });
-    };
 
     const [hidePass, setHidePass] = useState(true);
 
@@ -115,7 +87,7 @@ const SignInForm = ({navigation}:{navigation: any}) => {
                             <Text style={{color: "grey"}}>_____________________________________</Text>
                             <Text style={styles.signUpAccountText}>Don't have an account?</Text>
                             <CustomButton 
-                                onPress={() => navigation.push('SignUpScreen')}
+                                onPress={onSignUp}
                                 text="SIGN UP FOR SPOTIFIUBY"
                                 style={styles.signUpButton}
                                 styleText={styles.signUpText}
