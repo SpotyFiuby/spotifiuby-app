@@ -30,6 +30,7 @@ export type RootTabParamList = {
   Library: undefined;
   Premium: undefined;
   AlbumScreen: undefined;
+  Profile: undefined;
 };
 
 export type BottomTabParamList = {

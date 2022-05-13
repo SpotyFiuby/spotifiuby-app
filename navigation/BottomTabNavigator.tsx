@@ -5,6 +5,7 @@ import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
 import HomeScreen from '../screens/HomeScreen';
 import TabTwoScreen from '../screens/TabTwoScreen';
+import ProfileScreen from '../screens/ProfileScreen/ProfileScreen';
 import { Pressable } from 'react-native';
 import * as React from 'react';
 import { FontAwesome, FontAwesome5, Entypo, EvilIcons } from '@expo/vector-icons';
@@ -60,6 +61,15 @@ export default (props: RootTabScreenProps) => {
         component={TabTwoScreen}
         options={{
           title: 'Premium',
+          tabBarIcon: ({ color }) => <FontAwesome5 name="spotify" size={30} style={{ marginBottom: -3}} color={color} />,
+        }}
+      />
+
+      <BottomTab.Screen
+        name= "Profile"
+        component={ProfileScreen}
+        options={{
+          title: 'Perfil',
           tabBarIcon: ({ color }) => <FontAwesome5 name="spotify" size={30} style={{ marginBottom: -3}} color={color} />,
         }}
       />
