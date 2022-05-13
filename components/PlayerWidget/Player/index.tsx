@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import Layout from "../../../constants/Layout";
 import { AntDesign, Entypo, Feather } from '@expo/vector-icons'
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { TouchableOpacity } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import styles from "./styles";
 
