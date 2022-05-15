@@ -93,7 +93,9 @@ const SignUpForm = ({ navigation, signInData = { email: '', password: ''} }) => 
                             style={[
                                 styles.phoneInputField,
                                 {
-                                    borderColor: phoneInput.current?.isValidNumber(values.phone) ? '#ccc' : 'red',
+                                    borderColor: 
+                                    
+                                    values.phone == '' || phoneInput.current?.isValidNumber(values.phone) ? '#ccc' : 'red',
                                 }
                             ]}>
                             <PhoneInput
@@ -109,7 +111,6 @@ const SignUpForm = ({ navigation, signInData = { email: '', password: ''} }) => 
                                 countryPickerProps={{withAlphaFilter:true}}
                                 withDarkTheme
                                 withShadow
-                                autoFocus
                             />
                         </View>
                         <View style={[
