@@ -25,10 +25,14 @@ const styles = StyleSheet.create({
       color: "white",
       fontSize: 16,
     },
-    cover: {
+    imageContainer: {
+      justifyContent: 'center',
+      alignItems: 'center',
       marginVertical: 16,
+    },
+    cover: {
       width: 375,
-      height: 375
+      height: 360,
     },
     metadata: {
       flexDirection: "row",
@@ -44,17 +48,27 @@ const styles = StyleSheet.create({
       color: "white"
     },
     slider: {
-      backgroundColor: "rgba(255, 255, 255, 0.5)",
-      width: Layout.window.width - 32,
-      borderRadius: 2,
-      height: 4,
-      marginVertical: 16
+      width : 375,
+      height: 20,
+      marginTop: 25,
+      flexDirection: 'row',
     },
     controls: {
       flexDirection: "row",
       justifyContent: "space-evenly",
       alignItems: "center"
     },
+    progressLevelDuration: {
+      width: 370,
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      marginTop: 10,
+      marginBottom: 25,
+    },
+    progressLabelText: {
+      color: '#fff',
+      fontWeight: '500',
+    }
 })
 
 export default styles;
