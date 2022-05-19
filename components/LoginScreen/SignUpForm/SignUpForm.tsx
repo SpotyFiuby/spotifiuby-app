@@ -7,9 +7,8 @@ import { Formik } from 'formik';
 import * as Yup from 'yup';
 import Validator from 'email-validator';
 const MIN_PASSWORD_LEN = 6;
-import firebase from '../../../firebase';
 import PhoneInput from 'react-native-phone-number-input';
-
+import { sendWhatsappVerification } from "../verify/verify";
 
 const SignUpForm = ({ navigation, signInData = { email: '', password: ''} }) => {
     const signUpFormSchema = Yup.object().shape({
@@ -23,14 +22,6 @@ const SignUpForm = ({ navigation, signInData = { email: '', password: ''} }) => 
             .min(10, 'Phone number must be at least 10 characters'),
     });
 
-    const onSignUp = async (email: string, password: string, phone: string) => {
-        try {
-            await firebase.auth().createUserWithEmailAndPassword(email,password);
-            console.log("Firebase Sign Up successful", email, phone);
-        } catch(error) {
-            Alert.alert((error as any).message);
-        }
-    }
     const { email, password } = signInData;
     const [hidePass, setHidePass] = useState(true);
     const [phoneFormattedNumber, setphoneFormattedNumber] = useState('');
@@ -49,8 +40,30 @@ const SignUpForm = ({ navigation, signInData = { email: '', password: ''} }) => 
                 initialValues={{email,username: '', password, phone: ''}}
                 validationSchema={signUpFormSchema}
                 onSubmit={(values) => {
-                    console.log(phoneFormattedNumber);
-                    // onSignUp(values.email, values.password, phoneFormattedNumber)
+                  console.log(`called to verify with whatsapp: ${values.phone}`);
+                  sendWhatsappVerification(phoneFormattedNumber)
+                  .then((sent) => {
+                    if(sent) {
+                      navigation.navigate('WpVerify', {
+                        phone: phoneFormattedNumber,
+                        countryCode: phoneCountryCode,
+                        username: values.username,
+                        email: values.email,
+                        password: values.password,
+                      });
+                    }
+                  })
+                  .catch((err) => {
+                    Alert.alert(
+                      '⚠ Try again later, service unavailable Contact support', '',
+                      [
+                          {text: 'OK', onPress: () => {
+                              return navigation.navigate('SignInScreen');
+                          }, style: 'cancel'},
+                      ],
+                    );
+                    console.error(err);
+                  });
                 }}
                 validateOnMount={true}
             >{({handleChange, handleBlur, handleSubmit, values, isValid}) => (
