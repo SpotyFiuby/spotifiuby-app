@@ -4,7 +4,8 @@ import styles from './styles';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import firebase from '../../firebase';
 import SignInForm from '../../components/LoginScreen/SignInForm';
-
+import axios from 'axios';
+// import { onFacebookButtonPress } from '../../components/LoginScreen/federatedAuth/FacebookAuth/facebook';
 
 const SignInScreen = ({ navigation }) => {
     const [username, setUsername] = useState('');
@@ -12,9 +13,24 @@ const SignInScreen = ({ navigation }) => {
 
     const onSignInPressed = async (email: string,password: string ) => {
         try {
-            await firebase.auth().signInWithEmailAndPassword(email,password)
             console.debug(`Firebase SingIn successful with email: ${email}`);
+            // TODO: ADD bearer token to axios headers
+            const signInRes = await axios.post(`https://spotifiuba-usuario.herokuapp.com/login/signin`, {
+                email,
+                password
+                }, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'accept': 'application/json'
+                        },
+                    }
+            );
+            // get token from request
+            const token = signInRes.data.token;
+            console.debug(`Sign In successful with token: ${token}`);
+            await firebase.auth().signInWithEmailAndPassword(email,password);
         } catch(error) {
+            console.error(error);
             Alert.alert(
                 '⚠ Incorrect username or password.', '',
                 [
@@ -42,8 +58,9 @@ const SignInScreen = ({ navigation }) => {
         navigation.push('SignUpScreen')
     };
 
-    const onSignInFacebook = () => {
+    const onSignInFacebook = async () => {
         console.warn('Sign in with Facebook pressed');
+        // await onFacebookButtonPress();
     };
 
     const onSignInGoogle = () => {
