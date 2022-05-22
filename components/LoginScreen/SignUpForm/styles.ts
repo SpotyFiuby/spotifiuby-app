@@ -16,13 +16,23 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         marginBottom: 10,
     },
+    phoneInputField: {
+        alignSelf: "center",
+        width: "90%",
+        backgroundColor: "white",
+        borderColor: "#e8e8e8",
+        borderWidth: 2,
+        borderRadius: 4,
+        paddingHorizontal: 5,
+        marginBottom: 10,
+    },
     passwordContainer: {
         flexDirection: "row",
     },
     passwordInputStyle: {
         flex: 1,
     },
-    signUpButton: (isValid) => ({
+    signUpButton: (isValid: boolean) => ({
         marginTop: 15,
         alignSelf: "center",
         borderRadius: 40,
