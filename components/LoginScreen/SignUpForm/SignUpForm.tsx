@@ -1,4 +1,4 @@
-import react, {useState} from 'react';
+import react, {useRef, useState} from 'react';
 import { View, Text, TextInput, Button, Alert} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import styles from './styles';
@@ -7,8 +7,8 @@ import { Formik } from 'formik';
 import * as Yup from 'yup';
 import Validator from 'email-validator';
 const MIN_PASSWORD_LEN = 6;
-import firebase from '../../../firebase';
-
+import PhoneInput from 'react-native-phone-number-input';
+import { sendWhatsappVerification } from "../verify/verify";
 
 const SignUpForm = ({ navigation, signInData = { email: '', password: ''} }) => {
     const signUpFormSchema = Yup.object().shape({
@@ -17,19 +17,16 @@ const SignUpForm = ({ navigation, signInData = { email: '', password: ''} }) => 
         username: Yup.string().required()
             .min(2, 'Username must be at least 2 characters'),
         password: Yup.string().required()
-            .min(MIN_PASSWORD_LEN, `Password must be at least ${MIN_PASSWORD_LEN} characters`)
+            .min(MIN_PASSWORD_LEN, `Password must be at least ${MIN_PASSWORD_LEN} characters`),
+        phone: Yup.string().required()
+            .min(10, 'Phone number must be at least 10 characters'),
     });
 
-    const onSignUp = async (email, password) => {
-        try {
-            await firebase.auth().createUserWithEmailAndPassword(email,password);
-            console.log("Firebase Sign Up successful", email, password);
-        } catch(error) {
-            Alert.alert(error.message);
-        }
-    }
     const { email, password } = signInData;
     const [hidePass, setHidePass] = useState(true);
+    const [phoneFormattedNumber, setphoneFormattedNumber] = useState('');
+    const [phoneCountryCode, setphoneCountryCode] = useState('');
+    const phoneInput = useRef<PhoneInput>(null);
 
     return(
         <>
@@ -40,10 +37,33 @@ const SignUpForm = ({ navigation, signInData = { email: '', password: ''} }) => 
         </View>
         <View style={styles.container}>
             <Formik 
-                initialValues={{email,username: '', password}}
+                initialValues={{email,username: '', password, phone: ''}}
                 validationSchema={signUpFormSchema}
                 onSubmit={(values) => {
-                    onSignUp(values.email, values.password)
+                  console.log(`called to verify with whatsapp: ${values.phone}`);
+                  sendWhatsappVerification(phoneFormattedNumber)
+                  .then((sent) => {
+                    if(sent) {
+                      navigation.navigate('WpVerify', {
+                        phone: phoneFormattedNumber,
+                        countryCode: phoneCountryCode,
+                        username: values.username,
+                        email: values.email,
+                        password: values.password,
+                      });
+                    }
+                  })
+                  .catch((err) => {
+                    Alert.alert(
+                      '⚠ Try again later, service unavailable Contact support', '',
+                      [
+                          {text: 'OK', onPress: () => {
+                              return navigation.navigate('SignInScreen');
+                          }, style: 'cancel'},
+                      ],
+                    );
+                    console.error(err);
+                  });
                 }}
                 validateOnMount={true}
             >{({handleChange, handleBlur, handleSubmit, values, isValid}) => (
@@ -82,6 +102,30 @@ const SignUpForm = ({ navigation, signInData = { email: '', password: ''} }) => 
                                 value={values.username}
                             />
                         </View>
+                        <View 
+                            style={[
+                                styles.phoneInputField,
+                                {
+                                    borderColor: 
+                                    
+                                    values.phone == '' || phoneInput.current?.isValidNumber(values.phone) ? '#ccc' : 'red',
+                                }
+                            ]}>
+                            <PhoneInput
+                                ref={phoneInput}
+                                defaultValue={values.phone}
+                                defaultCode="AR"
+                                layout="first"
+                                onChangeText={handleChange('phone')}
+                                onChangeFormattedText={(text) => {
+                                setphoneFormattedNumber(text);
+                                setphoneCountryCode(phoneInput.current?.getCountryCode() || '');
+                                }}
+                                countryPickerProps={{withAlphaFilter:true}}
+                                withDarkTheme
+                                withShadow
+                            />
+                        </View>
                         <View style={[
                             styles.inputField,
                             {
@@ -110,7 +154,9 @@ const SignUpForm = ({ navigation, signInData = { email: '', password: ''} }) => 
                                 />
                             </View>
                         </View>
-                        <CustomButton onPress={handleSubmit} text="Sign Up" style={styles.signUpButton(isValid)}/>
+                        <CustomButton onPress={handleSubmit} text="Sign Up" style={styles.signUpButton(
+                            isValid && phoneInput.current?.isValidNumber(phoneFormattedNumber)
+                        )}/>
 
                         <View style={styles.signInCtn}>
                             <Text style={styles.signInText}>Already got an account?</Text>
