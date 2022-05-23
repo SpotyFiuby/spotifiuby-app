@@ -7,21 +7,38 @@ import MiniPlayer from './components/PlayerWidget/MiniPlayer';
 import Player from './components/PlayerWidget/Player';
 import Layout from './constants/Layout';
 
+import store from './store';
+import { Provider, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { setUser } from './store/actions/auth.action';
+
 import useCachedResources from './hooks/useCachedResources';
 import useColorScheme from './hooks/useColorScheme';
 import Navigation from './navigation';
+
+const AppWrapper = () => {
+  return (
+    <Provider store={store}>
+      <App/>
+    </Provider>
+  )
+}
 
 
 const App = () => {
   const isLoadingComplete = useCachedResources();
   const colorScheme = useColorScheme();
 
+  const dispatch = useDispatch()
+  const currentUser = useSelector(state => state.auth.currentUser)
 
   const sharedValue = useSharedValue(Layout.window.height)
 
-  const [currentUser, setCurrentUser] = useState(null);
-  const userHandler = user => 
-      user ? setCurrentUser(user) : setCurrentUser(null);
+  const userHandler = user => {
+    if (user)
+      dispatch(setUser(user))
+  }
+
   useEffect(
       () => firebase.auth().onAuthStateChanged(user => userHandler(user)),
       []
@@ -44,12 +61,12 @@ const App = () => {
   } else {
     return (
       <SafeAreaProvider>
-        <Navigation colorScheme={colorScheme} />
-        {showPlayerWidget()}
-        <StatusBar />
+          <Navigation colorScheme={colorScheme} />
+          {showPlayerWidget()}
+          <StatusBar />
       </SafeAreaProvider>
     );
   }
 }
 
-export default App;
+export default AppWrapper;

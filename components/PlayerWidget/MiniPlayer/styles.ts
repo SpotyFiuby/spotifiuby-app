@@ -40,7 +40,16 @@ const styles = StyleSheet.create({
     artist: {
         color: 'lightgray',
         fontSize: 18,
-    }
+    },
+    slider: {
+        backgroundColor: '#131313',
+        borderWidth: 0,
+    },
+    sliderContainer: {
+        bottom: 115,
+        position: 'absolute',
+        width: '100%'
+    },
 })
 
 export default styles;
