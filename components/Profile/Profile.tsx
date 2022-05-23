@@ -27,7 +27,7 @@ const Profile = ({navigation}: {navigation: any}) => {
               </View>
               <View style={{ marginLeft: 20}}>
                 <Pressable onPress={() => {
-                  console.log('Edit Profile');
+                  console.debug('Edit Profile button pressed');
                   navigation.navigate('EditProfile');
                 }}>
                   <Octicons name="pencil" size={30} color="white" />
