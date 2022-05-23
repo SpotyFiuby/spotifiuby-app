@@ -90,7 +90,7 @@ function TabOneNavigator({navigation}: {navigation: any}) {
           marginRight: 10,
         }}>
         <Pressable onPress={() => {
-          console.log('Home');
+          console.debug('Profile gear pressed');
           navigation.navigate('Profile');
         } }>
           <Octicons name="gear" size={30} color="white" />
