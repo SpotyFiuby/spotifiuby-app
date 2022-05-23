@@ -9,6 +9,8 @@ import SignInScreen from '../screens/SignInScreen';
 import SignUpScreen from '../screens/SignUpScreen';
 import ForgotPasswordScreen from '../screens/ForgotPasswordScreen';
 import WpVerify from '../screens/WpVerify';
+import ProfileScreen from '../screens/ProfileScreen/ProfileScreen';
+import EditProfileScreen from '../screens/EditProfileScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 const screenOptions = {
@@ -21,10 +23,12 @@ export const SignedInStack = () => (
         screenOptions={screenOptions}
       >
         <Stack.Screen name="Home" component={BottomTabNavigator} options={{ headerShown: false }} />
+        <Stack.Screen name="Profile" component={ProfileScreen} />
+        <Stack.Screen name="EditProfile" component={EditProfileScreen} />
         <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
-        <Stack.Group screenOptions={{ presentation: 'modal' }}>
+        {/* <Stack.Group screenOptions={{ presentation: 'modal' }}>
           <Stack.Screen name="Modal" component={ModalScreen} />
-        </Stack.Group>
+        </Stack.Group> */}
       </Stack.Navigator>
   )
   
