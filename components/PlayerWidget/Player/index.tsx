@@ -14,49 +14,49 @@ import { Audio } from "expo-av";
 import Layout from "../../../constants/Layout";
 import { LinearGradient } from "expo-linear-gradient";
 import Slider from '@react-native-community/slider';
-import { playSound } from "../../../store/actions/musicPlayer.action";
+import { playSound, playNextorPrev } from "../../../store/actions/musicPlayer.action";
 import styles from "./styles";
 
-const songs = [
-  {
-    url: 'http://example.com/avaritia.mp3', // Load media from the network
-    title: 'Avaritia',
-    artist: 'deadmau5',
-    album: 'while(1<2)',
-    genre: 'Progressive House, Electro House',
-    date: '2014-05-20T07:00:00+00:00', // RFC 3339
-    artwork: 'http://example.com/cover.png', // Load artwork from the network
-    duration: 402 // Duration in seconds
-  },
-  {
-    url: 'http://example.com/avaritia.mp3', // Load media from the network
-    title: 'Coelacanth I',
-    artist: 'deadmau5',
-    artwork: 'http://example.com/cover.png', // Load artwork from the network
-    duration: 166
-  },
-  {
-    url: 'file:///storage/sdcard0/Downloads/artwork.png', // Load media from the file system
-    title: 'Ice Age',
-    artist: 'deadmau5',
-     // Load artwork from the file system:
-    artwork: 'file:///storage/sdcard0/Downloads/cover.png',
-    duration: 411
-  },
-]
+const songs = [{
+  id: '1',
+  imageUri: 'https://www.cmtv.com.ar/tapas-cd/0825697001573678353.jpg',
+  title: 'Sabalero',
+  artist: 'Los palmeras',
+  album: 'Cumbia',
+  mp3: require("../../../assets/songs/LosPalmeras.mp3")
+}, {
+  id: '2',
+  imageUri: 'https://www.elciudadanoweb.com/wp-content/uploads/2019/06/los-palmeras.jpg',
+  title: 'El Bombón',
+  artist: 'Los palmeras',
+  album: 'Cumbia',
+  mp3: require("../../../assets/songs/elbombon.mp3")
+}, {
+  id: '3',
+  imageUri: 'https://i.scdn.co/image/ab67616d0000b273328e973ede81069ff83d552e',
+  title: 'Olvídala',
+  artist: 'Los palmeras',
+  album: 'Cumbia',
+  mp3: require("../../../assets/songs/olvidala.mp3")
+},{
+  id: '4',
+  imageUri: 'https://i1.sndcdn.com/artworks-000135126611-qxj5bq-t500x500.jpg',
+  title: 'Lo que Quiere la Chola',
+  artist: 'Los palmeras',
+  album: 'Cumbia',
+  mp3: require("../../../assets/songs/loquequierelachola.mp3")
+}]
+
 
 const millisToMinutesAndSeconds = (millis: number) => {
+  if (millis === null || millis === undefined || millis !== millis)
+    return ""
+
   const sec = Math.floor(millis / 1000) % 60;
   var min = Math.floor(millis / 60000);
   return min + ":" + (sec < 10 ? '0' : '') + sec;
 }
 
-<<<<<<< HEAD
-const song = '';
-// require('../../../assets/songs/Los_Palmeras_-_Soy_Sabalero_Versi_(getmp3.pro).mp3')
-=======
-const song = require('../../../assets/songs/LosPalmeras.mp3')
->>>>>>> bfde326f25348a0005532c840b64242570c69cd1
 
 const Player = ({sharedValue} ) => {
   const dispatch = useDispatch()
@@ -65,9 +65,10 @@ const Player = ({sharedValue} ) => {
   const play = useSelector(state => state.musicPlayer.play)
   const playbackPosition = useSelector(state => state.musicPlayer.playbackPosition)
   const playbackDuration = useSelector(state => state.musicPlayer.playbackDuration)
+  const currentAudioIndex = useSelector(state => state.musicPlayer.currentAudioIndex)
 
   const handleOnPress = () => {
-    dispatch(playSound(sound, play, song))
+    dispatch(playSound(sound, play, songs, currentAudioIndex))
   }
 
   const mainContainerAnimatedStyle = useAnimatedStyle(() => {
@@ -81,9 +82,11 @@ const Player = ({sharedValue} ) => {
   })
 
   const calculateSlider = () => {
-    if(playbackDuration !== 0)
-      return (playbackPosition / playbackDuration)
-
+    if (playbackDuration !== undefined && playbackDuration !== null && playbackPosition !== undefined && playbackPosition !== null) {
+      if(playbackDuration !== 0)
+        return (playbackPosition / playbackDuration)
+    }
+    
     return 0
   }
 
@@ -92,6 +95,13 @@ const Player = ({sharedValue} ) => {
       duration: 500
     })
   }
+
+
+  const handleNextorPrev = (next) => {
+     dispatch(playNextorPrev(sound, play, songs, currentAudioIndex, next))
+  }
+
+
 
   return (
       <Animated.View style={[styles.mainContainer, mainContainerAnimatedStyle]}>
@@ -104,16 +114,16 @@ const Player = ({sharedValue} ) => {
             <TouchableOpacity onPress={handleClosePlayerScreen}>
               <AntDesign name="down" size={24} color="white" />
             </TouchableOpacity>
-            <Text style={styles.title}>Los Palmeras</Text>
+            <Text style={styles.title}>{songs[currentAudioIndex].album}</Text>
             <Entypo name="dots-three-horizontal" size={24} color="white" />
           </View>
           <View style={styles.imageContainer}>
-            <Image source={{uri: "https://www.conmebol.com/wp-content/uploads/2019/11/palmera2.jpg"}} style={styles.cover}/>
+            <Image source={{uri: songs[currentAudioIndex].imageUri}} style={styles.cover}/>
           </View>
           <View style={styles.metadata}>
             <View>
-              <Text style={styles.song}>Sabalero</Text>
-              <Text style={styles.artist}>Los Palmeras</Text>
+              <Text style={styles.song}>{songs[currentAudioIndex].title}</Text>
+              <Text style={styles.artist}>{songs[0].artist}</Text>
             </View>
             <AntDesign name='hearto' size={24} color={"white"}/>
           </View>
@@ -132,11 +142,19 @@ const Player = ({sharedValue} ) => {
           </View>
           <View style={styles.controls}>
             <Entypo name="shuffle" size={24} color="white" />
-            <AntDesign name="stepbackward" color="white" size={32} />
+            
+            <TouchableOpacity onPress={() => handleNextorPrev(false)}>
+              <AntDesign name="stepbackward" color="white" size={32} />
+            </TouchableOpacity>
+            
             <TouchableOpacity onPress={handleOnPress}>
               <AntDesign name={isPlaying ? 'pause' : 'play'} color="white" size={48} />
             </TouchableOpacity>
-            <AntDesign name="stepforward" color="white" size={32} />
+
+            <TouchableOpacity onPress={() => handleNextorPrev(true)}>
+              <AntDesign name="stepforward" color="white" size={32}/>
+            </TouchableOpacity>
+            
             <Feather name="repeat" size={24} color="white" />
           </View>
 

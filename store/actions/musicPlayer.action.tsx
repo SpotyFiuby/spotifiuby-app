@@ -1,16 +1,19 @@
 import { Audio } from "expo-av";
+import { isLoaded } from "expo-font";
 
 export const SET_PLAYING = "SET_PLAYING"
 export const NEW_SONG = "NEW_SONG"
 export const PAUSE_SONG = "PAUSE_SONG"
 export const RESUME_SONG = "RESUME_SONG"
 export const UPDATE_PLAYBACK = "UPDATE_PLAYBACK"
+export const NEXT_SONG = "NEXT_SONG"
 
-export const playSound = (sound, play, song) => {
+
+export const playSound = (sound, play, songs, currentAudioIndex) => {
   return async (dispatch) => {
     if (sound === null) {
       const playb = new Audio.Sound();
-      const status = await playb.loadAsync(song, {shouldPlay: true})
+      const status = await playb.loadAsync(songs[currentAudioIndex].mp3, {shouldPlay: true})
       playb.setOnPlaybackStatusUpdate((playbackStatus) => {
         dispatch({
           type: UPDATE_PLAYBACK,
@@ -41,5 +44,53 @@ export const playSound = (sound, play, song) => {
       }
     }
   }
+}
+
+// If next = true the next audio is played
+// If next = false the previous audio is played
+export const playNextorPrev = (sound, play, songs, currentAudioIndex, next) => {
+  return async(dispatch) => {
+
+        
+      if (sound != null) {
+
+        let newIndex 
+
+        if (next){
+          newIndex = currentAudioIndex + 1
+          if (newIndex === songs.length)
+            newIndex = 0
+        }
+        else {
+          newIndex = currentAudioIndex - 1
+          if (newIndex < 0)
+            newIndex = songs.length - 1
+        }
+
+        const checkLoading = await play.getStatusAsync();
+      
+        
+        let index = currentAudioIndex
+        let status
+
+        if (!checkLoading.isLoaded){
+          status = await play.loadAsync(songs[newIndex].mp3, {shouldPlay: true})
+          index = newIndex
+        }
+        
+        if (checkLoading.isLoaded){
+          play.stopAsync()
+          play.unloadAsync()
+          status = await play.loadAsync(songs[newIndex].mp3, {shouldPlay: true})
+          index = newIndex
+        }
+
+
+        dispatch({
+          type: NEXT_SONG,
+          payload: {play: play, sound: status, isPlaying: true, playbackPosition: 0, playbackDuration: 0, currentAudioIndex: index}
+          })
+      }
+    }
 }
 

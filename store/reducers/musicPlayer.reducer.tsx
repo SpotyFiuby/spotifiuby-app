@@ -1,4 +1,4 @@
-import { NEW_SONG, PAUSE_SONG, RESUME_SONG, UPDATE_PLAYBACK } from "../actions/musicPlayer.action"
+import { NEW_SONG, PAUSE_SONG, RESUME_SONG, UPDATE_PLAYBACK, NEXT_SONG } from "../actions/musicPlayer.action"
 
 const initialState = {
   sound: null,
@@ -6,6 +6,7 @@ const initialState = {
   play: null,
   playbackPosition: 0,
   playbackDuration: 0,
+  currentAudioIndex: 0,
 }
 
 const MusicPlayerReducer = (state = initialState, action) => {
@@ -34,6 +35,14 @@ const MusicPlayerReducer = (state = initialState, action) => {
             ...state,
             playbackPosition: action.payload.playbackPosition,
             playbackDuration: action.payload.playbackDuration
+          }
+        case NEXT_SONG:
+          return {
+            ...state,
+            play: action.payload.play,
+            sound: action.payload.sound,
+            isPlaying: action.payload.isPlaying,
+            currentAudioIndex: action.payload.currentAudioIndex,
           }
         default: 
             return state
