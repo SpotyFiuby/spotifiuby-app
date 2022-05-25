@@ -8,11 +8,13 @@ import {
   View
 } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 import { Audio } from "expo-av";
 import Layout from "../../../constants/Layout";
 import { LinearGradient } from "expo-linear-gradient";
 import Slider from '@react-native-community/slider';
+import { playSound } from "../../../store/actions/musicPlayer.action";
 import styles from "./styles";
 
 const songs = [
@@ -49,51 +51,23 @@ const millisToMinutesAndSeconds = (millis: number) => {
   return min + ":" + (sec < 10 ? '0' : '') + sec;
 }
 
+<<<<<<< HEAD
 const song = '';
 // require('../../../assets/songs/Los_Palmeras_-_Soy_Sabalero_Versi_(getmp3.pro).mp3')
+=======
+const song = require('../../../assets/songs/LosPalmeras.mp3')
+>>>>>>> bfde326f25348a0005532c840b64242570c69cd1
 
 const Player = ({sharedValue} ) => {
+  const dispatch = useDispatch()
+  const sound = useSelector(state => state.musicPlayer.sound)
+  const isPlaying = useSelector(state => state.musicPlayer.isPlaying)
+  const play = useSelector(state => state.musicPlayer.play)
+  const playbackPosition = useSelector(state => state.musicPlayer.playbackPosition)
+  const playbackDuration = useSelector(state => state.musicPlayer.playbackDuration)
 
-  const [sound, setSound] = useState(null)
-  const [playing, setPlaying] = useState(false)
-  const [play, setPlay] = useState(null)
-  const [playbackPosition, setPlaybackPosition] = useState(0);
-  const [playbackDuration, setPlaybackDuration ] = useState(0);
-  
-  const onPlaybackStatusUpdate =  (playbackStatus) => {
-
-    if (playbackStatus.isLoaded && playbackStatus.isPlaying) {
-      setPlaybackPosition(playbackStatus.positionMillis)
-      setPlaybackDuration(playbackStatus.durationMillis)
-    }
-  }
-
-  const playSound = async () => {
-    //1st time
-    if (sound === null) {
-      const playb = new Audio.Sound();
-      setPlay(playb)
-      const status = await playb.loadAsync(song, {shouldPlay: true})
-      setSound(status)
-      setPlaying(true)
-      playb.setOnPlaybackStatusUpdate(onPlaybackStatusUpdate)
-      return
-    }
-    //pause
-    const checkLoading = await play.getStatusAsync();
-    if (checkLoading.isLoaded && checkLoading.isPlaying) {
-      const status = await play.setStatusAsync({shouldPlay: false})
-      setSound(status)
-      setPlaying(false)
-      return
-    }
-    //resume
-    if (checkLoading.isLoaded && !checkLoading.isPlaying) {
-      const status = await play.playAsync()
-      setSound(status)
-      setPlaying(true)
-      return
-    }
+  const handleOnPress = () => {
+    dispatch(playSound(sound, play, song))
   }
 
   const mainContainerAnimatedStyle = useAnimatedStyle(() => {
@@ -159,8 +133,8 @@ const Player = ({sharedValue} ) => {
           <View style={styles.controls}>
             <Entypo name="shuffle" size={24} color="white" />
             <AntDesign name="stepbackward" color="white" size={32} />
-            <TouchableOpacity onPress={playSound}>
-              <AntDesign name={playing ? 'pause' : 'play'} color="white" size={48} />
+            <TouchableOpacity onPress={handleOnPress}>
+              <AntDesign name={isPlaying ? 'pause' : 'play'} color="white" size={48} />
             </TouchableOpacity>
             <AntDesign name="stepforward" color="white" size={32} />
             <Feather name="repeat" size={24} color="white" />
