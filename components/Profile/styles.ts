@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
     },
     infoBoxWrapper: {
       flexDirection: 'row',
-      height: 100,
+      height: 60,
     },
     infoBox: {
       width: '50%',
