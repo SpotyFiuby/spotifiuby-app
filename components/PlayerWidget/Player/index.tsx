@@ -41,7 +41,7 @@ const songs = [{
 },{
   id: '4',
   imageUri: 'https://i1.sndcdn.com/artworks-000135126611-qxj5bq-t500x500.jpg',
-  title: 'Lo que Quiere la Chola',
+  title: 'La Chola',
   artist: 'Los palmeras',
   album: 'Cumbia',
   mp3: require("../../../assets/songs/loquequierelachola.mp3")
