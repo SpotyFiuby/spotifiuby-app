@@ -8,13 +8,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import * as React from 'react';
 import { ColorSchemeName } from 'react-native';
 
-import ModalScreen from '../screens/ModalScreen';
-import NotFoundScreen from '../screens/NotFoundScreen';
 import { RootStackParamList } from '../types';
 import LinkingConfiguration from './LinkingConfiguration';
-import BottomTabNavigator from './BottomTabNavigator';
-import SignInScreen from '../screens/SignInScreen';
-import SignUpScreen from '../screens/SignUpScreen';
 import AuthNavigation from './AuthNavigation';
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
@@ -35,21 +30,3 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 const screenOptions = {
   headerShown: false,
 };
-
-/*function RootNavigator() {
-  return (
-    <Stack.Navigator
-      initialRouteName="SignInScreen"
-      screenOptions={screenOptions}
-    >
-      <Stack.Screen name="SignInScreen" component={SignInScreen} />
-      <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
-      <Stack.Screen name="Home" component={BottomTabNavigator} options={{ headerShown: false }} />
-      <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
-      <Stack.Group screenOptions={{ presentation: 'modal' }}>
-        <Stack.Screen name="Modal" component={ModalScreen} />
-      </Stack.Group>
-    </Stack.Navigator>
-  );
-}*/
-

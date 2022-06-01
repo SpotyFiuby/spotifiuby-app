@@ -19,16 +19,13 @@ const screenOptions = {
 
 export const SignedInStack = () => (
     <Stack.Navigator
-        initialRouteName="Home"
+        initialRouteName="HomeScreen"
         screenOptions={screenOptions}
       >
-        <Stack.Screen name="Home" component={BottomTabNavigator} options={{ headerShown: false }} />
+        <Stack.Screen name="HomeScreen" component={BottomTabNavigator} options={{ headerShown: false }} />
         <Stack.Screen name="Profile" component={ProfileScreen} />
         <Stack.Screen name="EditProfile" component={EditProfileScreen} />
         <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
-        {/* <Stack.Group screenOptions={{ presentation: 'modal' }}>
-          <Stack.Screen name="Modal" component={ModalScreen} />
-        </Stack.Group> */}
       </Stack.Navigator>
   )
   

@@ -22,12 +22,12 @@ export default (props: RootTabScreenProps) => {
   const colorScheme = useColorScheme();
   return (
     <BottomTab.Navigator
-      initialRouteName="TabOne"
+      initialRouteName="Home"
       >
         
       <BottomTab.Screen
-        name="TabOne"
-        component={TabOneNavigator}
+        name="Home"
+        component={HomeNavigator}
         options={{
           tabBarIcon: ({ color }) => <Entypo name="home" size={30} style={{ marginBottom: -3 }} color={color} />,
           headerShown: false,
@@ -71,7 +71,7 @@ export default (props: RootTabScreenProps) => {
 
 const TabOneStack = createStackNavigator<TabOneParamList>();
 
-function TabOneNavigator({navigation}: {navigation: any}) {
+function HomeNavigator({navigation}: {navigation: any}) {
   const headerHome = () => {
     return (
       <View style={{
@@ -102,7 +102,7 @@ function TabOneNavigator({navigation}: {navigation: any}) {
   return (
     <TabOneStack.Navigator>
       <TabOneStack.Screen
-        name="Home"
+        name="HomeScreen"
         component={HomeScreen}
         options={{ headerTitle: headerHome }}
       />

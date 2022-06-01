@@ -1,12 +1,9 @@
-import { SafeAreaView, FlatList, Button, Pressable } from 'react-native';
-import { Avatar, Title, Caption } from 'react-native-paper';
-import EditScreenInfo from '../../components/EditScreenInfo';
-import { Text, View, } from '../../components/Themed';
+import { SafeAreaView, FlatList, Button } from 'react-native';
+import { View } from '../../components/Themed';
 import AlbumCategory from '../../components/AlbumCategory';
 import albumCategories from '../../data/profilePlaylists';
 import styles from './styles';
 import React from 'react';
-import { Octicons } from '@expo/vector-icons';
 import Profile from '../../components/Profile';
 
 const ProfileScreen = ({navigation}: {navigation: any}) => {

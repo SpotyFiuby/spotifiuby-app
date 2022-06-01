@@ -1,32 +1,67 @@
 import { Octicons } from "@expo/vector-icons";
+import axios from "axios";
 import React from "react";
 import { Pressable, View, Text } from "react-native";
 import { Avatar, Caption, Title } from "react-native-paper";
+import { useDispatch, useSelector } from "react-redux";
+import { setUserFields } from "../../store/actions/user.action";
 import styles from "./styles";
 
-const getProfile = () => {
-  return {
-    name: "John Doe",
-    avatarUrl: "https://cdn0.iconfinder.com/data/icons/body-parts-glyph-silhouettes/300/161845119Untitled-3-512.png",
-    caption: "@johndoe",
-    location: "Buenos Aires, Argentina",
-    phone: "+54 911223344",
-    bio: "I am a huge fan of the new music. I love to listen to new music and I love to share it with my friends.",
-    email: "johndoe@gmail.com",
-    followers: "1.2k",
-    following: "430",
+export const setProfile = async (token: string, userId: number) => {
+  // getting user data for profile
+  try {
+    console.log(`getting user data from backend token userId: ${userId}`);
+    const userDataRes = await axios.get(`https://spotifiuba-usuario.herokuapp.com/users/${userId}`);
+    // set user fields in redux store
+    const fields: any = {
+        firstName: userDataRes.data.firstName,
+        lastName: userDataRes.data.lastName,
+        phone: userDataRes.data.phoneNumber,
+        username: userDataRes.data.username,
+        location: userDataRes.data.location,
+        isPremium: userDataRes.data.isPremium,
+        isArtist: userDataRes.data.isArtist,
+        bio: userDataRes.data.biography,
+    };
+    if(userDataRes.data.profileImage) fields['photoURL'] = userDataRes.data.profileImage;
+    return setUserFields(fields);
+  } catch(error) {
+    console.error(error);
+    return setUserFields({});
+  }
+}
+export const getProfile = () => {
+
+  // get user from redux state
+  const user = useSelector((state: any) => state.user);
+  // get user data
+  const user_ = {
+    firstName: user.firstName? user.firstName : user.email,
+    lastName: user.lastName,
+    profileImage: user.profileImage,
+    username: user.username? user.username : `@${user.email.split('@')[0]}`,
+    location: user.location? user.location : "Location Not Set",
+    phone: user.phone? user.phone : "Phone Not Set",
+    biography: user.biography? user.biography : "User Bio, click edit to write a new awesome bio.",
+    email: user.email,
+    // followers: "1.2k",
+    // following: "430",
+    isPremium: user.isPremium,
+    isArtist: user.isArtist,
   };
+  
+  return user_;
 };
 
 
 const Profile = ({navigation}: {navigation: any}) => {
-    const { name, avatarUrl, caption, location, phone, email, bio, followers, following } = getProfile();
+    const { firstName, lastName, profileImage, username, location, phone, email, biography, isPremium } = getProfile();
     return (
         <>
           <View style={styles.userInfoSection}>
             <View style={{flexDirection: 'row', marginTop:15}}>
               <Avatar.Image
-                source={{uri: `${avatarUrl}`,}}
+                source={{uri: `${profileImage}`,}}
                 size={80}            
               />
               <View style={{marginLeft: 30}}>
@@ -35,13 +70,28 @@ const Profile = ({navigation}: {navigation: any}) => {
                   marginBottom:5,
                   color: 'white'
                 }]}>
-                  {name}
+                  {`${firstName} ${lastName}`}
                 </Title>
                 <Caption style={[styles.caption, {color: 'white'}]}>
-                  {caption}
+                  {username}
                 </Caption>
+                { isPremium ?
+                <Caption style={[styles.caption, {marginTop: 8,color: 'yellow'}]}>
+                  Premium User
+                </Caption>:
+                <View>
+                  <Caption style={[styles.caption, {marginTop: 8, color: 'white'}]}>
+                    <Text style={{color: 'white'}}>
+                      want to be premium?
+                    </Text>
+                    <Pressable onPress={() => navigation.navigate('Premium')}>
+                      <Text style={{marginLeft: 3,color: 'white'}}>click here</Text>
+                    </Pressable>
+                  </Caption>
+                </View>
+                }
               </View>
-              <View style={{ marginLeft: 90}}>
+              <View style={{ position: 'absolute', marginLeft: 300 }}>
                 <Pressable onPress={() => {
                   console.debug('Edit Profile button pressed');
                   navigation.navigate('EditProfile');
@@ -52,22 +102,32 @@ const Profile = ({navigation}: {navigation: any}) => {
             </View>
           </View>
           <View>
-            <View style={[styles.userInfoSection, { alignSelf: 'center'}]}>
-              <Text style={{color: "white"}}>{bio}</Text>
+            <Caption style={[styles.caption, {marginTop: 0, color: 'white', marginLeft: 30, marginBottom: 15}]}>
+              <Text style={{color: 'white'}}>
+                Want to become and artist?
+              </Text>
+              <Pressable onPress={() => {}}>
+                <Text style={{marginLeft: 3,color: 'white'}}>click here</Text>
+              </Pressable>
+            </Caption>
+          </View>
+          <View>
+            <View style={[styles.userInfoSection]}>
+              <Text style={{color: "white"}}>{biography}</Text>
             </View>
           </View>
           <View style={styles.userInfoSection}>
             <View style= {styles.row}>
-              <Text style={{color:"#777777", marginLeft: 20}}>{location}</Text>
+              <Text style={{color:"#777777"}}>{location}</Text>
             </View>
             <View style= {styles.row}>
-              <Text style={{color:"#777777", marginLeft: 20}}>{phone}</Text>
+              <Text style={{color:"#777777"}}>{phone}</Text>
             </View>
             <View style= {styles.row}>
-              <Text style={{color:"#777777", marginLeft: 20}}>{email}</Text>
+              <Text style={{color:"#777777"}}>{email}</Text>
             </View>
           </View> 
-          <View style={styles.infoBoxWrapper}>
+          {/* <View style={styles.infoBoxWrapper}>
             <View style={styles.infoBox}>
               <Title style={{color:'white'}}>{followers}</Title>
               <Caption style={{color: 'grey'}}>Seguidores</Caption>
@@ -76,9 +136,11 @@ const Profile = ({navigation}: {navigation: any}) => {
               <Title style={{color:'white'}}>{following}</Title>
               <Caption style={{color: 'grey'}}>Seguidos</Caption>
             </View>
-          </View>
+          </View> */}
         </>
     );
 };
 
 export default Profile;
+
+
