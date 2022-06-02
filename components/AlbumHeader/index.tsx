@@ -2,6 +2,8 @@ import React from "react";
 import { Album } from "../../types";
 import { View, Text, Image, TouchableOpacity} from "react-native";
 import styles from "./styles"
+import { useDispatch, useSelector } from "react-redux";
+import { setSongs, showPlayer } from "../../store/actions/musicPlayer.action";
 
 export type AlbumHeaderProps = {
     album: Album;
@@ -9,6 +11,14 @@ export type AlbumHeaderProps = {
 
 const AlbumHeader = (props: AlbumHeaderProps) => {
     const {album} = props;
+
+    const dispatch = useDispatch()
+    const play = useSelector(state => state.musicPlayer.play)
+    
+    const handleOnPress = () => {
+        dispatch(setSongs(album.songs, 0, play))
+        dispatch(showPlayer(true))
+    }
 
     return (
         <View style={styles.container}>
@@ -18,7 +28,7 @@ const AlbumHeader = (props: AlbumHeaderProps) => {
                 <Text style={styles.creator}>By {album.by}</Text>
                 <Text style={styles.likes}>{album.numberOfLikes} Likes</Text>
             </View>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={handleOnPress}>
                     <View style={styles.button}>
                         <Text style={styles.buttonText}>PLAY</Text>
                     </View>

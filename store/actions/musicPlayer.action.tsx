@@ -7,6 +7,8 @@ export const PAUSE_SONG = "PAUSE_SONG"
 export const RESUME_SONG = "RESUME_SONG"
 export const UPDATE_PLAYBACK = "UPDATE_PLAYBACK"
 export const NEXT_SONG = "NEXT_SONG"
+export const SHOW_PLAYER = "SHOW_PLAYER"
+export const SET_SONGS = "SET_SONGS"
 
 
 export const playSound = (sound, play, songs, currentAudioIndex) => {
@@ -54,6 +56,16 @@ export const playSound = (sound, play, songs, currentAudioIndex) => {
           payload: {sound: status, isPlaying: true}
         })
       }
+      if (!checkLoading.isLoaded){
+        let status 
+        status = await play.loadAsync(songs[currentAudioIndex].mp3, {shouldPlay: true})
+        dispatch({
+          type: NEXT_SONG,
+          payload: {play: play, sound: status, isPlaying: true, playbackPosition: 0, playbackDuration: 0, currentAudioIndex: currentAudioIndex}
+        })
+        
+      }
+      
     }
   }
 }
@@ -112,4 +124,33 @@ const _playNextOrPrev = async (sound, play, songs, currentAudioIndex, next) => {
 
   return {status, index}
 }
+
+export const showPlayer = (show) => ({
+  type:SHOW_PLAYER,
+  payload: show,
+})
+
+export const setSongs = (songs, index, play) => {
+
+  return async(dispatch) => {
+
+    if(play != null) {
+      const checkLoading = await play.getStatusAsync();
+
+      if (checkLoading.isLoaded) {
+        play.stopAsync()
+        play.unloadAsync()
+        
+      }
+    }
+    
+
+    dispatch({
+      type: SET_SONGS,
+      payload: {songs: songs, currentIndex: index, isPlaying: false},
+      })
+    }
+}
+  
+  
 

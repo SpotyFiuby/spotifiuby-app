@@ -6,7 +6,7 @@ import thunk from "redux-thunk";
 
 const RootReducer = combineReducers({
     auth: AuthReducer,
-    musicPlayer: MusicPlayerReducer
+    musicPlayer: MusicPlayerReducer,
 })
 
 export default createStore(RootReducer, applyMiddleware(thunk));
