@@ -5,7 +5,7 @@ const styles = StyleSheet.create({
         position: 'absolute',
         flexDirection: 'row',
         backgroundColor: '#131313',
-        bottom: 49,
+        bottom: 78,
         width: '100%',
         borderWidth: 2,
         borderColor: 'black',

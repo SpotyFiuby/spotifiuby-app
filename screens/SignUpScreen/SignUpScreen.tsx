@@ -5,9 +5,13 @@ import SignUpForm from '../../components/LoginScreen/SignUpForm';
 import axios from 'axios';
 import { DeviceEventEmitter } from "react-native"
 import firebase from 'firebase/compat';
+import { useDispatch } from 'react-redux';
+import { setToken, setUserId } from '../../store/actions/user.action';
+import { setProfile } from '../../components/Profile/Profile';
 
 
 const SignUpScreen = ({ navigation, route }: { navigation: any, route: any }) => {
+    const dispatch = useDispatch();
     const onSignUp = async (username: string, email: string, password: string, phone: string) => {
         try {
             const res = await axios.post(`https://spotifiuba-usuario.herokuapp.com/login/signup`, {
@@ -24,11 +28,18 @@ const SignUpScreen = ({ navigation, route }: { navigation: any, route: any }) =>
             });
             // get token from request
             const token = res.data.token;
-            //TODO: set token for user with context
-            console.log("Sign Up successful", res);
+            const userId = res.data.userId;
+            const userDataRes = await axios.get(`https://spotifiuba-usuario.herokuapp.com/users/${res.data.userId}`);
+            console.log(userDataRes.data);
+            // set token and userId in redux store
+            dispatch(setToken(token));
+            dispatch(setUserId(userId));
             
             // sign in in firebase to use the firebase.auth().onAuthStateChanged and change stacks
             await firebase.auth().signInWithEmailAndPassword(email,password);
+
+            // set user profile on sign up
+            dispatch(await setProfile(token, userId));
             
         } catch(error) {
             console.error(error);
