@@ -98,7 +98,7 @@ const SignInScreen = ({ navigation }: { navigation: any }) => {
                         backgroundColor="#DD4D44"
                         onPress={onSignInGoogle}
                     >
-                        Sign in with Facebook
+                        Sign in with Google
                     </FontAwesome.Button>
                 </View>
                 <View style={styles.federatedAppleButton}>
@@ -107,7 +107,7 @@ const SignInScreen = ({ navigation }: { navigation: any }) => {
                         backgroundColor="#363636"
                         onPress={onSignInApple}
                     >
-                        Sign in with Facebook
+                        Sign in with Apple
                     </FontAwesome.Button>
                 </View>
             </View>

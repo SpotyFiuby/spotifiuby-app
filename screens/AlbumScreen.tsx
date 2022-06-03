@@ -17,7 +17,7 @@ const AlbumScreen = () => {
         <View>
             <FlatList
                 data={albumDetails.songs}
-                renderItem={({item}) => <SongListItem song={item} />}
+                renderItem={({item, index}) => <SongListItem song={item} songs={albumDetails.songs} index={index}/>}
                 keyExtractor={(item) => item.id}
                 ListHeaderComponent={() => <AlbumHeader album={albumDetails}/>}
             />

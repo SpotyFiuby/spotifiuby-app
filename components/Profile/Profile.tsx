@@ -30,10 +30,34 @@ export const setProfile = async (token: string, userId: number) => {
     return setUserFields({});
   }
 }
-export const getProfile = () => {
 
-  // get user from redux state
-  const user = useSelector((state: any) => state.user);
+export const updateUserData = async (token: string, userId: string, userData: any, dispatch: any) => {
+  let body = {
+    firstName: userData.firstName,
+    lastName: userData.lastName,
+    userName: userData.username,
+    location: userData.location,
+    biography: userData.biography,
+    isArtist: userData.isArtist,
+    profileImage: userData.profileImage || 'https://cdn0.iconfinder.com/data/icons/body-parts-glyph-silhouettes/300/161845119Untitled-3-512.png',
+  };
+  // setting user data in backend
+  try {
+    console.log(`setting user data to backend userId: ${userId}`);
+    const userDataRes = await axios.put(`https://spotifiuba-usuario.herokuapp.com/users/${userId}`,
+    body,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          },
+      });
+    dispatch(setUserFields(userData));
+  } catch(error) {
+    console.error(error);
+  }
+}
+
+export const getProfile = (user: any) => {
   // get user data
   const user_ = {
     firstName: user.firstName? user.firstName : user.email,
@@ -55,7 +79,10 @@ export const getProfile = () => {
 
 
 const Profile = ({navigation}: {navigation: any}) => {
-    const { firstName, lastName, profileImage, username, location, phone, email, biography, isPremium } = getProfile();
+    const dispatch = useDispatch();
+    // get user from redux state
+    const user = useSelector((state: any) => state.user);
+    const { firstName, lastName, profileImage, username, location, phone, email, biography, isPremium, isArtist } = getProfile(user);
     return (
         <>
           <View style={styles.userInfoSection}>
@@ -64,6 +91,13 @@ const Profile = ({navigation}: {navigation: any}) => {
                 source={{uri: `${profileImage}`,}}
                 size={80}            
               />
+              <View>
+                { isArtist ?
+                  <Caption style={{fontSize: 16, position: 'absolute', marginTop: 90, marginLeft: -60, color: 'yellow'}}>
+                    Artist
+                  </Caption>: null
+                }
+              </View>
               <View style={{marginLeft: 30}}>
                 <Title style={[styles.title, {
                   marginTop: 15,
@@ -102,14 +136,23 @@ const Profile = ({navigation}: {navigation: any}) => {
             </View>
           </View>
           <View>
-            <Caption style={[styles.caption, {marginTop: 0, color: 'white', marginLeft: 30, marginBottom: 15}]}>
-              <Text style={{color: 'white'}}>
-                Want to become and artist?
-              </Text>
-              <Pressable onPress={() => {}}>
-                <Text style={{marginLeft: 3,color: 'white'}}>click here</Text>
-              </Pressable>
-            </Caption>
+          { !isArtist ?
+            <View>
+              <Caption style={[styles.caption, {marginTop: 0, color: 'white', marginLeft: 30, marginBottom: 15}]}>
+                <Text style={{color: 'white'}}>
+                  Want to become and artist?
+                </Text>
+                <Pressable onPress={async () => {
+                  console.debug(`Become an artist button pressed`);
+                  const userValues = getProfile(user);
+                  userValues.isArtist = true;
+                  await updateUserData(user.token, user.userId, userValues, dispatch);
+                }}>
+                  <Text style={{marginLeft: 3,color: 'white'}}>click here</Text>
+                </Pressable>
+              </Caption>
+            </View>: null
+          }
           </View>
           <View>
             <View style={[styles.userInfoSection]}>

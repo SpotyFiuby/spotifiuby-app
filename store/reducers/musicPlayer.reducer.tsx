@@ -1,4 +1,6 @@
-import { NEW_SONG, PAUSE_SONG, RESUME_SONG, UPDATE_PLAYBACK } from "../actions/musicPlayer.action"
+import { ActionSheetIOS } from "react-native"
+import SongListItem from "../../components/SongListItem"
+import { NEW_SONG, PAUSE_SONG, RESUME_SONG, UPDATE_PLAYBACK, NEXT_SONG, SHOW_PLAYER, SET_SONGS} from "../actions/musicPlayer.action"
 
 const initialState = {
   sound: null,
@@ -6,6 +8,9 @@ const initialState = {
   play: null,
   playbackPosition: 0,
   playbackDuration: 0,
+  currentAudioIndex: 0,
+  showPlayer: false,
+  songs: null,
 }
 
 const MusicPlayerReducer = (state = initialState, action) => {
@@ -15,7 +20,8 @@ const MusicPlayerReducer = (state = initialState, action) => {
             ...state,
             play: action.payload.play,
             sound: action.payload.sound,
-            isPlaying: action.payload.isPlaying
+            isPlaying: action.payload.isPlaying,
+            song: action.payload.songs,
           }
         case PAUSE_SONG:
           return {
@@ -35,6 +41,23 @@ const MusicPlayerReducer = (state = initialState, action) => {
             playbackPosition: action.payload.playbackPosition,
             playbackDuration: action.payload.playbackDuration
           }
+        case NEXT_SONG:
+          return {
+            ...state,
+            play: action.payload.play,
+            sound: action.payload.sound,
+            isPlaying: action.payload.isPlaying,
+            currentAudioIndex: action.payload.currentAudioIndex,
+          }
+        case SHOW_PLAYER:
+          return {
+            ...state,
+            showPlayer: action.payload.show,
+            songs: action.payload.songs,
+            currentAudioIndex: action.payload.currentIndex,
+          }
+        
+
         default: 
             return state
     }

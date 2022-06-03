@@ -59,6 +59,7 @@ export type Album = {
   numberOfLikes: number;
   imageUri: string;
   artistsHeadline: string;
+  songs: [Song];
 }
 
 export type Song = {
@@ -66,6 +67,8 @@ export type Song = {
   imageUri: string,
   title: string,
   artist: string,
+  album: string,
+  mp3: NodeRequire,
 }
 
 /*

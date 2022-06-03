@@ -1,43 +1,16 @@
 import { AntDesign } from "@expo/vector-icons";
-import axios from "axios";
 import { Formik } from "formik";
 import React from "react";
 import { Pressable, View, Text, TextInput } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { setUserFields } from "../../store/actions/user.action";
-import { getProfile } from "../Profile/Profile";
+import { getProfile, updateUserData } from "../Profile/Profile";
 import UploadImage from "../UploadImage";
 import styles from "./styles";
 
-const updateUserData = async (token: string, userId: string, userData: any, dispatch: any) => {
-  let body = {
-    firstName: userData.firstName,
-    lastName: userData.lastName,
-    userName: userData.username,
-    location: userData.location,
-    biography: userData.biography,
-    profileImage: userData.profileImage || 'https://cdn0.iconfinder.com/data/icons/body-parts-glyph-silhouettes/300/161845119Untitled-3-512.png',
-  };
-  // setting user data in backend
-  try {
-    console.log(`setting user data to backend userId: ${userId}`);
-    const userDataRes = await axios.put(`https://spotifiuba-usuario.herokuapp.com/users/${userId}`,
-    body,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          },
-      });
-    dispatch(setUserFields(userData));
-  } catch(error) {
-    console.error(error);
-  }
-}
-
 const EditProfile = ({navigation}: {navigation: any}) => {
-    const profile = getProfile();
-    const dispatch = useDispatch();
     const user = useSelector((state: any) => state.user);
+    const profile = getProfile(user);
+    const dispatch = useDispatch();
     return (
       <>
         <Formik 
@@ -55,10 +28,6 @@ const EditProfile = ({navigation}: {navigation: any}) => {
             <View style={styles.userInfoSection}>
               <View style={{flexDirection: 'row', marginTop:15}}>
                 <UploadImage />
-                {/* <Avatar.Image
-                  source={{uri: `${values.profileImage}`,}}
-                  size={80}           
-                /> */}
                 <View style={{marginLeft: 30, width: '60%'}}>
                   <TextInput
                     style={[styles.title, {

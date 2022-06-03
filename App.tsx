@@ -31,6 +31,8 @@ const App = () => {
 
   const dispatch = useDispatch()
   const currentUser = useSelector(state => state.auth.currentUser)
+  const showPlayer = useSelector(state => state.musicPlayer.showPlayer)
+  
 
   const sharedValue = useSharedValue(Layout.window.height)
 
@@ -45,7 +47,7 @@ const App = () => {
   )
 
   const showPlayerWidget = () => {
-    if (currentUser){
+    if (showPlayer){
       return(
         <>
           <MiniPlayer sharedValue={sharedValue}></MiniPlayer>
@@ -53,7 +55,6 @@ const App = () => {
         </>
       )
     }
-    
   }
 
   if (!isLoadingComplete) {
