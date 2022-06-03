@@ -4,7 +4,7 @@ import React from "react";
 import { Pressable, View, Text } from "react-native";
 import { Avatar, Caption, Title } from "react-native-paper";
 import { useDispatch, useSelector } from "react-redux";
-import { setIsArtist, setUserFields } from "../../store/actions/user.action";
+import { setUserFields } from "../../store/actions/user.action";
 import styles from "./styles";
 
 export const setProfile = async (token: string, userId: number) => {
@@ -31,13 +31,19 @@ export const setProfile = async (token: string, userId: number) => {
   }
 }
 
-const updateUserIsArtist = async (token: string, userId: string, isArtist: any, dispatch: any) => {
+export const updateUserData = async (token: string, userId: string, userData: any, dispatch: any) => {
   let body = {
-    isArtist: isArtist
+    firstName: userData.firstName,
+    lastName: userData.lastName,
+    userName: userData.username,
+    location: userData.location,
+    biography: userData.biography,
+    isArtist: userData.isArtist,
+    profileImage: userData.profileImage || 'https://cdn0.iconfinder.com/data/icons/body-parts-glyph-silhouettes/300/161845119Untitled-3-512.png',
   };
-  // setting user isArtist in backend
+  // setting user data in backend
   try {
-    console.log(`setting user isArtist data to backend userId: ${userId}`);
+    console.log(`setting user data to backend userId: ${userId}`);
     const userDataRes = await axios.put(`https://spotifiuba-usuario.herokuapp.com/users/${userId}`,
     body,
       {
@@ -45,7 +51,7 @@ const updateUserIsArtist = async (token: string, userId: string, isArtist: any, 
           Authorization: `Bearer ${token}`,
           },
       });
-    dispatch(setIsArtist(isArtist));
+    dispatch(setUserFields(userData));
   } catch(error) {
     console.error(error);
   }
@@ -136,9 +142,11 @@ const Profile = ({navigation}: {navigation: any}) => {
                 <Text style={{color: 'white'}}>
                   Want to become and artist?
                 </Text>
-                <Pressable onPress={() => {
+                <Pressable onPress={async () => {
                   console.debug(`Become an artist button pressed`);
-                  updateUserIsArtist('', user.userId, true, dispatch);
+                  const userValues = getProfile(user);
+                  userValues.isArtist = true;
+                  await updateUserData(user.token, user.userId, userValues, dispatch);
                 }}>
                   <Text style={{marginLeft: 3,color: 'white'}}>click here</Text>
                 </Pressable>
