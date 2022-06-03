@@ -91,7 +91,7 @@ const Profile = ({navigation}: {navigation: any}) => {
                 </View>
                 }
               </View>
-              <View style={{ position: 'absolute', marginLeft: 300 }}>
+              <View style={{ position: 'absolute', marginLeft: 310, marginTop: -18 }}>
                 <Pressable onPress={() => {
                   console.debug('Edit Profile button pressed');
                   navigation.navigate('EditProfile');

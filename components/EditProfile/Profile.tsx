@@ -1,9 +1,8 @@
-import { AntDesign, Octicons } from "@expo/vector-icons";
+import { AntDesign } from "@expo/vector-icons";
 import axios from "axios";
 import { Formik } from "formik";
 import React from "react";
 import { Pressable, View, Text, TextInput } from "react-native";
-import { Avatar } from "react-native-paper";
 import { useDispatch, useSelector } from "react-redux";
 import { setUserFields } from "../../store/actions/user.action";
 import { getProfile } from "../Profile/Profile";
@@ -13,13 +12,12 @@ import styles from "./styles";
 const updateUserData = async (token: string, userId: string, userData: any, dispatch: any) => {
   let body = {
     firstName: userData.firstName,
-    lastName: '', // not used yet
+    lastName: userData.lastName,
     userName: userData.username,
     location: userData.location,
     biography: userData.biography,
     profileImage: userData.profileImage || 'https://cdn0.iconfinder.com/data/icons/body-parts-glyph-silhouettes/300/161845119Untitled-3-512.png',
   };
-  console.log(body);
   // setting user data in backend
   try {
     console.log(`setting user data to backend userId: ${userId}`);
@@ -70,7 +68,7 @@ const EditProfile = ({navigation}: {navigation: any}) => {
                       borderWidth: 0.5,
                       borderColor: 'grey',
                     }]}
-                    placeholder={values.firstName}
+                    placeholder={values.firstName || 'first name'}
                     placeholderTextColor='#444'
                     autoCapitalize= 'none'
                     autoCorrect={false}
@@ -81,13 +79,31 @@ const EditProfile = ({navigation}: {navigation: any}) => {
                     value={values.firstName}
                   />
                   <TextInput
+                    style={[styles.title, {
+                      marginTop: 5,
+                      marginBottom:5,
+                      color: 'white',
+                      borderWidth: 0.5,
+                      borderColor: 'grey',
+                    }]}
+                    placeholder={values.lastName || 'last name'}
+                    placeholderTextColor='#444'
+                    autoCapitalize= 'none'
+                    autoCorrect={false}
+                    keyboardType= 'name-phone-pad'
+                    textContentType= 'name'
+                    onChangeText={handleChange('lastName')}
+                    onBlur={handleBlur('lastName')}
+                    value={values.lastName}
+                  />
+                  <TextInput
                     style={[styles.caption, {
                       color: 'white',
                       borderWidth: 0.5,
                       borderColor: 'grey',
                       marginTop: 5,
                     }]}
-                    placeholder={values.username}
+                    placeholder={values.username || 'username'}
                     placeholderTextColor='#444'
                     autoCapitalize= 'none'
                     autoCorrect={false}
@@ -112,7 +128,7 @@ const EditProfile = ({navigation}: {navigation: any}) => {
                       borderColor: 'grey',
                       marginTop: 5,
                     }]}
-                    placeholder={values.biography}
+                    placeholder={values.biography || 'biography'}
                     placeholderTextColor='#444'
                     autoCapitalize= 'none'
                     autoCorrect={false}
@@ -134,7 +150,7 @@ const EditProfile = ({navigation}: {navigation: any}) => {
                       borderColor: 'grey',
                       marginTop: 5,
                     }]}
-                    placeholder={values.location}
+                    placeholder={values.location || 'location'}
                     placeholderTextColor='#444'
                     autoCapitalize= 'none'
                     autoCorrect={false}
