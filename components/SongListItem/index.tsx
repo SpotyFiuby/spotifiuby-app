@@ -5,7 +5,7 @@ import styles from './styles';
 import { Song } from "../../types";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { useDispatch, useSelector } from "react-redux";
-import { setSongs, showPlayer } from "../../store/actions/musicPlayer.action";
+import { newSound, setSongs, showPlayer } from "../../store/actions/musicPlayer.action";
 
 export type SongListItemProps = {
     song: Song,
@@ -17,10 +17,11 @@ const SongListItem = (props: SongListItemProps) => {
     const { song, songs, index } = props;
     const dispatch = useDispatch()
     const play = useSelector(state => state.musicPlayer.play)
-    
+    const sound = useSelector(state => state.musicPlayer.sound)
+
     const handleOnPress = () => {
-        dispatch(setSongs(songs, index, play))
-        dispatch(showPlayer(true))
+        dispatch(newSound(sound, play, songs,index))
+        dispatch(showPlayer(true,songs,index))
     }
 
     return (

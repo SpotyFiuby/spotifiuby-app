@@ -3,7 +3,7 @@ import { Image, Text, TouchableOpacity, TouchableWithoutFeedback, View } from "r
 import { useDispatch, useSelector } from "react-redux";
 
 import React from "react";
-import { playSound } from "../../../store/actions/musicPlayer.action";
+import { playAndPauseSound, playSound } from "../../../store/actions/musicPlayer.action";
 import styles from './styles';
 import { withTiming } from "react-native-reanimated";
 import Slider from "@react-native-community/slider";
@@ -25,7 +25,7 @@ const MiniPlayer = ({sharedValue}) => {
     }
 
     const handleOnPressSong = () => {
-      dispatch(playSound(sound, play, songs, currentAudioIndex))
+      dispatch(playAndPauseSound(sound, play, songs, currentAudioIndex))
     }
 
     const playbackPosition = useSelector(state => state.musicPlayer.playbackPosition)

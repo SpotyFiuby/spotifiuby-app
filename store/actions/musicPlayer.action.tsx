@@ -11,7 +11,7 @@ export const SHOW_PLAYER = "SHOW_PLAYER"
 export const SET_SONGS = "SET_SONGS"
 
 
-export const playSound = (sound, play, songs, currentAudioIndex) => {
+export const newSound = (sound, play, songs, currentAudioIndex) => {
   return async (dispatch) => {
     if (sound === null) {
       const playb = new Audio.Sound();
@@ -36,9 +36,29 @@ export const playSound = (sound, play, songs, currentAudioIndex) => {
       })
       dispatch({
         type: NEW_SONG,
-        payload: {play: playb, sound: status, isPlaying: true}
+        payload: {play: playb, sound: status, isPlaying: true, songs: songs},
       })
-    } else {
+    } 
+    else {
+      const checkLoading = await play.getStatusAsync();
+      if (checkLoading.isLoaded) {
+        play.stopAsync()
+        play.unloadAsync()
+        let status 
+        status = await play.loadAsync(songs[currentAudioIndex].mp3, {shouldPlay: true})
+        dispatch({
+          type: NEXT_SONG,
+          payload: {play: play, sound: status, isPlaying: true, playbackPosition: 0, playbackDuration: 0, currentAudioIndex: currentAudioIndex}
+        })
+      }
+    }
+    
+  }
+}
+
+export const playAndPauseSound = (sound, play, songs, currentAudioIndex) => {
+  return async (dispatch) => {
+    if (sound != null) {
       //pause
       const checkLoading = await play.getStatusAsync();
       if (checkLoading.isLoaded && checkLoading.isPlaying) {
@@ -125,32 +145,12 @@ const _playNextOrPrev = async (sound, play, songs, currentAudioIndex, next) => {
   return {status, index}
 }
 
-export const showPlayer = (show) => ({
+export const showPlayer = (show, songs, index) => ({
   type:SHOW_PLAYER,
-  payload: show,
+  payload: {show: show, songs: songs, currentIndex: index},
 })
 
-export const setSongs = (songs, index, play) => {
 
-  return async(dispatch) => {
-
-    if(play != null) {
-      const checkLoading = await play.getStatusAsync();
-
-      if (checkLoading.isLoaded) {
-        play.stopAsync()
-        play.unloadAsync()
-        
-      }
-    }
-    
-
-    dispatch({
-      type: SET_SONGS,
-      payload: {songs: songs, currentIndex: index, isPlaying: false},
-      })
-    }
-}
   
   
 

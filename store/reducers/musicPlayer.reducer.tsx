@@ -1,4 +1,5 @@
 import { ActionSheetIOS } from "react-native"
+import SongListItem from "../../components/SongListItem"
 import { NEW_SONG, PAUSE_SONG, RESUME_SONG, UPDATE_PLAYBACK, NEXT_SONG, SHOW_PLAYER, SET_SONGS} from "../actions/musicPlayer.action"
 
 const initialState = {
@@ -19,7 +20,8 @@ const MusicPlayerReducer = (state = initialState, action) => {
             ...state,
             play: action.payload.play,
             sound: action.payload.sound,
-            isPlaying: action.payload.isPlaying
+            isPlaying: action.payload.isPlaying,
+            song: action.payload.songs,
           }
         case PAUSE_SONG:
           return {
@@ -50,16 +52,11 @@ const MusicPlayerReducer = (state = initialState, action) => {
         case SHOW_PLAYER:
           return {
             ...state,
-            showPlayer: action.payload
-          }
-        
-        case SET_SONGS:
-          return {
-            ...state,
+            showPlayer: action.payload.show,
             songs: action.payload.songs,
             currentAudioIndex: action.payload.currentIndex,
-            isPlaying: action.payload.isPlaying,
           }
+        
 
         default: 
             return state

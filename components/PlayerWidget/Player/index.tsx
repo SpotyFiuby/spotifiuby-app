@@ -14,7 +14,7 @@ import { Audio } from "expo-av";
 import Layout from "../../../constants/Layout";
 import { LinearGradient } from "expo-linear-gradient";
 import Slider from '@react-native-community/slider';
-import { playSound, playNextorPrev } from "../../../store/actions/musicPlayer.action";
+import { playSound, playNextorPrev, playAndPauseSound } from "../../../store/actions/musicPlayer.action";
 import styles from "./styles";
 
 
@@ -40,7 +40,7 @@ const Player = ({sharedValue} ) => {
   const songs = useSelector(state => state.musicPlayer.songs)
 
   const handleOnPress = () => {
-    dispatch(playSound(sound, play, songs, currentAudioIndex))
+    dispatch(playAndPauseSound(sound, play, songs, currentAudioIndex))
   }
 
   const mainContainerAnimatedStyle = useAnimatedStyle(() => {
