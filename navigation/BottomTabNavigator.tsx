@@ -5,10 +5,11 @@ import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
 import HomeScreen from '../screens/HomeScreen';
 import TabTwoScreen from '../screens/TabTwoScreen';
-import { Pressable } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
 import * as React from 'react';
 import { FontAwesome, FontAwesome5, Entypo, EvilIcons } from '@expo/vector-icons';
 import AlbumScreen from '../screens/AlbumScreen';
+import { Octicons } from '@expo/vector-icons'; 
 
 /**
  * A bottom tab navigator displays tab buttons on the bottom of the display to switch screens.
@@ -21,12 +22,12 @@ export default (props: RootTabScreenProps) => {
   const colorScheme = useColorScheme();
   return (
     <BottomTab.Navigator
-      initialRouteName="TabOne"
+      initialRouteName="Home"
       >
         
       <BottomTab.Screen
-        name="TabOne"
-        component={TabOneNavigator}
+        name="Home"
+        component={HomeNavigator}
         options={{
           tabBarIcon: ({ color }) => <Entypo name="home" size={30} style={{ marginBottom: -3 }} color={color} />,
           headerShown: false,
@@ -70,13 +71,40 @@ export default (props: RootTabScreenProps) => {
 
 const TabOneStack = createStackNavigator<TabOneParamList>();
 
-function TabOneNavigator() {
+function HomeNavigator({navigation}: {navigation: any}) {
+  const headerHome = () => {
+    return (
+      <View style={{
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'flex-end',
+        alignItems: 'center',
+        width: '100%',
+      }}>
+        <View style={{
+          marginRight: 120,
+        }}>
+          <Text style={{ fontSize: 18, color: 'white' }}>Home</Text>
+        </View>
+        <View style={{
+          marginRight: 10,
+        }}>
+        <Pressable onPress={() => {
+          console.debug('Profile gear pressed');
+          navigation.navigate('Profile');
+        } }>
+          <Octicons name="gear" size={30} color="white" />
+        </Pressable>
+        </View>
+      </View>
+    );
+  };
   return (
     <TabOneStack.Navigator>
       <TabOneStack.Screen
-        name="Home"
+        name="HomeScreen"
         component={HomeScreen}
-        options={{ headerTitle: 'Home' }}
+        options={{ headerTitle: headerHome }}
       />
 
       <TabOneStack.Screen

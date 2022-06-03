@@ -51,12 +51,7 @@ const millisToMinutesAndSeconds = (millis: number) => {
   return min + ":" + (sec < 10 ? '0' : '') + sec;
 }
 
-<<<<<<< HEAD
-const song = '';
-// require('../../../assets/songs/Los_Palmeras_-_Soy_Sabalero_Versi_(getmp3.pro).mp3')
-=======
 const song = require('../../../assets/songs/LosPalmeras.mp3')
->>>>>>> bfde326f25348a0005532c840b64242570c69cd1
 
 const Player = ({sharedValue} ) => {
   const dispatch = useDispatch()

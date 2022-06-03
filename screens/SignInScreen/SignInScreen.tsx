@@ -5,13 +5,17 @@ import FontAwesome from '@expo/vector-icons/FontAwesome';
 import firebase from '../../firebase';
 import SignInForm from '../../components/LoginScreen/SignInForm';
 import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { setEmail, setToken, setUserId } from '../../store/actions/user.action';
+import { setProfile } from '../../components/Profile/Profile';
 // import { onFacebookButtonPress } from '../../components/LoginScreen/federatedAuth/FacebookAuth/facebook';
 
-const SignInScreen = ({ navigation }) => {
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
+const SignInScreen = ({ navigation }: { navigation: any }) => {
+    const dispatch = useDispatch();
 
-    const onSignInPressed = async (email: string,password: string ) => {
+    const onSignInPressed = async (email: string,password: string ) => {  
+        let token = '';
+        let userId = undefined;          
         try {
             console.debug(`Firebase SingIn successful with email: ${email}`);
             // TODO: ADD bearer token to axios headers
@@ -25,9 +29,13 @@ const SignInScreen = ({ navigation }) => {
                         },
                     }
             );
-            // get token from request
-            const token = signInRes.data.token;
-            console.debug(`Sign In successful with token: ${token}`);
+            token = signInRes.data.token;
+            userId = signInRes.data.userId;
+            // set token and userId in redux store
+            dispatch(setToken(token));
+            dispatch(setUserId(userId));
+            dispatch(setEmail(email));
+            console.debug(`Sign In successful with token: ${token}, userId: ${userId}`);
             await firebase.auth().signInWithEmailAndPassword(email,password);
         } catch(error) {
             console.error(error);
@@ -45,18 +53,19 @@ const SignInScreen = ({ navigation }) => {
                 ],
             );
         }
+        
+        // setting user profile on sign in
+        dispatch(await setProfile(token, userId));
     }
     
     const onForgotPasswordPressed = async (email: string) => {
-        console.log(`Forgot Password, email: ${email}`);
+        console.log(`Pressed Forgot Password, email: ${email}`);
         navigation.navigate('ForgotPasswordScreen', {
             email,
         });
     };
 
-    const onSignUpPressed = () => {
-        navigation.push('SignUpScreen')
-    };
+    const onSignUpPressed = () => navigation.push('SignUpScreen');
 
     const onSignInFacebook = async () => {
         console.warn('Sign in with Facebook pressed');
