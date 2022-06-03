@@ -4,7 +4,7 @@ import React from "react";
 import { Pressable, View, Text } from "react-native";
 import { Avatar, Caption, Title } from "react-native-paper";
 import { useDispatch, useSelector } from "react-redux";
-import { setUserFields } from "../../store/actions/user.action";
+import { setIsArtist, setUserFields } from "../../store/actions/user.action";
 import styles from "./styles";
 
 export const setProfile = async (token: string, userId: number) => {
@@ -30,10 +30,28 @@ export const setProfile = async (token: string, userId: number) => {
     return setUserFields({});
   }
 }
-export const getProfile = () => {
 
-  // get user from redux state
-  const user = useSelector((state: any) => state.user);
+const updateUserIsArtist = async (token: string, userId: string, isArtist: any, dispatch: any) => {
+  let body = {
+    isArtist: isArtist
+  };
+  // setting user isArtist in backend
+  try {
+    console.log(`setting user isArtist data to backend userId: ${userId}`);
+    const userDataRes = await axios.put(`https://spotifiuba-usuario.herokuapp.com/users/${userId}`,
+    body,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          },
+      });
+    dispatch(setIsArtist(isArtist));
+  } catch(error) {
+    console.error(error);
+  }
+}
+
+export const getProfile = (user: any) => {
   // get user data
   const user_ = {
     firstName: user.firstName? user.firstName : user.email,
@@ -55,7 +73,10 @@ export const getProfile = () => {
 
 
 const Profile = ({navigation}: {navigation: any}) => {
-    const { firstName, lastName, profileImage, username, location, phone, email, biography, isPremium } = getProfile();
+    const dispatch = useDispatch();
+    // get user from redux state
+    const user = useSelector((state: any) => state.user);
+    const { firstName, lastName, profileImage, username, location, phone, email, biography, isPremium, isArtist } = getProfile(user);
     return (
         <>
           <View style={styles.userInfoSection}>
@@ -64,6 +85,13 @@ const Profile = ({navigation}: {navigation: any}) => {
                 source={{uri: `${profileImage}`,}}
                 size={80}            
               />
+              <View>
+                { isArtist ?
+                  <Caption style={{fontSize: 16, position: 'absolute', marginTop: 90, marginLeft: -60, color: 'yellow'}}>
+                    Artist
+                  </Caption>: null
+                }
+              </View>
               <View style={{marginLeft: 30}}>
                 <Title style={[styles.title, {
                   marginTop: 15,
@@ -102,14 +130,21 @@ const Profile = ({navigation}: {navigation: any}) => {
             </View>
           </View>
           <View>
-            <Caption style={[styles.caption, {marginTop: 0, color: 'white', marginLeft: 30, marginBottom: 15}]}>
-              <Text style={{color: 'white'}}>
-                Want to become and artist?
-              </Text>
-              <Pressable onPress={() => {}}>
-                <Text style={{marginLeft: 3,color: 'white'}}>click here</Text>
-              </Pressable>
-            </Caption>
+          { !isArtist ?
+            <View>
+              <Caption style={[styles.caption, {marginTop: 0, color: 'white', marginLeft: 30, marginBottom: 15}]}>
+                <Text style={{color: 'white'}}>
+                  Want to become and artist?
+                </Text>
+                <Pressable onPress={() => {
+                  console.debug(`Become an artist button pressed`);
+                  updateUserIsArtist('', user.userId, true, dispatch);
+                }}>
+                  <Text style={{marginLeft: 3,color: 'white'}}>click here</Text>
+                </Pressable>
+              </Caption>
+            </View>: null
+          }
           </View>
           <View>
             <View style={[styles.userInfoSection]}>
