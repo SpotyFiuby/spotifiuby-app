@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import firebase from "./firebase";
+import { firebase } from "./firebase";
 import { useEffect } from 'react';
 import { useSharedValue } from 'react-native-reanimated';
 import { SafeAreaProvider } from 'react-native-safe-area-context';

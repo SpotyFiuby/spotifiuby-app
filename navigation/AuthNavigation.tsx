@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { SignedInStack, SignedOutStack} from './navigation';
-import firebase from '../firebase';
 import { useSelector } from 'react-redux';
 
 const AuthNavigation = () => {
