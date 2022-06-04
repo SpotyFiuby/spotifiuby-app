@@ -1,7 +1,7 @@
 import { Octicons } from "@expo/vector-icons";
 import axios from "axios";
 import React from "react";
-import { Pressable, View, Text } from "react-native";
+import { Pressable, View, Text, Image } from "react-native";
 import { Avatar, Caption, Title } from "react-native-paper";
 import { useDispatch, useSelector } from "react-redux";
 import { setUserFields } from "../../store/actions/user.action";
@@ -39,7 +39,7 @@ export const updateUserData = async (token: string, userId: string, userData: an
     location: userData.location,
     biography: userData.biography,
     isArtist: userData.isArtist,
-    profileImage: userData.profileImage || 'https://cdn0.iconfinder.com/data/icons/body-parts-glyph-silhouettes/300/161845119Untitled-3-512.png',
+    profileImage: userData.profileImage,
   };
   // setting user data in backend
   try {
@@ -73,6 +73,7 @@ export const getProfile = (user: any) => {
     isPremium: user.isPremium,
     isArtist: user.isArtist,
   };
+  console.log(user_);
   
   return user_;
 };
@@ -87,13 +88,12 @@ const Profile = ({navigation}: {navigation: any}) => {
         <>
           <View style={styles.userInfoSection}>
             <View style={{flexDirection: 'row', marginTop:15}}>
-              <Avatar.Image
-                source={{uri: `${profileImage}`,}}
-                size={80}            
-              />
+              <View style={styles.avatarContainer}>
+                <Image source={{ uri: profileImage, cache: 'default' }} style={{ width: 90, height: 90 }} />
+              </View>
               <View>
                 { isArtist ?
-                  <Caption style={{fontSize: 16, position: 'absolute', marginTop: 90, marginLeft: -60, color: 'yellow'}}>
+                  <Caption style={{fontSize: 16, position: 'absolute', marginTop: 95, marginLeft: -65, color: 'yellow'}}>
                     Artist
                   </Caption>: null
                 }
@@ -154,10 +154,8 @@ const Profile = ({navigation}: {navigation: any}) => {
             </View>: null
           }
           </View>
-          <View>
-            <View style={[styles.userInfoSection]}>
-              <Text style={{color: "white"}}>{biography}</Text>
-            </View>
+          <View style={[styles.userInfoSection, { marginTop: 20 }]}>
+            <Text style={{color: "white"}}>{biography}</Text>
           </View>
           <View style={styles.userInfoSection}>
             <View style= {styles.row}>

@@ -27,7 +27,7 @@ const EditProfile = ({navigation}: {navigation: any}) => {
           <>
             <View style={styles.userInfoSection}>
               <View style={{flexDirection: 'row', marginTop:15}}>
-                <UploadImage />
+                <UploadImage profileImage={user.profileImage} userId={user.userId}/>
                 <View style={{marginLeft: 30, width: '60%'}}>
                   <TextInput
                     style={[styles.title, {
@@ -82,7 +82,6 @@ const EditProfile = ({navigation}: {navigation: any}) => {
                     onBlur={handleBlur('username')}
                     value={
                       (()=>{
-                        console.debug(values.username);
                         if(values.username) {
                           return `@${user.email.split('@')[0]}`;
                         }
