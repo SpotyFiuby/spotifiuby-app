@@ -4,6 +4,15 @@ const styles = StyleSheet.create({
     container: {
       flex: 1,
     },
+    avatarContainer: {
+      elevation: 2,
+      height: 90,
+      width: 90,
+      backgroundColor:'#efefef',
+      position:'relative',
+      borderRadius:999,
+      overflow:'hidden',
+    },
     userInfoSection: {
       paddingHorizontal:30,
       marginBottom: 25,

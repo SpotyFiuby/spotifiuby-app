@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import { View, Alert} from 'react-native';
 import styles from './styles';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
-import firebase from '../../firebase';
+import { firebase } from '../../firebase';
 import SignInForm from '../../components/LoginScreen/SignInForm';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
