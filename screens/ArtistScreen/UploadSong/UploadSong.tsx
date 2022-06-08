@@ -6,7 +6,7 @@ import { AntDesign } from '@expo/vector-icons';
 import { TextInput } from 'react-native-paper';
 import * as DocumentPicker from 'expo-document-picker';
 import { storage } from "../../../firebase";
-
+import uuid from 'react-native-uuid';
 
 
 const UploadSong = ({navigation}: {navigation: any}) => {
@@ -29,7 +29,8 @@ const UploadSong = ({navigation}: {navigation: any}) => {
 
   const handleSubmit = async () => {
     if (song != null) {
-      const url = await uploadMp3Async(song.uri, `content/album/songs/${song.name as string}`);
+      const filename = uuid.v4();
+      const url = await uploadMp3Async(song.uri, `content/album/songs/${filename as string}`);
       console.log(url)
     }
   }
