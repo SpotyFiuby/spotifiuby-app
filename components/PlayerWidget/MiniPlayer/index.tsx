@@ -51,11 +51,11 @@ const MiniPlayer = ({sharedValue}) => {
                 
             <TouchableWithoutFeedback onPress={handleOnPress}>
                 <View style={styles.container}>
-                    <Image source={{uri: songs[currentAudioIndex].imageUri}}  style={styles.image} />
+                    <Image source={{uri: "https://static.vecteezy.com/system/resources/previews/003/484/892/original/neon-music-note-on-the-brick-wall-eps-10-illustration-vector.jpg"}}  style={styles.image} />
                     <View style={styles.rightContainer}>
                         <View style={styles.nameContainer}>
-                            <Text style={styles.title}>{songs[currentAudioIndex].title}</Text>
-                            <Text style={styles.artist}>{songs[currentAudioIndex].artist}</Text>
+                            <Text style={styles.title}>{songs[currentAudioIndex].name}</Text>
+                            <Text style={styles.artist}>{songs[currentAudioIndex].authors}</Text>
                         </View>
                         <View style={styles.iconsContainer}>
                             <AntDesign name='hearto' size={30} color={"white"}/>

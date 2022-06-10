@@ -7,11 +7,20 @@ import { TextInput } from 'react-native-paper';
 import * as DocumentPicker from 'expo-document-picker';
 import { storage } from "../../../firebase";
 import uuid from 'react-native-uuid';
+import axios from 'axios';
+import { useSelector } from 'react-redux';
 
 
-const UploadSong = ({navigation}: {navigation: any}) => {
+const UploadSong = ({navigation, route}) => {
   
+  const {albumId} = route.params;
   const [song, setSong] = useState(null);
+  const [title, setTitle] = useState("");
+  const [genre, setGenre] = useState("");
+  const [authors, setAuthors] = useState("");
+  const user = useSelector((state: any) => state.user);
+
+
   
   const handleFilePicker = async () => {
 
@@ -31,9 +40,36 @@ const UploadSong = ({navigation}: {navigation: any}) => {
     if (song != null) {
       const filename = uuid.v4();
       const url = await uploadMp3Async(song.uri, `content/album/songs/${filename as string}`);
-      console.log(url)
+
+
+      let body = {
+        url: url,
+        token: user.token,
+        name: title,
+        description: "description",
+        authors: authors,
+        genre: genre,
+        premium: false,
+        artistId: user.userId,
+        albumId: albumId
+      }
+
+      try {
+        const response = await axios.post(`https://spotifiuba-contenido.herokuapp.com/songs/`,
+        body,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              'accept': 'application/json'
+              },
+          });
+        console.log(response)
+      } catch(error) {
+        console.error(error);
+      }
     }
   }
+
 
   return (
       
@@ -54,6 +90,7 @@ const UploadSong = ({navigation}: {navigation: any}) => {
           marginTop: 50,
           width: 300,
         }}
+        onChangeText={text => setTitle(text)}
       /> 
 
       <TextInput
@@ -63,6 +100,17 @@ const UploadSong = ({navigation}: {navigation: any}) => {
           margin: 10,
           width: 300,
         }}
+        onChangeText={text => setGenre(text)}
+      />
+
+      <TextInput
+        label="Authors"
+        mode="flat"
+        style={{ 
+          margin: 10,
+          width: 300,
+        }}
+        onChangeText={text => setAuthors(text)}
       />
 
       <Text style={{marginTop: 50}}>{(song === null)  ? "No file chosen" : song.name}</Text>
@@ -87,8 +135,8 @@ const UploadSong = ({navigation}: {navigation: any}) => {
             }}>
           
           <View style={{ flexDirection: 'column', justifyContent: "center", alignSelf: "center" }}>
-            <AntDesign name="checkcircleo" size={30} color={(song === null) ? 'grey' : 'white'}/>
-            <Text style={(song === null) ? {color: "grey"} : {color: "white"}}>Save</Text>
+            <AntDesign name="checkcircleo" size={30} color={(song === null || (title.length <= 0) || (genre.length <= 0) || (authors.length <= 0)) ? 'grey' : 'white'}/>
+            <Text style={(song === null || (title.length <= 0) || (genre.length <= 0)|| (authors.length <= 0)) ? {color: "grey"} : {color: "white"}}>Save</Text>
           </View>
         </Pressable>
 
@@ -124,5 +172,3 @@ const uploadMp3Async = async (uri: string, filename: string) => {
 }
 
 export default UploadSong;
-
-

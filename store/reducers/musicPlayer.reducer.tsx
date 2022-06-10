@@ -56,7 +56,11 @@ const MusicPlayerReducer = (state = initialState, action) => {
             songs: action.payload.songs,
             currentAudioIndex: action.payload.currentIndex,
           }
-        
+        case SET_SONGS:
+          return{
+            ...state,
+            songs: action.payload,
+          }
 
         default: 
             return state

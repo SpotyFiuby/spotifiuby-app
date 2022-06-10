@@ -18,5 +18,30 @@ export default[
           id: '4',
           imageUri: 'https://img5.yna.co.kr/etc/inner/SP/2021/06/16/ASP20210616002600883_01_i_P2.jpg',
           artistsHeadline: 'BTS'
+        },
+        {
+          id: '5',
+          imageUri: 'https://img5.yna.co.kr/etc/inner/SP/2021/06/16/ASP20210616002600883_01_i_P2.jpg',
+          artistsHeadline: 'BTS'
+        },
+        {
+          id: '6',
+          imageUri: 'https://img5.yna.co.kr/etc/inner/SP/2021/06/16/ASP20210616002600883_01_i_P2.jpg',
+          artistsHeadline: 'BTS'
+        },
+        {
+          id: '7',
+          imageUri: 'https://img5.yna.co.kr/etc/inner/SP/2021/06/16/ASP20210616002600883_01_i_P2.jpg',
+          artistsHeadline: 'BTS'
+        },
+        {
+          id: '8',
+          imageUri: 'https://img5.yna.co.kr/etc/inner/SP/2021/06/16/ASP20210616002600883_01_i_P2.jpg',
+          artistsHeadline: 'BTS'
+        },
+        {
+          id: '9',
+          imageUri: 'https://img5.yna.co.kr/etc/inner/SP/2021/06/16/ASP20210616002600883_01_i_P2.jpg',
+          artistsHeadline: 'BTS'
         }
 ] 
