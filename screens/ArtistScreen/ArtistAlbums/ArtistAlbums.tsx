@@ -19,14 +19,24 @@ const ArtistAlbums = ({navigation}: {navigation: any}) => {
 
   const getArtistAlbums = async (artistId: number) => {
     // getting albums from artist
+    let response: any;
     try {
       console.log(`getting artist albums from backend artistId: ${artistId}`);
-      const response = await axios.get(`https://spotifiuba-contenido.herokuapp.com/albums/artist_id/${artistId}`);
-      setRefreshing(false)
-      setData(response.data)
+      response = await axios.get(`https://spotifiuba-contenido.herokuapp.com/albums/artist_id/${artistId}`);
+      response = response;
     } catch(error) {
-      console.error(error);
-      setData([])
+      response = (error as any).response;
+    } finally {
+      if (response.status == 404) {
+        console.log('no albums found');
+        setData([])
+      } else if(response.status == 200) {
+        console.log('albums found');
+        setData(response.data)
+      } else {
+        console.log(`error ${response?.status} could not get albums`);
+      }
+      setRefreshing(false)
     }
   }
 
@@ -42,7 +52,15 @@ const ArtistAlbums = ({navigation}: {navigation: any}) => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Your Albums</Text>
-
+      {
+        data.length == 0 ?
+        <View style={{ 
+          marginTop: 30,
+          marginBottom: 20
+          }}>
+          <Text style={{ alignSelf: 'center'}}>No albums yet, upload one using the button below</Text>
+        </View>: null
+      }
       <FlatList
         onRefresh={onRefresh}
         refreshing={refreshing}

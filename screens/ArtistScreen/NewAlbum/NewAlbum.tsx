@@ -31,7 +31,7 @@ const NewAlbum = ({navigation}: {navigation: any}) => {
             'accept': 'application/json'
             },
         });
-      console.log(response)
+      // console.log(response)
     } catch(error) {
       console.error(error);
     }

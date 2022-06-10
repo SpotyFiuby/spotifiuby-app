@@ -3,6 +3,7 @@ import { StyleSheet } from "react-native";
 const styles = StyleSheet.create({
     container: {
         margin: 10,
+        marginTop: 70
     },
     title: {
         color: "white",
@@ -26,13 +27,13 @@ const styles = StyleSheet.create({
         marginLeft: 10,
     },
     createAlbumButton: {
-        borderWidth:1,
-        borderColor:'#293133',
-        alignItems:'center',
-        justifyContent:'center',
+        borderWidth: 1,
+        borderColor: '#293133',
+        alignItems: 'center',
+        justifyContent: 'center',
         flexDirection: 'row',
-        width: 300,
-        height:65,
+        width: 250,
+        height:60,
         backgroundColor:'#1CD05D',
         borderRadius:10,
         marginLeft: 50,

@@ -25,7 +25,7 @@ const ArtistAlbumSongs = ({navigation, route}) => {
       try {
         console.log(`getting songs from albumId: ${albumId}`);
         const response = await axios.get(`https://spotifiuba-contenido.herokuapp.com/albums/${albumId}`)
-        console.log(response.data)
+        // console.log(response.data)
         setRefreshing(false)
         setAlbumData(response.data)
       } catch(error) {

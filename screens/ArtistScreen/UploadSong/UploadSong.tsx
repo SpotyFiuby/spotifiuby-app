@@ -63,7 +63,7 @@ const UploadSong = ({navigation, route}) => {
               'accept': 'application/json'
               },
           });
-        console.log(response)
+        // console.log(response)
       } catch(error) {
         console.error(error);
       }
