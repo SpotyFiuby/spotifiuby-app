@@ -14,35 +14,16 @@ const AlbumScreen = () => {
 
     const dispatch = useDispatch()
     const songs = useSelector(state => state.musicPlayer.songs)
-    const [albumSongs, setAlbumSongs] = useState([{}])
-    const [refreshing, setRefreshing] = useState(false);
 
-    const getSongs = async () => {
-        try {
-          const response = await axios.get(`https://spotifiuba-contenido.herokuapp.com/songs/`);
-          dispatch(setSongs(response.data))
-          setAlbumSongs(response.data)
-          setRefreshing(false)
-        } catch(error) {
-          console.error(error);
-        }
-    }
-
-    const onRefresh = async () => {
-        setRefreshing(true)
-        await getSongs()
-    }
       
     useEffect (() => {
-        getSongs()
+        dispatch(setSongs(route.params.album.songs))
     }, [])
 
     return (
         <View>
             <FlatList
-                onRefresh={onRefresh}
-                refreshing={refreshing}
-                data={albumSongs}
+                data={route.params.album.songs}
                 renderItem={({item, index}) => <SongListItem song={item} index={index}/>}
                 keyExtractor={(item, index) => index}
                 ListHeaderComponent={<AlbumHeader album={route.params.album}/>}

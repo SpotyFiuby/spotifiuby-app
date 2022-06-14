@@ -18,6 +18,7 @@ const UploadSong = ({navigation, route}) => {
   const [title, setTitle] = useState("");
   const [genre, setGenre] = useState("");
   const [authors, setAuthors] = useState("");
+  const [description, setDescription] = useState("");
   const user = useSelector((state: any) => state.user);
 
 
@@ -46,7 +47,7 @@ const UploadSong = ({navigation, route}) => {
         url: url,
         token: user.token,
         name: title,
-        description: "description",
+        description: description,
         authors: authors,
         genre: genre,
         premium: false,
@@ -113,6 +114,16 @@ const UploadSong = ({navigation, route}) => {
         onChangeText={text => setAuthors(text)}
       />
 
+      <TextInput
+        label="Description"
+        mode="flat"
+        style={{ 
+          margin: 10,
+          width: 300,
+        }}
+        onChangeText={text => setDescription(text)}
+      />
+
       <Text style={{marginTop: 50}}>{(song === null)  ? "No file chosen" : song.name}</Text>
   
       <TouchableOpacity style={styles.uploadSongButton} onPress={() => handleFilePicker()}>
@@ -135,8 +146,8 @@ const UploadSong = ({navigation, route}) => {
             }}>
           
           <View style={{ flexDirection: 'column', justifyContent: "center", alignSelf: "center" }}>
-            <AntDesign name="checkcircleo" size={30} color={(song === null || (title.length <= 0) || (genre.length <= 0) || (authors.length <= 0)) ? 'grey' : 'white'}/>
-            <Text style={(song === null || (title.length <= 0) || (genre.length <= 0)|| (authors.length <= 0)) ? {color: "grey"} : {color: "white"}}>Save</Text>
+            <AntDesign name="checkcircleo" size={30} color={(song === null || (title.length <= 0) || (genre.length <= 0) || (authors.length <= 0)|| (description.length <= 0)) ? 'grey' : 'white'}/>
+            <Text style={(song === null || (title.length <= 0) || (genre.length <= 0)|| (authors.length <= 0) || (description.length <= 0) ) ? {color: "grey"} : {color: "white"}}>Save</Text>
           </View>
         </Pressable>
 

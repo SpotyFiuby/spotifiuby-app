@@ -17,8 +17,8 @@ const AlbumComponent = (props) => {
     return (
         <TouchableWithoutFeedback onPress={onPress}>
             <View style={styles.container}>
-                <Image source={{uri: "http://cdn.shopify.com/s/files/1/0481/9596/0985/products/Firingvinylrecordneonsign.jpg?v=1620971781"}} style={styles.image}/>
-                <Text style={styles.text}>{props.album.description}</Text>
+                <Image source={{uri: props.album.cover}} style={styles.image}/>
+                <Text style={styles.text}>{props.album.title}</Text>
             </View>
         </TouchableWithoutFeedback>
         

@@ -17,6 +17,7 @@ const styles = StyleSheet.create({
     albumContainer: {
         flexDirection: 'row',
         margin: 10,
+        alignItems: "center",
     },
     image: {
         width: 75,

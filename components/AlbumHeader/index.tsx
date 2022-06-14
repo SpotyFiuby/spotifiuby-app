@@ -41,8 +41,8 @@ const AlbumHeader = (props) => {
 
     return (
         <View style={styles.container}>
-            <Image source={{uri: "http://cdn.shopify.com/s/files/1/0481/9596/0985/products/Firingvinylrecordneonsign.jpg?v=1620971781"}} style={styles.image} />
-            <Text style={styles.name}>{album.description}</Text>
+            <Image source={{uri: album.cover}} style={styles.image} />
+            <Text style={styles.name}>{album.title}</Text>
             <View style={styles.creatorContainer}>
                 <Text style={styles.creator}>By {artist}</Text>
                 <Text style={styles.likes}>{album.scoreCount} Likes</Text>
