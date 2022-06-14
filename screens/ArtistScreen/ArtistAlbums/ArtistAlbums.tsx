@@ -109,6 +109,9 @@ const ArtistAlbums = ({navigation}: {navigation: any}) => {
             <View style={styles.rightContainer}>
               <Text style={styles.songTitle}>{item.title}</Text>
             </View>
+            <TouchableOpacity onPress={() => navigation.navigate('EditAlbum', {album: item})}  style={{marginLeft: 300, position: 'absolute'}} >
+              <MaterialCommunityIcons name="pencil-outline" size={35} color="white" />
+            </TouchableOpacity>
             <TouchableOpacity onPress={() => deleteAlbum(item.id)}  style={{marginLeft: 340, position: 'absolute'}} >
               <MaterialCommunityIcons name="delete" size={35} color="red" />
             </TouchableOpacity>

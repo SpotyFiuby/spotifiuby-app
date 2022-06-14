@@ -140,14 +140,14 @@ const UploadSong = ({navigation, route}) => {
           </View>
         </Pressable>
 
-        <Pressable  disabled={song === null} onPress={async () => {
+        <Pressable  disabled={(song === null) || (title.length <= 0) || (genre.length <= 0)|| (authors.length <= 0) || (description.length <= 0)} onPress={async () => {
               await handleSubmit();
               navigation.goBack();
             }}>
           
           <View style={{ flexDirection: 'column', justifyContent: "center", alignSelf: "center" }}>
-            <AntDesign name="checkcircleo" size={30} color={(song === null || (title.length <= 0) || (genre.length <= 0) || (authors.length <= 0)|| (description.length <= 0)) ? 'grey' : 'white'}/>
-            <Text style={(song === null || (title.length <= 0) || (genre.length <= 0)|| (authors.length <= 0) || (description.length <= 0) ) ? {color: "grey"} : {color: "white"}}>Save</Text>
+            <AntDesign name="checkcircleo" size={30} color={(song === null) || (title.length <= 0) || (genre.length <= 0) || (authors.length <= 0)|| (description.length <= 0) ? 'grey' : 'white'}/>
+            <Text style={(song === null) || (title.length <= 0) || (genre.length <= 0)|| (authors.length <= 0) || (description.length <= 0)  ? {color: "grey"} : {color: "white"}}>Save</Text>
           </View>
         </Pressable>
 

@@ -13,13 +13,14 @@ import { checkForCameraRollPermission, uploadImageAsync } from '../../../compone
 import imagePickerStyles from '../../../components/UploadImage/'
 
 
-const NewAlbum = ({navigation}: {navigation: any}) => {
+const EditAlbum = ({navigation, route}: {navigation: any, route: any}) => {
   
   const [title, setTitle] = useState("");
   const [genre, setGenre] = useState("");
   const [description, setDescription] = useState("");
   const [image, setImage] = useState("");
   const user = useSelector((state: any) => state.user);
+  const {album} = route.params;
 
   const [imageUri, setImageUri] = useState<string>(null);
   
@@ -45,22 +46,24 @@ const NewAlbum = ({navigation}: {navigation: any}) => {
    };
  
    useEffect(() => {
+        setImageUri(album.cover)
      checkForCameraRollPermission()
    }, []);
    
   const handleSubmit = async (userId: string) => {
 
     let body = {
-      title: title,
-      description: description,
-      genre: genre,
+      title: (title.length <= 0) ? album.title : title,
+      description: (description.length <= 0) ? album.description : description,
+      genre: (genre.length <= 0) ? album.genre : genre,
       artistId: userId,
-      cover: image,
-      premium: false,
+      cover: (image .length <= 0) ? album.cover : image,
+      premium: album.premium,
     };
 
+    console.log(body)
     try {
-      const response = await axios.post(`https://spotifiuba-contenido.herokuapp.com/albums/`,
+      const response = await axios.put(`https://spotifiuba-contenido.herokuapp.com/albums/${album.id}`,
       body,
         {
           headers: {
@@ -82,36 +85,56 @@ const NewAlbum = ({navigation}: {navigation: any}) => {
         }} />
       </View>
       
-      <Text style={styles.title}>NEW ALBUM</Text>
+      <Text style={styles.title}>EDIT ALBUM</Text>
       
+      <View style={{margin: 10, marginTop: 20,}}>
+
+      </View>
       <TextInput
         label="Album title"
-        mode="flat"
-        style={{ 
-          margin: 10,
-          marginTop: 50,
-          width: 300,
-        }}
+        mode="outlined"
+        style={styles.textInputStyle}
         onChangeText={text => setTitle(text)}
+        placeholder={album.title || 'Album Title'}
+        placeholderTextColor='white'
+        autoCapitalize= 'none'
+        autoCorrect={false}
+        textContentType= 'name'
+        defaultValue={album.title }
+        theme={{colors: {text: "white", placeholder: 'grey'}}}
+        outlineColor="grey"
+        activeOutlineColor='white'
       /> 
 
       <TextInput
         label="Genre"
-        mode="flat"
-        style={{ 
-          margin: 10,
-          width: 300,
-        }}
+        mode="outlined"
+        style={styles.textInputStyle}
         onChangeText={text => setGenre(text)}
+        placeholder={album.genre || 'Genre'}
+        placeholderTextColor='white'
+        autoCapitalize= 'none'
+        autoCorrect={false}
+        textContentType= 'name'
+        defaultValue={album.genre }
+        theme={{colors: {text: "white", placeholder: 'grey'}}}
+        outlineColor="grey"
+        activeOutlineColor='white'
       />
 
       <TextInput
         label="Description"
-        mode="flat"
-        style={{ 
-          margin: 10,
-          width: 300,
-        }}
+        mode="outlined"
+        style={styles.textInputStyle}
+        placeholder={album.description || 'Description'}
+        placeholderTextColor='white'
+        autoCapitalize= 'none'
+        autoCorrect={false}
+        textContentType= 'name'
+        defaultValue={album.description }
+        theme={{colors: {text: "white", placeholder: 'grey'}}}
+        outlineColor="grey"
+        activeOutlineColor='white'
         onChangeText={text => setDescription(text)}
       />
 
@@ -138,14 +161,14 @@ const NewAlbum = ({navigation}: {navigation: any}) => {
           </View>
         </Pressable>
 
-        <Pressable  disabled={(title.length <= 0) || (genre.length <= 0)|| (description.length <= 0) || (image.length <= 0)} onPress={async () => {
+        <Pressable  disabled={(title.length <= 0) && (genre.length <= 0)&& (description.length <= 0) && (image.length <= 0)} onPress={async () => {
               await handleSubmit(user.userId);
               navigation.goBack();
             }}>
           
           <View style={{ flexDirection: 'column', justifyContent: "center", alignSelf: "center"}}>
-            <AntDesign name="checkcircleo" size={30} color={((title.length <= 0) || (genre.length <= 0)|| (description.length <= 0) || (image.length <= 0)) ? 'grey' : 'white'}/>
-            <Text style={((title.length <= 0) || (genre.length <= 0) || (description.length <= 0) || (image.length <= 0)) ? {color: "grey"} : {color: "white"}}>Save</Text>
+            <AntDesign name="checkcircleo" size={30} color={((title.length <= 0) && (genre.length <= 0)&& (description.length <= 0) && (image.length <= 0)) ? 'grey' : 'white'}/>
+            <Text style={((title.length <= 0) && (genre.length <= 0)&& (description.length <= 0) && (image.length <= 0)) ? {color: "grey"} : {color: "white"}}>Save</Text>
           </View>
         </Pressable>
 
@@ -155,4 +178,4 @@ const NewAlbum = ({navigation}: {navigation: any}) => {
   );
 };
 
-export default NewAlbum;
+export default EditAlbum;
