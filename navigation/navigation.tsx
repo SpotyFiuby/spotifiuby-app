@@ -10,6 +10,10 @@ import ForgotPasswordScreen from '../screens/ForgotPasswordScreen';
 import WpVerify from '../screens/WpVerify';
 import ProfileScreen from '../screens/ProfileScreen/ProfileScreen';
 import EditProfileScreen from '../screens/EditProfileScreen';
+import ArtistAlbumSongs from '../screens/ArtistScreen/ArtistAlbumSongs';
+import UploadSong from '../screens/ArtistScreen/UploadSong';
+import NewAlbum from '../screens/ArtistScreen/NewAlbum';
+
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 const screenOptions = {
@@ -25,6 +29,9 @@ export const SignedInStack = () => (
         <Stack.Screen name="Profile" component={ProfileScreen} />
         <Stack.Screen name="EditProfile" component={EditProfileScreen} />
         <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
+        <Stack.Screen name="ArtistAlbumSongs" component={ArtistAlbumSongs} />
+        <Stack.Screen name="UploadSong" component={UploadSong} />
+        <Stack.Screen name="NewAlbum" component={NewAlbum} />
       </Stack.Navigator>
   )
   

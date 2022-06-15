@@ -86,16 +86,16 @@ const Player = ({sharedValue} ) => {
             <TouchableOpacity onPress={handleClosePlayerScreen}>
               <AntDesign name="down" size={24} color="white" />
             </TouchableOpacity>
-            <Text style={styles.title}>{songs[currentAudioIndex].album}</Text>
+            <Text style={styles.title}>{songs[currentAudioIndex].name}</Text>
             <Entypo name="dots-three-horizontal" size={24} color="white" />
           </View>
           <View style={styles.imageContainer}>
-            <Image source={{uri: songs[currentAudioIndex].imageUri}} style={styles.cover}/>
+            <Image source={{uri: "https://static.vecteezy.com/system/resources/previews/003/484/892/original/neon-music-note-on-the-brick-wall-eps-10-illustration-vector.jpg"}} style={styles.cover}/>
           </View>
           <View style={styles.metadata}>
             <View>
-              <Text style={styles.song}>{songs[currentAudioIndex].title}</Text>
-              <Text style={styles.artist}>{songs[0].artist}</Text>
+              <Text style={styles.song}>{songs[currentAudioIndex].name}</Text>
+              <Text style={styles.artist}>{songs[currentAudioIndex].authors}</Text>
             </View>
             <AntDesign name='hearto' size={24} color={"white"}/>
           </View>

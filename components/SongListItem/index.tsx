@@ -14,10 +14,12 @@ export type SongListItemProps = {
 }
 
 const SongListItem = (props: SongListItemProps) => {
-    const { song, songs, index } = props;
+    
+    const { song, index } = props;
     const dispatch = useDispatch()
     const play = useSelector(state => state.musicPlayer.play)
     const sound = useSelector(state => state.musicPlayer.sound)
+    const songs = useSelector(state =>  state.musicPlayer.songs)
 
     const handleOnPress = () => {
         dispatch(newSound(sound, play, songs,index))
@@ -27,10 +29,10 @@ const SongListItem = (props: SongListItemProps) => {
     return (
         <TouchableOpacity onPress={handleOnPress}>
             <View style={styles.container}>
-                <Image source={{uri: song.imageUri}}  style={styles.image} />
+                <Image source={{uri: "https://static.vecteezy.com/system/resources/previews/003/484/892/original/neon-music-note-on-the-brick-wall-eps-10-illustration-vector.jpg"}}  style={styles.image} />
                 <View style={styles.rightContainer}>
-                    <Text style={styles.title}>{song.title}</Text>
-                    <Text style={styles.artist}>{song.artist}</Text>
+                    <Text style={styles.title}>{song.name}</Text>
+                    <Text style={styles.artist}>{song.authors}</Text>
                 </View>
             </View>
         </TouchableOpacity>

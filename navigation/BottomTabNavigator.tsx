@@ -9,6 +9,8 @@ import * as React from 'react';
 import { FontAwesome, FontAwesome5, Entypo, EvilIcons } from '@expo/vector-icons';
 import AlbumScreen from '../screens/AlbumScreen';
 import { Octicons } from '@expo/vector-icons'; 
+import ArtistAlbums from '../screens/ArtistScreen/ArtistAlbums';
+import { useSelector } from 'react-redux';
 
 /**
  * A bottom tab navigator displays tab buttons on the bottom of the display to switch screens.
@@ -19,6 +21,8 @@ const BottomTab = createBottomTabNavigator<RootTabParamList>();
 // Exporting function that returns the component BottomTabNavigator
 export default (props: RootTabScreenProps) => {
   const colorScheme = useColorScheme();
+  const user = useSelector((state: any) => state.user);
+  const isArtist = user.isArtist;
   return (
     <BottomTab.Navigator
       initialRouteName="Home"
@@ -55,15 +59,25 @@ export default (props: RootTabScreenProps) => {
         }}
       />
 
+      { isArtist?
+        <BottomTab.Screen
+          name= "Upload"
+          component={ArtistAlbums}
+          options={{
+            headerShown: false,
+            title: 'upload',
+            tabBarIcon: ({ color }) => <FontAwesome5 name="cloud-upload-alt" size={30} style={{ marginBottom: -3}} color={color} />,
+          }}
+        />: null
+      }
       <BottomTab.Screen
-        name= "Premium"
-        component={TabTwoScreen}
-        options={{
-          title: 'Premium',
-          tabBarIcon: ({ color }) => <FontAwesome5 name="spotify" size={30} style={{ marginBottom: -3}} color={color} />,
-        }}
+          name= "Premium"
+          component={ArtistAlbums}
+          options={{
+            title: 'premium',
+            tabBarIcon: ({ color }) => <FontAwesome5 name="spotify" size={30} style={{ marginBottom: -3}} color={color} />,
+          }}
       />
-
     </BottomTab.Navigator>
   );
 }

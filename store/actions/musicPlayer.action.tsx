@@ -15,7 +15,7 @@ export const newSound = (sound, play, songs, currentAudioIndex) => {
   return async (dispatch) => {
     if (sound === null) {
       const playb = new Audio.Sound();
-      const status = await playb.loadAsync({uri: songs[currentAudioIndex].mp3}, {shouldPlay: true})
+      const status = await playb.loadAsync({uri: songs[currentAudioIndex].url}, {shouldPlay: true})
       playb.setOnPlaybackStatusUpdate(async (playbackStatus) => {
 
         if(playbackStatus.didJustFinish) {   
@@ -45,7 +45,7 @@ export const newSound = (sound, play, songs, currentAudioIndex) => {
         play.stopAsync()
         play.unloadAsync()
         let status 
-        status = await play.loadAsync({uri: songs[currentAudioIndex].mp3}, {shouldPlay: true})
+        status = await play.loadAsync({uri: songs[currentAudioIndex].url}, {shouldPlay: true})
         dispatch({
           type: NEXT_SONG,
           payload: {play: play, sound: status, isPlaying: true, playbackPosition: 0, playbackDuration: 0, currentAudioIndex: currentAudioIndex}
@@ -78,7 +78,7 @@ export const playAndPauseSound = (sound, play, songs, currentAudioIndex) => {
       }
       if (!checkLoading.isLoaded){
         let status 
-        status = await play.loadAsync({uri: songs[currentAudioIndex].mp3}, {shouldPlay: true})
+        status = await play.loadAsync({uri: songs[currentAudioIndex].url}, {shouldPlay: true})
         dispatch({
           type: NEXT_SONG,
           payload: {play: play, sound: status, isPlaying: true, playbackPosition: 0, playbackDuration: 0, currentAudioIndex: currentAudioIndex}
@@ -131,14 +131,14 @@ const _playNextOrPrev = async (sound, play, songs, currentAudioIndex, next) => {
   let status
 
   if (!checkLoading.isLoaded){
-    status = await play.loadAsync({uri: songs[newIndex].mp3}, {shouldPlay: true})
+    status = await play.loadAsync({uri: songs[newIndex].url}, {shouldPlay: true})
     index = newIndex
   }
   
   if (checkLoading.isLoaded){
     play.stopAsync()
     play.unloadAsync()
-    status = await play.loadAsync({uri: songs[newIndex].mp3}, {shouldPlay: true})
+    status = await play.loadAsync({uri: songs[newIndex].url}, {shouldPlay: true})
     index = newIndex
   }
 
@@ -148,6 +148,11 @@ const _playNextOrPrev = async (sound, play, songs, currentAudioIndex, next) => {
 export const showPlayer = (show, songs, index) => ({
   type:SHOW_PLAYER,
   payload: {show: show, songs: songs, currentIndex: index},
+})
+
+export const setSongs = (songs) => ({
+  type: SET_SONGS,
+  payload: songs,
 })
 
 

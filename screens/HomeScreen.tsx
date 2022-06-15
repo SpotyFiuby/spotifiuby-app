@@ -5,17 +5,48 @@ import { RootTabScreenProps } from '../types';
 
 import AlbumCategory from '../components/AlbumCategory';
 import albumCategories from '../data/albumCategories';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
 
 export default function HomeScreen({ navigation }: RootTabScreenProps<'Home'>) {
+
+  const [data, setData] = useState([[]])
+  const [refreshing, setRefreshing] = useState(false);
+
+  
+  const getAlbums = async () => {
+    // getting albums 
+    try {
+      console.log(`getting artist albums`);
+      const response = await axios.get(`https://spotifiuba-contenido.herokuapp.com/albums/`);
+      setRefreshing(false)
+      setData([response.data])
+    } catch(error) {
+      console.error(error);
+      setData([[]])
+    }
+  }
+
+  const onRefresh = async () => {
+    setRefreshing(true)
+    await getAlbums()
+  }
+
+  useEffect(() => {
+    getAlbums()
+  },[])
+
   return (
     <View style={styles.container}>
       <FlatList
-        data={albumCategories}
+        onRefresh={onRefresh}
+        refreshing={refreshing}
+        data={data}
+        keyExtractor={(item, index)=> index}
         renderItem={({item}) => (
           <AlbumCategory 
-            title={item.title}
-            albums={item.albums}
-            keyExtractor={(item) => item.id}
+            title={"Album"}
+            albums={item}
           />
         )}
       />
@@ -39,3 +70,5 @@ const styles = StyleSheet.create({
     width: '80%',
   },
 });
+
+

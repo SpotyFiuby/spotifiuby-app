@@ -4,23 +4,21 @@ import styles from './styles';
 import { Album } from '../../types';
 import { useNavigation } from '@react-navigation/native';
 
-export type AlbumProps = {
-    album: Album,
-}
 
-const AlbumComponent = (props: AlbumProps) => {
+const AlbumComponent = (props) => {
     
     const navigation = useNavigation();
 
     const onPress = () => {
-        navigation.navigate('AlbumScreen', { id: props.album.id });
+        navigation.navigate('AlbumScreen', { album: props.album });
     }
 
+    
     return (
         <TouchableWithoutFeedback onPress={onPress}>
             <View style={styles.container}>
-                <Image source={{uri: props.album.imageUri}} style={styles.image}/>
-                <Text style={styles.text}>{props.album.artistsHeadline}</Text>
+                <Image source={{uri: "http://cdn.shopify.com/s/files/1/0481/9596/0985/products/Firingvinylrecordneonsign.jpg?v=1620971781"}} style={styles.image}/>
+                <Text style={styles.text}>{props.album.description}</Text>
             </View>
         </TouchableWithoutFeedback>
         
