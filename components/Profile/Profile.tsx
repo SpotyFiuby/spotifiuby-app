@@ -31,6 +31,17 @@ export const setProfile = async (token: string, userId: number) => {
   }
 }
 
+const getUserProfile = async (userId: number) => {
+  // getting user data for profile
+  try {
+    console.log(`getting user data from backend token userId: ${userId}`);
+    const userDataRes = await axios.get(`https://spotifiuba-usuario.herokuapp.com/users/${userId}`);
+    return userDataRes.data;
+  } catch(error) {
+    console.error(error);
+  }
+}
+
 export const updateUserData = async (token: string, userId: string, userData: any, dispatch: any) => {
   let body = {
     firstName: userData.firstName,
@@ -57,7 +68,13 @@ export const updateUserData = async (token: string, userId: string, userData: an
   }
 }
 
-export const getProfile = (user: any) => {
+export const getProfile = (userId: string) => {
+  let user: any;
+  if(userId) {
+    // get data from backend
+    user = getUserProfile(parseInt(userId));
+  } else
+    user = useSelector((state: any) => state.user);
   // get user data
   const user_ = {
     firstName: user.firstName? user.firstName : user.email,
@@ -68,22 +85,18 @@ export const getProfile = (user: any) => {
     phone: user.phone? user.phone : "Phone Not Set",
     biography: user.biography? user.biography : "User Bio, click edit to write a new awesome bio.",
     email: user.email,
-    // followers: "1.2k",
-    // following: "430",
     isPremium: user.isPremium,
     isArtist: user.isArtist,
   };
-  console.log(user_);
+  // console.log(user_);
   
   return user_;
 };
 
 
-const Profile = ({navigation}: {navigation: any}) => {
+const Profile = ({navigation, userId}: {navigation: any, userId: string}) => {
     const dispatch = useDispatch();
-    // get user from redux state
-    const user = useSelector((state: any) => state.user);
-    const { firstName, lastName, profileImage, username, location, phone, email, biography, isPremium, isArtist } = getProfile(user);
+    const { firstName, lastName, profileImage, username, location, phone, email, biography, isPremium, isArtist } = getProfile(userId);
     return (
         <>
           <View style={styles.userInfoSection}>
@@ -167,17 +180,7 @@ const Profile = ({navigation}: {navigation: any}) => {
             <View style= {styles.row}>
               <Text style={{color:"#777777"}}>{email}</Text>
             </View>
-          </View> 
-          {/* <View style={styles.infoBoxWrapper}>
-            <View style={styles.infoBox}>
-              <Title style={{color:'white'}}>{followers}</Title>
-              <Caption style={{color: 'grey'}}>Seguidores</Caption>
-            </View>
-            <View style={styles.infoBox}>
-              <Title style={{color:'white'}}>{following}</Title>
-              <Caption style={{color: 'grey'}}>Seguidos</Caption>
-            </View>
-          </View> */}
+          </View>
         </>
     );
 };

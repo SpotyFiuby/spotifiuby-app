@@ -71,6 +71,9 @@ export type Song = {
   mp3: NodeRequire,
 }
 
+export type Profile = {
+  id: string;
+}
 /*
 export type TabOneParamList = {
   TabOneScreen: undefined;
