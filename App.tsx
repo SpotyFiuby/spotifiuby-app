@@ -15,6 +15,7 @@ import { setUser } from './store/actions/auth.action';
 import useCachedResources from './hooks/useCachedResources';
 import useColorScheme from './hooks/useColorScheme';
 import Navigation from './navigation';
+import { setUserFollows } from './store/actions/userFollows.action';
 
 const AppWrapper = () => {
   return (
@@ -30,7 +31,7 @@ const App = () => {
   const colorScheme = useColorScheme();
 
   const dispatch = useDispatch()
-  const currentUser = useSelector(state => state.auth.currentUser)
+  const currentUser = useSelector(state => state.user)
   const showPlayer = useSelector(state => state.musicPlayer.showPlayer)
   
 
@@ -41,10 +42,18 @@ const App = () => {
       dispatch(setUser(user))
   }
 
+
   useEffect(
       () => firebase.auth().onAuthStateChanged(user => userHandler(user)),
       []
   )
+
+  useEffect(() => {
+    if (currentUser.userId){
+      dispatch(setUserFollows(currentUser.userId))
+    }
+      
+  }, [currentUser.userId]);
 
   const showPlayerWidget = () => {
     if (showPlayer){

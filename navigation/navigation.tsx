@@ -14,6 +14,8 @@ import ArtistAlbumSongs from '../screens/ArtistScreen/ArtistAlbumSongs';
 import UploadSong from '../screens/ArtistScreen/UploadSong';
 import NewAlbum from '../screens/ArtistScreen/NewAlbum';
 import EditAlbum from '../screens/ArtistScreen/EditAlbum';
+import LikedSongsScreen from '../screens/LikedSongsScreen';
+import LibraryScreen from '../screens/LibraryScreen';
 
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -34,6 +36,7 @@ export const SignedInStack = () => (
         <Stack.Screen name="UploadSong" component={UploadSong} />
         <Stack.Screen name="NewAlbum" component={NewAlbum} />
         <Stack.Screen name="EditAlbum" component={EditAlbum} />
+        <Stack.Screen name="LikedSongsScreen" component={LikedSongsScreen} />
       </Stack.Navigator>
   )
   

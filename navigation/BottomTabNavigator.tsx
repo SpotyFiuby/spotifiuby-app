@@ -11,6 +11,7 @@ import AlbumScreen from '../screens/AlbumScreen';
 import { Octicons } from '@expo/vector-icons'; 
 import ArtistAlbums from '../screens/ArtistScreen/ArtistAlbums';
 import { useSelector } from 'react-redux';
+import LibraryScreen from '../screens/LibraryScreen';
 
 /**
  * A bottom tab navigator displays tab buttons on the bottom of the display to switch screens.
@@ -48,7 +49,7 @@ export default (props: RootTabScreenProps) => {
 
       <BottomTab.Screen
         name= "Library"
-        component={TabTwoScreen}
+        component={LibraryScreen}
         options={{
           title: 'Tu Biblioteca',
           tabBarIcon: ({ color }) => <FontAwesome name="bars" size={30} style={
