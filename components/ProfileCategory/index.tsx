@@ -1,28 +1,29 @@
 import React from "react";
 import { View, Text, FlatList } from 'react-native';
-import { Album } from "../../types";
+import { Profile } from "../../types";
 import AlbumComponent from "../Album";
+import ProfileSlider from "../ProfileSlider";
 import styles from "./styles"
 
 
 
-const AlbumCategory = (props) => {
+const ProfileCategory = (props: any) => {
     return(
         <View style={styles.container}>
             <Text style={styles.title}>{props.title}</Text>
             {
-                props.albums.length > 0?
+                props.profiles.length > 0?
                 <FlatList
-                    data={props.albums}
-                    renderItem={({item}) => <AlbumComponent album={item}/>}
+                    data={props.profiles}
+                    renderItem={({item}) => <ProfileSlider profile={item}/>}
                     keyExtractor={(item)=> item.id}
                     showsHorizontalScrollIndicator={false}
                     horizontal
                 />:
-                <Text style={styles.text}>No albums found</Text>
+                <Text style={styles.text}>No profiles found</Text>
             }
         </View>
     )
 }
 
-export default AlbumCategory;
+export default ProfileCategory;

@@ -13,6 +13,7 @@ import EditProfileScreen from '../screens/EditProfileScreen';
 import ArtistAlbumSongs from '../screens/ArtistScreen/ArtistAlbumSongs';
 import UploadSong from '../screens/ArtistScreen/UploadSong';
 import NewAlbum from '../screens/ArtistScreen/NewAlbum';
+import SearchScreen from '../screens/SearchScreen';
 
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -30,6 +31,7 @@ export const SignedInStack = () => (
         <Stack.Screen name="EditProfile" component={EditProfileScreen} />
         <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
         <Stack.Screen name="ArtistAlbumSongs" component={ArtistAlbumSongs} />
+        <Stack.Screen name="Search" component={SearchScreen} />
         <Stack.Screen name="UploadSong" component={UploadSong} />
         <Stack.Screen name="NewAlbum" component={NewAlbum} />
       </Stack.Navigator>

@@ -6,7 +6,7 @@ import styles from './styles';
 import React from 'react';
 import Profile from '../../components/Profile';
 
-const ProfileScreen = ({navigation}: {navigation: any}) => {
+const ProfileScreen = ({navigation, userId}: {navigation: any, userId: string}) => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={{ alignSelf: 'flex-start', marginLeft: 20 }}>
@@ -15,7 +15,7 @@ const ProfileScreen = ({navigation}: {navigation: any}) => {
           }} />
       </View>
      
-     <Profile navigation={navigation}/>
+     <Profile navigation={navigation} userId={userId}/>
       <View style={styles.container}>
       <FlatList
         data={albumCategories}

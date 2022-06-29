@@ -57,7 +57,6 @@ export default function HomeScreen({ navigation }: RootTabScreenProps<'Home'>) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
     justifyContent: 'center',
   },
   title: {
