@@ -83,7 +83,7 @@ const EditProfile = ({navigation}: {navigation: any}) => {
                     onBlur={handleBlur('username')}
                     value={
                       (()=>{
-                        if(values.username) {
+                        if(values.username == '') {
                           return `@${user.email.split('@')[0]}`;
                         }
                         return values.username[0] != '@'? `@${values.username}`: values.username

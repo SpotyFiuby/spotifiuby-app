@@ -3,12 +3,15 @@ import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { SafeAreaView, Text, View, Pressable, FlatList } from 'react-native';
 import { SearchBar } from 'react-native-elements';
+import { useSelector } from 'react-redux';
 import AlbumCategory from '../../components/AlbumCategory';
 import ProfileCategory from '../../components/ProfileCategory';
 import styles from './styles';
 
 const SearchScreen = ({ navigation }: { navigation: any }) => {
 
+  const user = useSelector((state: any) => state.user);
+  const userId = user.userId;
   const [search, setSearch] = useState('');
   const [searchedText, setSearchedText] = useState('');
   const [albumsData, setAlbumsData] = useState<any>([[]])
@@ -33,10 +36,14 @@ const SearchScreen = ({ navigation }: { navigation: any }) => {
       console.log(`getting profiles with prefix: ${search}`);
       const url = `https://spotifiuba-usuario.herokuapp.com/users/search_prefix_email/{user_email}?email_prefix=${encodeURIComponent(search)}&limit=30`;
       const response = await axios.get(url);
+      // // filter out ourselves from the list
+      // const filteredProfiles = response.data.filter((profile: any) => profile.id !== userId);
+      // console.log(filteredProfiles);
       // filter out the artists
       const artistsData = response.data.filter((item: any) => item.isArtist);
-      setArtistsProfileData(artistsData);
-      setProfilesData([response.data]);
+      const profileData = response.data.filter((item: any) => !item.isArtist);
+      setArtistsProfileData([artistsData]);
+      setProfilesData([profileData]);
     } catch(error) {
       setProfilesData([[]]);
     }
@@ -126,14 +133,13 @@ const SearchScreen = ({ navigation }: { navigation: any }) => {
           <FlatList
             // onRefresh={onRefresh}
             // refreshing={refreshing}
-            data={profilesData}
+            data={artistsProfileData}
             keyExtractor={(item, index)=> index}
             renderItem={({item}) => {
-              const items = item.filter( (item: any) => item.isArtist);
               return (
                 <ProfileCategory 
                   title={"Artists"}
-                  profiles={items}
+                  profiles={item}
                 />
               );
             }}
@@ -151,11 +157,10 @@ const SearchScreen = ({ navigation }: { navigation: any }) => {
             keyExtractor={(item, index)=> index}
             renderItem={({item}) => {
               // console.log(item);
-              const items = item.filter( (item: any) => !item.isArtist);
               return (
               <ProfileCategory 
                 title={"Profiles"}
-                profiles={items}
+                profiles={item}
               />
               );
             }}
