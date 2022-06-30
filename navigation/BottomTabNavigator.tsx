@@ -12,6 +12,7 @@ import { Octicons } from '@expo/vector-icons';
 import ArtistAlbums from '../screens/ArtistScreen/ArtistAlbums';
 import { useSelector } from 'react-redux';
 import SearchScreen from '../screens/SearchScreen';
+import Premium from '../screens/Premium';
 
 /**
  * A bottom tab navigator displays tab buttons on the bottom of the display to switch screens.
@@ -74,8 +75,9 @@ export default (props: RootTabScreenProps) => {
       }
       <BottomTab.Screen
           name= "Premium"
-          component={ArtistAlbums}
+          component={Premium}
           options={{
+            headerShown: false,
             title: 'premium',
             tabBarIcon: ({ color }) => <FontAwesome5 name="spotify" size={30} style={{ marginBottom: -3}} color={color} />,
           }}
