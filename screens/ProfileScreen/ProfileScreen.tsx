@@ -15,7 +15,7 @@ const ProfileScreen = ({navigation, userId}: {navigation: any, userId: string}) 
           }} />
       </View>
      
-     <Profile navigation={navigation} userId={userId}/>
+     <Profile navigation={navigation}/>
       <View style={styles.container}>
       <FlatList
         data={albumCategories}
