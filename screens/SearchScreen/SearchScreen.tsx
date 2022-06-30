@@ -41,10 +41,6 @@ const SearchScreen = ({ navigation }: { navigation: any }) => {
       setProfilesData([[]]);
     }
   }
-
-  // useEffect( () => {
-  //   getAlbums("Los Palmeras 1");
-  // }, []);
   
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -55,6 +51,8 @@ const SearchScreen = ({ navigation }: { navigation: any }) => {
             searchIcon={
               <Pressable onPress={() => {
                 console.debug('Go back Pressed');
+                setSearch('');
+                setSearchedText('');
                 navigation.goBack();
               } }>
                 <Ionicons name="arrow-back" size={25} color="white" />
@@ -131,12 +129,12 @@ const SearchScreen = ({ navigation }: { navigation: any }) => {
             data={profilesData}
             keyExtractor={(item, index)=> index}
             renderItem={({item}) => {
-              // console.log(item);
+              const items = item.filter( (item: any) => item.isArtist);
               return (
-              <ProfileCategory 
-                title={"Artists"}
-                profiles={item}
-              />
+                <ProfileCategory 
+                  title={"Artists"}
+                  profiles={items}
+                />
               );
             }}
           />
@@ -153,10 +151,11 @@ const SearchScreen = ({ navigation }: { navigation: any }) => {
             keyExtractor={(item, index)=> index}
             renderItem={({item}) => {
               // console.log(item);
+              const items = item.filter( (item: any) => !item.isArtist);
               return (
               <ProfileCategory 
                 title={"Profiles"}
-                profiles={item}
+                profiles={items}
               />
               );
             }}
