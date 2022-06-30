@@ -10,7 +10,9 @@ const ProfileSliderComponent = (props: any) => {
     const navigation = useNavigation();
 
     const onPress = () => {
-        // navigation.navigate('AlbumScreen', { album: props.album });
+        navigation.navigate('ProfileViewerScreen', { userId: props.profile.id });
+        console.log(`clicked on profile slider to view profile ${props.profile.id}`);
+
     }
     const profileImage = props.profile.profileImage;
     const profileName = props.profile.firstName + ' ' + props.profile.lastName;

@@ -1,7 +1,5 @@
 import React from "react";
 import { View, Text, FlatList } from 'react-native';
-import { Profile } from "../../types";
-import AlbumComponent from "../Album";
 import ProfileSlider from "../ProfileSlider";
 import styles from "./styles"
 
@@ -20,7 +18,7 @@ const ProfileCategory = (props: any) => {
                     showsHorizontalScrollIndicator={false}
                     horizontal
                 />:
-                <Text style={styles.text}>No profiles found</Text>
+                <Text style={styles.text}>{`No ${props.title} found`}</Text>
             }
         </View>
     )
