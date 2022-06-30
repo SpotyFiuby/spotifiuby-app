@@ -12,19 +12,12 @@ const AlbumScreen = () => {
 
     const route = useRoute();
 
-    const dispatch = useDispatch()
-    const songs = useSelector(state => state.musicPlayer.songs)
-
-      
-    useEffect (() => {
-        dispatch(setSongs(route.params.album.songs))
-    }, [])
 
     return (
         <View>
             <FlatList
                 data={route.params.album.songs}
-                renderItem={({item, index}) => <SongListItem song={item} index={index}/>}
+                renderItem={({item, index}) => <SongListItem song={item} index={index} albumSongs={route.params.album.songs}/>}
                 keyExtractor={(item, index) => index}
                 ListHeaderComponent={<AlbumHeader album={route.params.album}/>}
                 ListFooterComponent={

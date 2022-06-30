@@ -86,7 +86,7 @@ const Player = ({sharedValue} ) => {
             <TouchableOpacity onPress={handleClosePlayerScreen}>
               <AntDesign name="down" size={24} color="white" />
             </TouchableOpacity>
-            <Text style={styles.title}>{songs[currentAudioIndex].name}</Text>
+            <Text style={styles.title}>{songs? songs[currentAudioIndex].name : ""}</Text>
             <Entypo name="dots-three-horizontal" size={24} color="white" />
           </View>
           <View style={styles.imageContainer}>
@@ -94,8 +94,8 @@ const Player = ({sharedValue} ) => {
           </View>
           <View style={styles.metadata}>
             <View>
-              <Text style={styles.song}>{songs[currentAudioIndex].name}</Text>
-              <Text style={styles.artist}>{songs[currentAudioIndex].authors}</Text>
+              <Text style={styles.song}>{songs? songs[currentAudioIndex].name : ""}</Text>
+              <Text style={styles.artist}>{songs? songs[currentAudioIndex].authors : ""}</Text>
             </View>
           </View>
           <Slider

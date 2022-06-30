@@ -12,13 +12,13 @@ import { number } from "yup";
 
 export type SongListItemProps = {
     song: Song,
-    songs: [Song],
+    albumSongs: [Song],
     index: number,
 }
 
 const SongListItem = (props: SongListItemProps) => {
     
-    const { song, index } = props;
+    const { song, index, albumSongs } = props;
     const dispatch = useDispatch()
     const play = useSelector(state => state.musicPlayer.play)
     const sound = useSelector(state => state.musicPlayer.sound)
@@ -27,8 +27,11 @@ const SongListItem = (props: SongListItemProps) => {
     const user = useSelector((state: any) => state.user);
 
     const handleOnPress = () => {
-        dispatch(newSound(sound, play, songs,index))
-        dispatch(showPlayer(true,songs,index))
+        if (albumSongs.length > 0) {
+            dispatch(setSongs(albumSongs))
+            dispatch(newSound(sound, play, albumSongs,index))
+            dispatch(showPlayer(true,albumSongs,index))
+        }
     }
 
     const likeSong= async (songId: number, userId: number) => {

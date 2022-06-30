@@ -33,12 +33,7 @@ const LikedSongsScreen = ({navigation}: {navigation: any}) => {
           setData([])
         }
     }
-    useEffect (() => {
-        if (data.length != 0){
-            dispatch(setSongs(data))
-        }
-            
-    }, [data])
+
 
     useEffect (() => {
        getSongs()
@@ -52,23 +47,29 @@ const LikedSongsScreen = ({navigation}: {navigation: any}) => {
                                 <Text style={{color: "blue", fontSize: 25, marginLeft: 10}}> Back</Text>
                             </View>
             </TouchableOpacity>
-            <FlatList
-                data={data}
-                renderItem={({item, index}) => <SongListItem song={item} index={index}/>}
-                keyExtractor={(item, index) => index}
-                ListHeaderComponent={
-                    <View style={styles.container}>
-                        <Image source={{uri: "https://misc.scdn.co/liked-songs/liked-songs-300.png"}} style={styles.image} />
-                        <Text style={styles.name}> Your Liked Songs</Text>
-                    </View>
-                }
-                ListFooterComponent={
-                    <View style={{marginBottom: 100}}>
-                        
-                    </View>
-                    
-                  }
-            />
+            {
+                (data.length > 0) ? 
+                (
+                    <FlatList
+                        data={data}
+                        renderItem={({item, index}) => <SongListItem song={item} index={index} albumSongs={data}/>}
+                        keyExtractor={(item, index) => index}
+                        ListHeaderComponent={
+                            <View style={styles.container}>
+                                <Image source={{uri: "https://misc.scdn.co/liked-songs/liked-songs-300.png"}} style={styles.image} />
+                                <Text style={styles.name}> Your Liked Songs</Text>
+                            </View>
+                        }
+                        ListFooterComponent={
+                            <View style={{marginBottom: 100}}>
+                                
+                            </View>
+                            
+                        }
+                    />
+                ) : <></>
+            }
+            
         </SafeAreaView>
     )
 }

@@ -152,7 +152,8 @@ export const showPlayer = (show, songs, index) => ({
 
 export const setSongs = (songs: any) => {
   return async(dispatch) => {
-    if (songs) {
+    
+    if (songs.length > 0 ) {
       dispatch({
         type: SET_SONGS,
         payload: songs,

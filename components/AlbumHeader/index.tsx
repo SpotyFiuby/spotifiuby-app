@@ -40,10 +40,13 @@ const AlbumHeader = (props) => {
     const sound = useSelector(state => state.musicPlayer.sound)
     const songs = useSelector(state => state.musicPlayer.songs)
     
-    
+
     const handleOnPress = () => {
-        dispatch(newSound(sound, play, songs,0))
-        dispatch(showPlayer(true, songs, 0))
+        if (album.songs.length > 0) {
+            dispatch(setSongs(album.songs))
+            dispatch(newSound(sound, play, album.songs,0))
+            dispatch(showPlayer(true, album.songs, 0))
+        }
     }
 
     const likeAlbum = async (albumId: number, userId: number) => {
