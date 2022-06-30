@@ -8,18 +8,19 @@ import UploadImage from "../UploadImage";
 import styles from "./styles";
 
 const EditProfile = ({navigation}: {navigation: any}) => {
-    const user = useSelector((state: any) => state.user);
-    const profile = getProfile(user);
+    const user = getProfile() as any;
     const dispatch = useDispatch();
     return (
       <>
         <Formik 
           initialValues={{
-            ...profile,
+            ...user,
           }}
           // validationSchema={}
           onSubmit={async (values) => {
             // updating profile
+            console.log(`updating profile with: ${JSON.stringify(values)}`);
+            console.log(user);
             await updateUserData(user.token, user.userId, values, dispatch);
           }}
           validateOnMount={true}

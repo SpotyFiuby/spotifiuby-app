@@ -13,32 +13,23 @@ export const setProfile = async (token: string, userId: number) => {
     console.log(`getting user data from backend token userId: ${userId}`);
     const userDataRes = await axios.get(`https://spotifiuba-usuario.herokuapp.com/users/${userId}`);
     // set user fields in redux store
+    const data = userDataRes.data;
+    // console.log(data);
     const fields: any = {
-        firstName: userDataRes.data.firstName,
-        lastName: userDataRes.data.lastName,
-        phone: userDataRes.data.phoneNumber,
-        username: userDataRes.data.username,
-        location: userDataRes.data.location,
-        isPremium: userDataRes.data.isPremium,
-        isArtist: userDataRes.data.isArtist,
-        bio: userDataRes.data.biography,
+        firstName: data.firstName,
+        lastName: data.lastName,
+        phone: data.phoneNumber,
+        username: data.username,
+        location: data.location,
+        isPremium: data.isPremium,
+        isArtist: data.isArtist,
+        bio: data.biography,
     };
-    if(userDataRes.data.profileImage) fields['photoURL'] = userDataRes.data.profileImage;
+    if(data.profileImage) fields['photoURL'] = data.profileImage;
     return setUserFields(fields);
   } catch(error) {
     console.error(error);
     return setUserFields({});
-  }
-}
-
-const getUserProfile = async (userId: number) => {
-  // getting user data for profile
-  try {
-    console.log(`getting user data from backend token userId: ${userId}`);
-    const userDataRes = await axios.get(`https://spotifiuba-usuario.herokuapp.com/users/${userId}`);
-    return userDataRes.data;
-  } catch(error) {
-    console.error(error);
   }
 }
 
@@ -68,13 +59,8 @@ export const updateUserData = async (token: string, userId: string, userData: an
   }
 }
 
-export const getProfile = (userId: string) => {
-  let user: any;
-  if(userId) {
-    // get data from backend
-    user = getUserProfile(parseInt(userId));
-  } else
-    user = useSelector((state: any) => state.user);
+export const getProfile = () => {
+  const user = useSelector((state: any) => state.user);
   // get user data
   const user_ = {
     firstName: user.firstName? user.firstName : user.email,
@@ -87,16 +73,18 @@ export const getProfile = (userId: string) => {
     email: user.email,
     isPremium: user.isPremium,
     isArtist: user.isArtist,
+    token: user.token,
+    userId: user.userId,
   };
-  // console.log(user_);
   
   return user_;
 };
 
 
-const Profile = ({navigation, userId}: {navigation: any, userId: string}) => {
+const Profile = ({navigation}: {navigation: any}) => {
     const dispatch = useDispatch();
-    const { firstName, lastName, profileImage, username, location, phone, email, biography, isPremium, isArtist } = getProfile(userId);
+    const profile = getProfile();
+    const { firstName, lastName, profileImage, username, location, phone, email, biography, isPremium, isArtist } = profile;
     return (
         <>
           <View style={styles.userInfoSection}>
@@ -157,9 +145,8 @@ const Profile = ({navigation, userId}: {navigation: any, userId: string}) => {
                 </Text>
                 <Pressable onPress={async () => {
                   console.debug(`Become an artist button pressed`);
-                  const userValues = getProfile(user);
-                  userValues.isArtist = true;
-                  await updateUserData(user.token, user.userId, userValues, dispatch);
+                  profile.isArtist = true;
+                  await updateUserData(profile.token, profile.userId, profile, dispatch);
                 }}>
                   <Text style={{marginLeft: 3,color: 'white'}}>click here</Text>
                 </Pressable>
