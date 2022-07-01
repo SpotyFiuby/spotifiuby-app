@@ -1,15 +1,16 @@
 import * as React from 'react';
-import { StyleSheet, FlatList, View, Text, TouchableWithoutFeedback, Image } from 'react-native';
+import { StyleSheet, FlatList, View, Text, TouchableWithoutFeedback, Image, ScrollView } from 'react-native';
 
 
-import { RootTabScreenProps } from '../types';
+import { RootTabScreenProps } from '../../types';
 
-import AlbumCategory from '../components/AlbumCategory';
-import albumCategories from '../data/albumCategories';
+import AlbumCategory from '../../components/AlbumCategory';
+import albumCategories from '../../data/albumCategories';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import AlbumComponent from '../components/Album';
+import AlbumComponent from '../../components/Album';
+import PlaylistCategory from '../../components/PlaylistCategory/idex';
 
 export default function LibraryScreen({navigation}: {navigation: any}) {
 
@@ -37,7 +38,7 @@ export default function LibraryScreen({navigation}: {navigation: any}) {
 
   return (
     
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <View style={styles.likedSongsContainer}>
         <Text style={styles.title}>Liked Songs</Text>
         <TouchableWithoutFeedback onPress={() => {navigation.navigate('LikedSongsScreen');}}>
@@ -53,16 +54,20 @@ export default function LibraryScreen({navigation}: {navigation: any}) {
         title={"Liked Albums"}
         albums={data}
       />
-
       
-    </View>
+      <PlaylistCategory
+        title={"Your Playlists"}
+        albums={data}
+      />
+        
+    </ScrollView>
     
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: 'flex-start',
+    margin:10,
   },
   title: {
     fontSize: 30,
@@ -77,6 +82,8 @@ const styles = StyleSheet.create({
   },
   likedSongsContainer: {
     margin: 10,
+    alignContent: 'flex-start',
+    alignItems: 'flex-start',
   },
   image: {
       width: 150,

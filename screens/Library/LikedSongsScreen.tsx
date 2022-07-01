@@ -1,12 +1,12 @@
 import { useRoute } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
 import { View, Text, FlatList, Image } from "react-native";
-import albumDetails from "../data/albumDetails";
-import SongListItem from "../components/SongListItem";
-import AlbumHeader from "../components/AlbumHeader";
+import albumDetails from "../../data/albumDetails";
+import SongListItem from "../../components/SongListItem";
+import AlbumHeader from "../../components/AlbumHeader";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { setSongs } from "../store/actions/musicPlayer.action";
+import { setSongs } from "../../store/actions/musicPlayer.action";
 import { StyleSheet } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { white } from "react-native-paper/lib/typescript/styles/colors";

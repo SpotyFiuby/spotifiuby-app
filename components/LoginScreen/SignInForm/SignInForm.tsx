@@ -21,7 +21,7 @@ const SignInForm = ({navigation, onSignIn, onForgotPassword, onSignUp}:{navigati
     return(
         <View style={styles.container}>
             <Formik 
-                initialValues={{email: '', password: ''}}
+                initialValues={{email: 'tr7@gmail.com', password: '111111'}}
                 validationSchema={loginFormSchema}
                 onSubmit={(values) => {
                     onSignIn(values.email,values.password);

@@ -11,7 +11,6 @@ const onFacebookButtonPress = async ({navigation}: {navigation: any}) => {
           await Facebook.logInWithReadPermissionsAsync({
             permissions: ['public_profile', 'email'],
           });
-        console.log(res);
         const { type, token, expirationDate, permissions, declinedPermissions } = res;
         if (type === 'success') {
           try {

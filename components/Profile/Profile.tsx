@@ -13,17 +13,19 @@ export const setProfile = async (token: string, userId: number) => {
     console.log(`getting user data from backend token userId: ${userId}`);
     const userDataRes = await axios.get(`https://spotifiuba-usuario.herokuapp.com/users/${userId}`);
     // set user fields in redux store
+    const data = userDataRes.data;
+    // console.log(data);
     const fields: any = {
-        firstName: userDataRes.data.firstName,
-        lastName: userDataRes.data.lastName,
-        phone: userDataRes.data.phoneNumber,
-        username: userDataRes.data.username,
-        location: userDataRes.data.location,
-        isPremium: userDataRes.data.isPremium,
-        isArtist: userDataRes.data.isArtist,
-        bio: userDataRes.data.biography,
+        firstName: data.firstName,
+        lastName: data.lastName,
+        phone: data.phoneNumber,
+        username: data.username,
+        location: data.location,
+        isPremium: data.isPremium,
+        isArtist: data.isArtist,
+        bio: data.biography,
     };
-    if(userDataRes.data.profileImage) fields['photoURL'] = userDataRes.data.profileImage;
+    if(data.profileImage) fields['photoURL'] = data.profileImage;
     return setUserFields(fields);
   } catch(error) {
     console.error(error);
@@ -57,7 +59,8 @@ export const updateUserData = async (token: string, userId: string, userData: an
   }
 }
 
-export const getProfile = (user: any) => {
+export const getProfile = () => {
+  const user = useSelector((state: any) => state.user);
   // get user data
   const user_ = {
     firstName: user.firstName? user.firstName : user.email,
@@ -68,12 +71,11 @@ export const getProfile = (user: any) => {
     phone: user.phone? user.phone : "Phone Not Set",
     biography: user.biography? user.biography : "User Bio, click edit to write a new awesome bio.",
     email: user.email,
-    // followers: "1.2k",
-    // following: "430",
     isPremium: user.isPremium,
     isArtist: user.isArtist,
+    token: user.token,
+    userId: user.userId,
   };
-  console.log(user_);
   
   return user_;
 };
@@ -81,9 +83,8 @@ export const getProfile = (user: any) => {
 
 const Profile = ({navigation}: {navigation: any}) => {
     const dispatch = useDispatch();
-    // get user from redux state
-    const user = useSelector((state: any) => state.user);
-    const { firstName, lastName, profileImage, username, location, phone, email, biography, isPremium, isArtist } = getProfile(user);
+    const profile = getProfile();
+    const { firstName, lastName, profileImage, username, location, phone, email, biography, isPremium, isArtist } = profile;
     return (
         <>
           <View style={styles.userInfoSection}>
@@ -144,9 +145,8 @@ const Profile = ({navigation}: {navigation: any}) => {
                 </Text>
                 <Pressable onPress={async () => {
                   console.debug(`Become an artist button pressed`);
-                  const userValues = getProfile(user);
-                  userValues.isArtist = true;
-                  await updateUserData(user.token, user.userId, userValues, dispatch);
+                  profile.isArtist = true;
+                  await updateUserData(profile.token, profile.userId, profile, dispatch);
                 }}>
                   <Text style={{marginLeft: 3,color: 'white'}}>click here</Text>
                 </Pressable>
@@ -167,17 +167,7 @@ const Profile = ({navigation}: {navigation: any}) => {
             <View style= {styles.row}>
               <Text style={{color:"#777777"}}>{email}</Text>
             </View>
-          </View> 
-          {/* <View style={styles.infoBoxWrapper}>
-            <View style={styles.infoBox}>
-              <Title style={{color:'white'}}>{followers}</Title>
-              <Caption style={{color: 'grey'}}>Seguidores</Caption>
-            </View>
-            <View style={styles.infoBox}>
-              <Title style={{color:'white'}}>{following}</Title>
-              <Caption style={{color: 'grey'}}>Seguidos</Caption>
-            </View>
-          </View> */}
+          </View>
         </>
     );
 };

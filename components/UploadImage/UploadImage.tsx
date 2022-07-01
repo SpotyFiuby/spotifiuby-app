@@ -34,7 +34,7 @@ const UploadImage = ({profileImage, userId}: {profileImage: string, userId: stri
 
   useEffect(() => {
     checkForCameraRollPermission()
-    console.log(profileImage);
+    // console.log(profileImage);
     if(profileImage) setImage(profileImage);
   }, []);
 

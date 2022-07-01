@@ -6,7 +6,7 @@ import styles from './styles';
 import React from 'react';
 import Profile from '../../components/Profile';
 
-const ProfileScreen = ({navigation}: {navigation: any}) => {
+const ProfileScreen = ({navigation, userId}: {navigation: any, userId: string}) => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={{ alignSelf: 'flex-start', marginLeft: 20 }}>
