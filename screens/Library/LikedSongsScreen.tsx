@@ -12,6 +12,7 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { white } from "react-native-paper/lib/typescript/styles/colors";
 import { FontAwesome } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
+import GoBackButton from "../../components/Buttons/GoBackButton";
 
 const LikedSongsScreen = ({navigation}: {navigation: any}) => {
 
@@ -41,18 +42,13 @@ const LikedSongsScreen = ({navigation}: {navigation: any}) => {
 
     return (
         <SafeAreaView>
-            <TouchableOpacity onPress={() => {navigation.goBack()}}>
-                            <View style={{marginTop: 10, marginLeft: 10, flexDirection: "row", alignItems: "center"}} >
-                                <FontAwesome name="angle-left" size={40} color="blue" />
-                                <Text style={{color: "blue", fontSize: 25, marginLeft: 10}}> Back</Text>
-                            </View>
-            </TouchableOpacity>
+            <GoBackButton/>
             {
                 (data.length > 0) ? 
                 (
                     <FlatList
                         data={data}
-                        renderItem={({item, index}) => <SongListItem song={item} index={index} albumSongs={data}/>}
+                        renderItem={({item, index}) => <SongListItem song={item} index={index} albumSongs={data} playlist={null}/>}
                         keyExtractor={(item, index) => index}
                         ListHeaderComponent={
                             <View style={styles.container}>

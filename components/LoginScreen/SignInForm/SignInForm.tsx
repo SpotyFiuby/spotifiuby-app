@@ -2,7 +2,7 @@ import react, {useState} from 'react';
 import { View, Text, TextInput} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import styles from './styles';
-import CustomButton from '../../CustomButton';
+import CustomButton from '../../Buttons/CustomButton';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import Validator from 'email-validator';

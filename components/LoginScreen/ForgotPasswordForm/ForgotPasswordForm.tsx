@@ -1,6 +1,6 @@
 import { View, TextInput, Button, Alert} from 'react-native';
 import styles from './styles';
-import CustomButton from '../../CustomButton';
+import CustomButton from '../../Buttons/CustomButton';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import Validator from 'email-validator';

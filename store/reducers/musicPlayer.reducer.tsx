@@ -1,5 +1,3 @@
-import { ActionSheetIOS } from "react-native"
-import SongListItem from "../../components/SongListItem"
 import { NEW_SONG, PAUSE_SONG, RESUME_SONG, UPDATE_PLAYBACK, NEXT_SONG, SHOW_PLAYER, SET_SONGS} from "../actions/musicPlayer.action"
 
 const initialState = {

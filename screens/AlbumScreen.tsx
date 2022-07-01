@@ -17,7 +17,7 @@ const AlbumScreen = () => {
         <View>
             <FlatList
                 data={route.params.album.songs}
-                renderItem={({item, index}) => <SongListItem song={item} index={index} albumSongs={route.params.album.songs}/>}
+                renderItem={({item, index}) => <SongListItem song={item} index={index} albumSongs={route.params.album.songs} playlist={null}/>}
                 keyExtractor={(item, index) => index}
                 ListHeaderComponent={<AlbumHeader album={route.params.album}/>}
                 ListFooterComponent={

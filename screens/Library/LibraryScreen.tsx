@@ -10,7 +10,7 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import AlbumComponent from '../../components/Album';
-import PlaylistCategory from '../../components/PlaylistCategory/idex';
+import PlaylistCategory from '../../components/Playlists/PlaylistCategory/idex';
 
 export default function LibraryScreen({navigation}: {navigation: any}) {
 

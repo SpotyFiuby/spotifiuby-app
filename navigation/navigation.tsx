@@ -20,6 +20,9 @@ import SearchScreen from '../screens/SearchScreen';
 import Premium from '../screens/Premium';
 import ProfileViewerScreen from '../screens/ProfileViewerScreen';
 import NewPlaylist from '../screens/PlaylistScreens/CreatePlaylist';
+import PlaylistScreen from '../screens/PlaylistScreens/PlaylistScreen';
+import EditPlaylist from '../screens/PlaylistScreens/EditPlaylist';
+import AddToPlaylist from '../screens/PlaylistScreens/AddToPlaylist';
 
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -45,6 +48,9 @@ export const SignedInStack = () => (
         <Stack.Screen name="LikedSongsScreen" component={LikedSongsScreen} />
         <Stack.Screen name="Premium" component={Premium} />
         <Stack.Screen name="ProfileViewerScreen" component={ProfileViewerScreen} />
+        <Stack.Screen name="PlaylistScreen" component={PlaylistScreen} />
+        <Stack.Screen name="EditPlaylist" component={EditPlaylist} />
+        <Stack.Screen name="AddToPlaylist" component={AddToPlaylist} />
       </Stack.Navigator>
   )
   
