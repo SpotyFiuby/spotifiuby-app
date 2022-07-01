@@ -44,7 +44,8 @@ const UserFollowsReducer = (state = initialState, action) => {
             return {
               ...state,
               likedSongs: action.payload.songs,
-              likedAlbums: action.payload.albums
+              likedAlbums: action.payload.albums,
+              followedArtists:  action.payload.artists,
             }
 
         default: 

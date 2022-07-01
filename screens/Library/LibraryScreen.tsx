@@ -11,13 +11,27 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import AlbumComponent from '../../components/Album';
 import PlaylistCategory from '../../components/Playlists/PlaylistCategory/idex';
+import ProfileCategory from '../../components/ProfileCategory';
 
 export default function LibraryScreen({navigation}: {navigation: any}) {
 
   const [data, setData] = useState([])
+  const [followedArtistsData, setFollowedArtistsData] = useState([])
   const user = useSelector((state: any) => state.user);
   const followedAlbums = useSelector(state => state.userFollows.likedAlbums)
+  const followedArtists = useSelector(state => state.userFollows.followedArtists)
   
+  const getFollowedArtists = async () => {
+    // getting albums 
+    try {
+      const response = await axios.get(`https://spotifiuba-usuario.herokuapp.com/users/user_followings/${user.userId}`);
+      setFollowedArtistsData(response.data)
+    } catch(error) {
+      console.error(error);
+      setData([])
+    }
+  }
+
   const getAlbums = async () => {
     // getting albums 
     try {
@@ -30,7 +44,9 @@ export default function LibraryScreen({navigation}: {navigation: any}) {
   }
 
 
-
+  useEffect(() => {
+    getFollowedArtists()
+  },[followedArtists])
 
   useEffect(() => {
     getAlbums()
@@ -55,10 +71,19 @@ export default function LibraryScreen({navigation}: {navigation: any}) {
         albums={data}
       />
       
+      <ProfileCategory 
+        title={"Followed Artists"}
+        profiles={followedArtistsData}
+      />
+      
       <PlaylistCategory
         title={"Your Playlists"}
         albums={data}
       />
+
+      
+          
+      
         
     </ScrollView>
     
@@ -92,6 +117,9 @@ const styles = StyleSheet.create({
   text: {
       color: 'grey',
       marginTop: 10,
-  }
+  },
+  profileCtn: {
+    marginTop: 10,
+  },
 });
 
