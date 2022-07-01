@@ -1,8 +1,9 @@
-import { FOLLOW_ALBUM, UNFOLLOW_ALBUM, FOLLOW_SONG, UNFOLLOW_SONG, SET_FOLLOWS} from "../actions/userFollows.action"
+import { FOLLOW_ALBUM, UNFOLLOW_ALBUM, FOLLOW_SONG, UNFOLLOW_SONG, SET_FOLLOWS, FOLLOW_ARTIST, UNFOLLOW_ARTIST} from "../actions/userFollows.action"
 
 const initialState = {
   likedAlbums: [],
   likedSongs: [],
+  followedArtists: [],
 }
 
 
@@ -28,6 +29,16 @@ const UserFollowsReducer = (state = initialState, action) => {
           return {
             ...state,
             likedSongs: state.likedSongs.filter(item => item !== action.payload.song),
+          }
+        case FOLLOW_ARTIST:
+          return {
+            ...state,
+            followedArtists: [...state.followedArtists].includes(action.payload.newArtist) ? [...state.followedArtists] : [...state.followedArtists, action.payload.newArtist],
+          }
+        case UNFOLLOW_ARTIST:
+          return {
+            ...state,
+            followedArtists: state.followedArtists.filter(item => item !== action.payload.artist),
           }
         case SET_FOLLOWS:
             return {

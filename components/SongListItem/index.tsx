@@ -49,7 +49,6 @@ const SongListItem = (props: SongListItemProps) => {
     }
 
     useEffect (() => {
-        console.log(likedSongs)
     }, [likedSongs])
     
     return (

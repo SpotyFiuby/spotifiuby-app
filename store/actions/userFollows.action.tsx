@@ -5,7 +5,8 @@ export const UNFOLLOW_ALBUM = "UNFOLLOW_ALBUM"
 export const FOLLOW_SONG = "FOLLOW_SONG"
 export const UNFOLLOW_SONG = "UNFOLLOW_SONG"
 export const SET_FOLLOWS = "SET_FOLLOWS"
-
+export const FOLLOW_ARTIST = "FOLLOW_ARTIST"
+export const UNFOLLOW_ARTIST = "UNFOLLOW_ARTIST"
 
 export const followAlbum = (albumId: number, userId: number) => {
   return async (dispatch) => {
@@ -110,3 +111,48 @@ return async (dispatch) => {
     
 }
 }
+
+export const followArtist = (artistId: number, userId: number) => {
+  return async (dispatch) => {
+    /*try {
+        const response = await axios.put(`http://spotifiuba-contenido.herokuapp.com/songs/song_favourites/${songId}`,
+        null,
+          {
+            params: {
+                user_id: userId,
+              },
+          });*/
+          dispatch({
+            type: FOLLOW_ARTIST,
+            payload: {newArtist: artistId}
+          })
+          
+      /*} catch(error) {
+        console.error(error);
+      }*/
+      
+  }
+}
+
+export const unfollowArtist = (artistId: number, userId: number) => {
+    return async (dispatch) => {
+      console.log("AA")
+      /*try {
+          const response = await axios.put(`http://spotifiuba-contenido.herokuapp.com/songs/song_favourites/${songId}/${userId}`,
+          null,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              'accept': 'application/json'
+              },
+          });*/
+            dispatch({
+              type: UNFOLLOW_ARTIST,
+              payload: {artist: artistId}
+            })
+        /*} catch(error) {
+          console.error(error);
+        }*/
+        
+    }
+  }
