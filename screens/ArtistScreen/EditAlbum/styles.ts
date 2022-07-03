@@ -41,6 +41,37 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         backgroundColor: "black",
         marginTop: 10
+    },
+    dropdown1BtnStyle: {
+    width: 300,
+    height: 65,
+    backgroundColor: 'black',
+    borderTopLeftRadius: 5,
+    borderTopRightRadius: 5,
+    borderWidth: 1.2,
+    borderColor: '#777',
+    marginTop: 10,
+    },
+    dropdown1BtnTxtStyle: {color: 'white', textAlign: 'left', marginLeft: 2,},
+    dropdown1DropdownStyle: {backgroundColor: '#EFEFEF'},
+    dropdown1RowStyle: {backgroundColor: '#EFEFEF', borderBottomColor: '#C5C5C5'},
+    dropdown1RowTxtStyle: {color: 'black', textAlign: 'left'},
+    dropdown1SelectedRowStyle: {backgroundColor: 'rgba(0,0,0,0.1)'},
+    dropdown1searchInputStyleStyle: {
+    backgroundColor: '#EFEFEF',
+    borderRadius: 8,
+    borderBottomWidth: 1,
+    borderBottomColor: '#444',
+    },
+    premiumContainer: {
+        marginTop: 20,
+        flexDirection:'row',
+        display: "flex",
+        flex : 1,
+        alignItems: "center",
+        borderRadius: 10,
+        backgroundColor: "#2a2a2a",
+        padding: 3,
     }
 });
 

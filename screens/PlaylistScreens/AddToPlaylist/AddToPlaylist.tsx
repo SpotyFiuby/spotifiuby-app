@@ -56,7 +56,7 @@ const AddToPlaylist = ({navigation, route}: {navigation: any, route: any}) => {
     <SafeAreaView>
       <GoBackButton/>
       <View style={styles.container}>
-        <Text style={styles.title}>Your Playlists</Text>
+        <Text style={styles.title}>Add song to playlist</Text>
         {
           data.length == 0 ?
           <View style={{ 

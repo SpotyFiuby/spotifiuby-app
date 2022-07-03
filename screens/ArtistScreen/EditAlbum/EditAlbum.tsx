@@ -2,7 +2,7 @@ import { SafeAreaView, Button, Pressable, TouchableOpacity, Image } from 'react-
 import { Text, View } from '../../../components/Themed';
 import styles from './styles';
 import React, { useEffect, useState } from 'react';
-import { AntDesign } from '@expo/vector-icons'; 
+import { AntDesign, FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons'; 
 import { TextInput } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
 import * as ImagePicker from 'expo-image-picker';
@@ -11,16 +11,19 @@ import uuid from 'react-native-uuid';
 import axios from 'axios';
 import { checkForCameraRollPermission, uploadImageAsync } from '../../../components/UploadImage/UploadImage';
 import imagePickerStyles from '../../../components/UploadImage/'
+import SelectDropdown from 'react-native-select-dropdown';
 
 
 const EditAlbum = ({navigation, route}: {navigation: any, route: any}) => {
   
   const [title, setTitle] = useState("");
-  const [genre, setGenre] = useState("");
   const [description, setDescription] = useState("");
   const [image, setImage] = useState("");
   const user = useSelector((state: any) => state.user);
   const {album} = route.params;
+  const [genres, setGenres] = useState({})
+  const [genre, setGenre] = useState(album.genre);
+  const [premium, setPremium] = useState(album.premium);
 
   const [imageUri, setImageUri] = useState<string>(null);
   
@@ -45,20 +48,32 @@ const EditAlbum = ({navigation, route}: {navigation: any, route: any}) => {
     }
    };
  
+   const getGenres = async () => {
+    try {
+      const response = await axios.get(`https://spotifiuba-contenido.herokuapp.com/albums/genres_dict/`);
+      setGenres(Object.keys(response.data).map((key) => [response.data[key]]))
+    } catch(error) {
+      console.error(error);
+      setGenres({})
+    }
+  }
+
    useEffect(() => {
         setImageUri(album.cover)
      checkForCameraRollPermission()
+     getGenres()
    }, []);
    
   const handleSubmit = async (userId: string) => {
-
+    console.log(premium)
     let body = {
       title: (title.length <= 0) ? album.title : title,
       description: (description.length <= 0) ? album.description : description,
       genre: (genre.length <= 0) ? album.genre : genre,
       artistId: userId,
       cover: (image .length <= 0) ? album.cover : image,
-      premium: album.premium,
+      premium: premium,
+      admirers: album.admirers,
     };
 
     console.log(body)
@@ -105,21 +120,40 @@ const EditAlbum = ({navigation, route}: {navigation: any, route: any}) => {
         outlineColor="grey"
         activeOutlineColor='white'
       /> 
-
-      <TextInput
-        label="Genre"
-        mode="outlined"
-        style={styles.textInputStyle}
-        onChangeText={text => setGenre(text)}
-        placeholder={album.genre || 'Genre'}
-        placeholderTextColor='white'
-        autoCapitalize= 'none'
-        autoCorrect={false}
-        textContentType= 'name'
-        defaultValue={album.genre }
-        theme={{colors: {text: "white", placeholder: 'grey'}}}
-        outlineColor="grey"
-        activeOutlineColor='white'
+      
+      <SelectDropdown
+            data={genres}
+            // defaultValueByIndex={1}
+            // defaultValue={'Egypt'}
+            label="Hola"
+            mode="outlined"
+            onSelect={(selectedItem, index) => {
+              setGenre(selectedItem[0])
+            }}
+            defaultButtonText={album.genre}
+            buttonTextAfterSelection={(selectedItem, index) => {
+              return selectedItem;
+            }}
+            rowTextForSelection={(item, index) => {
+              return item;
+            }}
+            buttonStyle={styles.dropdown1BtnStyle}
+            buttonTextStyle={styles.dropdown1BtnTxtStyle}
+            renderDropdownIcon={isOpened => {
+              return <FontAwesome name={isOpened ? 'chevron-up' : 'chevron-down'} color={'#444'} size={18} />;
+            }}
+            dropdownIconPosition={'right'}
+            dropdownStyle={styles.dropdown1DropdownStyle}
+            rowStyle={styles.dropdown1RowStyle}
+            rowTextStyle={styles.dropdown1RowTxtStyle}
+            selectedRowStyle={styles.dropdown1SelectedRowStyle}
+            search
+            searchInputStyle={styles.dropdown1searchInputStyleStyle}
+            searchPlaceHolder={'Search here'}
+            searchPlaceHolderColor={'darkgrey'}
+            renderSearchInputLeftIcon={() => {
+              return <FontAwesome name={'search'} color={'#444'} size={18} />;
+            }}
       />
 
       <TextInput
@@ -150,6 +184,10 @@ const EditAlbum = ({navigation, route}: {navigation: any, route: any}) => {
       </View>
     </View>
 
+    <TouchableOpacity style={styles.premiumContainer} onPress={() => setPremium(!premium)}>
+              <MaterialCommunityIcons name="crown" size={30} color={premium ? "gold" : "gray"} />
+              <Text style={premium ? {color: "gold"} : {color: "gray"}}>Premium</Text>
+        </TouchableOpacity>
 
 
       <View style={{ marginLeft: 250, flex: 1, flexDirection: 'row', marginTop: 50 }}>

@@ -2,7 +2,7 @@ import { SafeAreaView, Button, Pressable, TouchableOpacity, Image } from 'react-
 import { Text, View } from '../../../components/Themed';
 import styles from './styles';
 import React, { useEffect, useState } from 'react';
-import { AntDesign } from '@expo/vector-icons'; 
+import { AntDesign, FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons'; 
 import { TextInput } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
 import * as ImagePicker from 'expo-image-picker';
@@ -11,6 +11,8 @@ import uuid from 'react-native-uuid';
 import axios from 'axios';
 import { checkForCameraRollPermission, uploadImageAsync } from '../../../components/UploadImage/UploadImage';
 import imagePickerStyles from '../../../components/UploadImage/'
+import SelectDropdown from 'react-native-select-dropdown';
+import { ScrollView } from 'react-native-gesture-handler';
 
 
 const NewAlbum = ({navigation}: {navigation: any}) => {
@@ -20,9 +22,21 @@ const NewAlbum = ({navigation}: {navigation: any}) => {
   const [description, setDescription] = useState("");
   const [image, setImage] = useState("");
   const user = useSelector((state: any) => state.user);
+  const [genres, setGenres] = useState({})
+  const [premium, setPremium] = useState(false);
 
   const [imageUri, setImageUri] = useState<string>(null);
   
+  const getGenres = async () => {
+    try {
+      const response = await axios.get(`https://spotifiuba-contenido.herokuapp.com/albums/genres_dict/`);
+      setGenres(Object.keys(response.data).map((key) => [response.data[key]]))
+    } catch(error) {
+      console.error(error);
+      setGenres({})
+    }
+  }
+
   const addImage = async () => {
    let _image = await ImagePicker.launchImageLibraryAsync({
      mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -46,6 +60,7 @@ const NewAlbum = ({navigation}: {navigation: any}) => {
  
    useEffect(() => {
      checkForCameraRollPermission()
+     getGenres()
    }, []);
    
   const handleSubmit = async (userId: string) => {
@@ -56,7 +71,7 @@ const NewAlbum = ({navigation}: {navigation: any}) => {
       genre: genre,
       artistId: userId,
       cover: image,
-      premium: false,
+      premium: premium,
     };
 
     try {
@@ -74,84 +89,117 @@ const NewAlbum = ({navigation}: {navigation: any}) => {
   }
 
   return (
-      
-    <SafeAreaView style={styles.safeAreaContainer}>
-      <View style={{ alignSelf: 'flex-start', marginLeft: 20 }}>
-        <Button title="Back" onPress={() => {
-          return navigation.goBack();
-        }} />
-      </View>
-      
-      <Text style={styles.title}>NEW ALBUM</Text>
-      
-      <TextInput
-        label="Album title"
-        mode="flat"
-        style={{ 
-          margin: 10,
-          marginTop: 50,
-          width: 300,
-        }}
-        onChangeText={text => setTitle(text)}
-      /> 
+      <ScrollView>
+        <SafeAreaView style={styles.safeAreaContainer}>
+          <View style={{ alignSelf: 'flex-start', marginLeft: 20 }}>
+            <Button title="Back" onPress={() => {
+              return navigation.goBack();
+            }} />
+          </View>
+          
+          <Text style={styles.title}>NEW ALBUM</Text>
+          
+          <TextInput
+            label="Album title"
+            mode="flat"
+            style={{ 
+              margin: 10,
+              marginTop: 50,
+              width: 300,
+            }}
+            onChangeText={text => setTitle(text)}
+          /> 
 
-      <TextInput
-        label="Genre"
-        mode="flat"
-        style={{ 
-          margin: 10,
-          width: 300,
-        }}
-        onChangeText={text => setGenre(text)}
-      />
+          <SelectDropdown
+            data={genres}
+            // defaultValueByIndex={1}
+            // defaultValue={'Egypt'}
+            onSelect={(selectedItem, index) => {
+              setGenre(selectedItem[0])
+            }}
+            defaultButtonText={'Select Genre'}
+            buttonTextAfterSelection={(selectedItem, index) => {
+              return selectedItem;
+            }}
+            rowTextForSelection={(item, index) => {
+              return item;
+            }}
+            buttonStyle={styles.dropdown1BtnStyle}
+            buttonTextStyle={styles.dropdown1BtnTxtStyle}
+            renderDropdownIcon={isOpened => {
+              return <FontAwesome name={isOpened ? 'chevron-up' : 'chevron-down'} color={'#444'} size={18} />;
+            }}
+            dropdownIconPosition={'right'}
+            dropdownStyle={styles.dropdown1DropdownStyle}
+            rowStyle={styles.dropdown1RowStyle}
+            rowTextStyle={styles.dropdown1RowTxtStyle}
+            selectedRowStyle={styles.dropdown1SelectedRowStyle}
+            search
+            searchInputStyle={styles.dropdown1searchInputStyleStyle}
+            searchPlaceHolder={'Search here'}
+            searchPlaceHolderColor={'darkgrey'}
+            renderSearchInputLeftIcon={() => {
+              return <FontAwesome name={'search'} color={'#444'} size={18} />;
+            }}
+          />
 
-      <TextInput
-        label="Description"
-        mode="flat"
-        style={{ 
-          margin: 10,
-          width: 300,
-        }}
-        onChangeText={text => setDescription(text)}
-      />
+          
+          <TextInput
+            label="Description"
+            mode="flat"
+            style={{ 
+              margin: 10,
+              width: 300,
+            }}
+            onChangeText={text => setDescription(text)}
+          />
 
-    <View style={styles.container}>
-    {
-      imageUri  && <Image source={{ uri: imageUri}} style={{ width: 200, height: 200 }} />
-    }
-      <View style={styles.uploadBtnContainer}>
-        <TouchableOpacity onPress={addImage} style={styles.uploadBtn} >
-          <Text>{imageUri ? 'Edit' : 'Upload'} Image</Text>
-          <AntDesign name="camera" size={20} color="black" />
+          
+
+        <View style={styles.container}>
+        {
+          imageUri  && <Image source={{ uri: imageUri}} style={{ width: 200, height: 200 }} />
+        }
+          <View style={styles.uploadBtnContainer}>
+            <TouchableOpacity onPress={addImage} style={styles.uploadBtn} >
+              <Text>{imageUri ? 'Edit' : 'Upload'} Image</Text>
+              <AntDesign name="camera" size={20} color="black" />
+            </TouchableOpacity>
+          </View>
+        </View>
+
+        <TouchableOpacity style={styles.premiumContainer} onPress={() => setPremium(!premium)}>
+              <MaterialCommunityIcons name="crown" size={30} color={premium ? "gold" : "gray"} />
+              <Text style={premium ? {color: "gold"} : {color: "gray"}}>Premium</Text>
         </TouchableOpacity>
-      </View>
-    </View>
 
 
 
-      <View style={{ marginLeft: 250, flex: 1, flexDirection: 'row', marginTop: 50 }}>
-          
-        <Pressable onPress={() => {navigation.goBack()}}>
-          <View style={{ flexDirection: 'column', justifyContent: "center", alignSelf: "center", marginEnd: 30 }}>
-            <AntDesign name="closecircleo" size={30} color="white" />
-            <Text style={{color: "white"}}>Cancel</Text>
+          <View style={{ marginLeft: 250, flex: 1, flexDirection: 'row', marginTop: 30 }}>
+              
+            <Pressable onPress={() => {navigation.goBack()}}>
+              <View style={{ flexDirection: 'column', justifyContent: "center", alignSelf: "center", marginEnd: 30 }}>
+                <AntDesign name="closecircleo" size={30} color="white" />
+                <Text style={{color: "white"}}>Cancel</Text>
+              </View>
+            </Pressable>
+
+            <Pressable  disabled={(title.length <= 0) || (genre.length <= 0)|| (description.length <= 0) || (image.length <= 0)} onPress={async () => {
+                  await handleSubmit(user.userId);
+                  navigation.goBack();
+                }}>
+              
+              <View style={{ flexDirection: 'column', justifyContent: "center", alignSelf: "center"}}>
+                <AntDesign name="checkcircleo" size={30} color={((title.length <= 0) || (genre.length <= 0)|| (description.length <= 0) || (image.length <= 0)) ? 'grey' : 'white'}/>
+                <Text style={((title.length <= 0) || (genre.length <= 0) || (description.length <= 0) || (image.length <= 0)) ? {color: "grey"} : {color: "white"}}>Save</Text>
+              </View>
+            </Pressable>
+
           </View>
-        </Pressable>
 
-        <Pressable  disabled={(title.length <= 0) || (genre.length <= 0)|| (description.length <= 0) || (image.length <= 0)} onPress={async () => {
-              await handleSubmit(user.userId);
-              navigation.goBack();
-            }}>
-          
-          <View style={{ flexDirection: 'column', justifyContent: "center", alignSelf: "center"}}>
-            <AntDesign name="checkcircleo" size={30} color={((title.length <= 0) || (genre.length <= 0)|| (description.length <= 0) || (image.length <= 0)) ? 'grey' : 'white'}/>
-            <Text style={((title.length <= 0) || (genre.length <= 0) || (description.length <= 0) || (image.length <= 0)) ? {color: "grey"} : {color: "white"}}>Save</Text>
-          </View>
-        </Pressable>
-
-      </View>
-
-    </SafeAreaView>
+        </SafeAreaView>
+      </ScrollView>
+    
   );
 };
 

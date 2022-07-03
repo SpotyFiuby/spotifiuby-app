@@ -1,16 +1,34 @@
 import { SafeAreaView, Button, TouchableOpacity, Pressable } from 'react-native';
 import { Text, View } from '../../../components/Themed';
 import styles from './styles';
-import React, { useState } from 'react';
-import { AntDesign } from '@expo/vector-icons'; 
+import React, { useEffect, useState } from 'react';
+import { AntDesign, FontAwesome } from '@expo/vector-icons'; 
 import { TextInput } from 'react-native-paper';
 import * as DocumentPicker from 'expo-document-picker';
 import { storage } from "../../../firebase";
 import uuid from 'react-native-uuid';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
+import SelectList from 'react-native-dropdown-select-list'
+import SelectDropdown from 'react-native-select-dropdown'
 
-
+      /*<TextInput
+        label="Genre"
+        mode="flat"
+        style={{ 
+          margin: 10,
+          width: 300,
+        }}
+        onChangeText={text => setGenre(text)}
+      />
+      
+            <SelectList 
+        setSelected={setGenre} 
+        data={genres} 
+        boxStyles={{backgroundColor:"red"}}
+        dropdownStyles={{backgroundColor:"red"}}
+      />
+      */
 const UploadSong = ({navigation, route}) => {
   
   const {albumId} = route.params;
@@ -19,10 +37,19 @@ const UploadSong = ({navigation, route}) => {
   const [genre, setGenre] = useState("");
   const [authors, setAuthors] = useState("");
   const [description, setDescription] = useState("");
+  const [genres, setGenres] = useState({})
   const user = useSelector((state: any) => state.user);
 
+  const getGenres = async () => {
+    try {
+      const response = await axios.get(`https://spotifiuba-contenido.herokuapp.com/albums/genres_dict/`);
+      setGenres(Object.keys(response.data).map((key) => [response.data[key]]))
+    } catch(error) {
+      console.error(error);
+      setGenres({})
+    }
+  }
 
-  
   const handleFilePicker = async () => {
 
     try {
@@ -41,7 +68,6 @@ const UploadSong = ({navigation, route}) => {
     if (song != null) {
       const filename = uuid.v4();
       const url = await uploadMp3Async(song.uri, `content/album/songs/${filename as string}`);
-
 
       let body = {
         url: url,
@@ -72,6 +98,11 @@ const UploadSong = ({navigation, route}) => {
   }
 
 
+  useEffect(() => {
+    getGenres()
+  },[])
+
+
   return (
       
     <SafeAreaView style={styles.safeAreaContainer}>
@@ -94,14 +125,39 @@ const UploadSong = ({navigation, route}) => {
         onChangeText={text => setTitle(text)}
       /> 
 
-      <TextInput
-        label="Genre"
-        mode="flat"
-        style={{ 
-          margin: 10,
-          width: 300,
+
+
+      <SelectDropdown
+        data={genres}
+        // defaultValueByIndex={1}
+        // defaultValue={'Egypt'}
+        onSelect={(selectedItem, index) => {
+          setGenre(selectedItem[0])
         }}
-        onChangeText={text => setGenre(text)}
+        defaultButtonText={'Select Genre'}
+        buttonTextAfterSelection={(selectedItem, index) => {
+          return selectedItem;
+        }}
+        rowTextForSelection={(item, index) => {
+          return item;
+        }}
+        buttonStyle={styles.dropdown1BtnStyle}
+        buttonTextStyle={styles.dropdown1BtnTxtStyle}
+        renderDropdownIcon={isOpened => {
+          return <FontAwesome name={isOpened ? 'chevron-up' : 'chevron-down'} color={'#444'} size={18} />;
+        }}
+        dropdownIconPosition={'right'}
+        dropdownStyle={styles.dropdown1DropdownStyle}
+        rowStyle={styles.dropdown1RowStyle}
+        rowTextStyle={styles.dropdown1RowTxtStyle}
+        selectedRowStyle={styles.dropdown1SelectedRowStyle}
+        search
+        searchInputStyle={styles.dropdown1searchInputStyleStyle}
+        searchPlaceHolder={'Search here'}
+        searchPlaceHolderColor={'darkgrey'}
+        renderSearchInputLeftIcon={() => {
+          return <FontAwesome name={'search'} color={'#444'} size={18} />;
+        }}
       />
 
       <TextInput
@@ -118,7 +174,7 @@ const UploadSong = ({navigation, route}) => {
         label="Description"
         mode="flat"
         style={{ 
-          margin: 10,
+          margin: 5,
           width: 300,
         }}
         onChangeText={text => setDescription(text)}

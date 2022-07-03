@@ -141,7 +141,6 @@ export const followArtist = (artistId: number, userId: number) => {
 
 export const unfollowArtist = (artistId: number, userId: number) => {
     return async (dispatch) => {
-      console.log("AA")
       try {
           const response = await axios.delete(`https://spotifiuba-usuario.herokuapp.com/users/user_artist_followings/${userId}/{artist_id}?user_favourite=${artistId}`);
             dispatch({
