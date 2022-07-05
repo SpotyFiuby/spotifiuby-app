@@ -120,6 +120,13 @@ export const followArtist = (artistId: number, userId: number) => {
   return async (dispatch) => {
     try {
 
+      const response1 = await axios.put(`https://spotifiuba-usuario.herokuapp.com/users/user_artist_followers/${artistId}`,
+          null,
+          {
+            params: {
+                user_favourite: userId,
+              },
+          });
         const response = await axios.put(`https://spotifiuba-usuario.herokuapp.com/users/user_artist_followings/${userId}`,
         null,
           {
@@ -142,6 +149,7 @@ export const followArtist = (artistId: number, userId: number) => {
 export const unfollowArtist = (artistId: number, userId: number) => {
     return async (dispatch) => {
       try {
+          await axios.delete(`https://spotifiuba-usuario.herokuapp.com/users/user_artist_follower/${artistId}/{artist_id}?user_favourite=${userId}`);
           const response = await axios.delete(`https://spotifiuba-usuario.herokuapp.com/users/user_artist_followings/${userId}/{artist_id}?user_favourite=${artistId}`);
             dispatch({
               type: UNFOLLOW_ARTIST,
