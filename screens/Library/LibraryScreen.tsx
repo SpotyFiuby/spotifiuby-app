@@ -16,10 +16,13 @@ import ProfileCategory from '../../components/ProfileCategory';
 export default function LibraryScreen({navigation}: {navigation: any}) {
 
   const [data, setData] = useState([])
+  const [playlists, setPlaylists] = useState([])
   const [followedArtistsData, setFollowedArtistsData] = useState([])
   const user = useSelector((state: any) => state.user);
   const followedAlbums = useSelector(state => state.userFollows.likedAlbums)
   const followedArtists = useSelector(state => state.userFollows.followedArtists)
+  const userPlaylists = useSelector(state => state.userPlaylists.playlists)
+  const playlistUpdate = useSelector(state => state.userPlaylists.changes)
   
   const getFollowedArtists = async () => {
     // getting albums 
@@ -43,6 +46,15 @@ export default function LibraryScreen({navigation}: {navigation: any}) {
     }
   }
 
+  const getPlaylists = async () => {
+    // getting albums 
+    try {
+      const response = await axios.get(`https://spotifiuba-contenido.herokuapp.com/playlists/`);
+      setPlaylists(response.data)
+    } catch(error) {
+      setPlaylists([])
+    }
+  }
 
   useEffect(() => {
     getFollowedArtists()
@@ -51,6 +63,10 @@ export default function LibraryScreen({navigation}: {navigation: any}) {
   useEffect(() => {
     getAlbums()
   },[followedAlbums])
+
+  useEffect(() => {
+    getPlaylists()
+  }, [userPlaylists, playlistUpdate])
 
   return (
     
@@ -78,7 +94,7 @@ export default function LibraryScreen({navigation}: {navigation: any}) {
       
       <PlaylistCategory
         title={"Your Playlists"}
-        albums={data}
+        albums={playlists}
       />
 
       

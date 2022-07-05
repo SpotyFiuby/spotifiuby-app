@@ -11,6 +11,7 @@ import { followSong, unfollowSong } from "../../store/actions/userFollows.action
 import { number } from "yup";
 import Navigation from "../../navigation";
 import { useNavigation } from "@react-navigation/native";
+import { removeSongFromPlaylist } from "../../store/actions/userPlaylists.action";
 
 export type SongListItemProps = {
     song: Song,
@@ -63,9 +64,8 @@ const SongListItem = (props: SongListItemProps) => {
                         playlist ?
                         (
                             <TouchableOpacity onPress={() => {
-                                console.log("DELETE")
-                                console.log(song)
-                                console.log(playlist)
+                                dispatch(removeSongFromPlaylist(song.id, playlist.id))
+                                navigation.goBack()
                             }}  style={{marginLeft: 300, marginTop: 20, position: 'absolute'}} >
                                 <AntDesign name='minus' size={30} color={"white"}/>
                             </TouchableOpacity>

@@ -5,10 +5,11 @@ import React from 'react';
 import { MaterialCommunityIcons } from '@expo/vector-icons'; 
 import albums from '../../../data/albums';
 import axios from 'axios';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import GoBackButton from '../../../components/Buttons/GoBackButton';
+import { addSongToPlaylist } from '../../../store/actions/userPlaylists.action';
 
 const AddToPlaylist = ({navigation, route}: {navigation: any, route: any}) => {
 
@@ -17,13 +18,13 @@ const AddToPlaylist = ({navigation, route}: {navigation: any, route: any}) => {
 
   const [data, setData] = useState([])
   const [refreshing, setRefreshing] = useState(false);
+  const dispatch = useDispatch()
 
   const getUserPlaylists = async (artistId: number) => {
     // getting albums from artist
     let response: any;
     try {
-      console.log(`getting artist albums from backend artistId: ${artistId}`);
-      response = await axios.get(`https://spotifiuba-contenido.herokuapp.com/albums/artist_id/${artistId}`);
+      response = await axios.get(`https://spotifiuba-contenido.herokuapp.com/playlists/`);
       response = response;
     } catch(error) {
       response = (error as any).response;
@@ -72,8 +73,8 @@ const AddToPlaylist = ({navigation, route}: {navigation: any, route: any}) => {
           data={data}
           renderItem={({item}) => (
           <TouchableOpacity onPress={() => {
-              console.log(song)
-              console.log(item.title)
+              dispatch(addSongToPlaylist(song.id, item.id))
+              navigation.goBack()
           }}>
             <View style={styles.albumContainer}>
               <Image source={{uri: "https://static.vecteezy.com/system/resources/previews/002/990/653/non_2x/neon-line-cd-or-dvd-disk-icon-isolated-on-brick-wall-background-vector.jpg"}}  style={styles.image} />

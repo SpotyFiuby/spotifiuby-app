@@ -13,12 +13,13 @@ import { white } from "react-native-paper/lib/typescript/styles/colors";
 import { FontAwesome } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { MaterialCommunityIcons } from '@expo/vector-icons'; 
+import { deletePlaylist } from "../../store/actions/userPlaylists.action";
 
 const PlaylistScreen = () => {
     //route.params.album.songs
     const route = useRoute();
     const navigation = useNavigation();
-
+    const dispatch = useDispatch();
     const data = route.params.playlist.songs;
 
     return (
@@ -27,15 +28,20 @@ const PlaylistScreen = () => {
                             <View style={{marginTop: 10, marginLeft: 10, flexDirection: "row", alignItems: "center"}} >
                                 <FontAwesome name="angle-left" size={40} color="blue" />
                                 <Text style={{color: "blue", fontSize: 25, marginLeft: 10}}> Back</Text>
-                                <TouchableOpacity onPress={() => navigation.navigate('EditPlaylist', {playlist: route.params.playlist})}  style={{marginLeft: 270, position: 'relative'}} >
+                                <TouchableOpacity onPress={() => navigation.navigate('EditPlaylist', {playlist: route.params.playlist})}  style={{marginLeft: 210, marginRight: 20, position: 'relative'}} >
                                     <MaterialCommunityIcons name="pencil-outline" size={35} color="white" />
+                                </TouchableOpacity>
+                                <TouchableOpacity onPress={() => {
+                                    dispatch(deletePlaylist(route.params.playlist.id))
+                                    navigation.goBack()
+                                }}  style={{position: 'relative'}} >
+                                    <MaterialCommunityIcons name="delete" size={35} color="red" />
                                 </TouchableOpacity>
                             </View>
                             
             </TouchableOpacity>
             {
-                (data.length > 0) ? 
-                (
+                
                     <FlatList
                         data={data}
                         renderItem={({item, index}) => <SongListItem song={item} index={index} albumSongs={data} playlist={route.params.playlist}/>}
@@ -54,7 +60,6 @@ const PlaylistScreen = () => {
                             
                         }
                     />
-                ) : <></>
             }
             
         </SafeAreaView>

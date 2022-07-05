@@ -11,6 +11,7 @@ import uuid from 'react-native-uuid';
 import axios from 'axios';
 import { checkForCameraRollPermission, uploadImageAsync } from '../../../components/UploadImage/UploadImage';
 import imagePickerStyles from '../../../components/UploadImage/'
+import { updatePlaylist } from '../../../store/actions/userPlaylists.action';
 
 
 const EditPlaylist = ({navigation, route}: {navigation: any, route: any}) => {
@@ -19,33 +20,17 @@ const EditPlaylist = ({navigation, route}: {navigation: any, route: any}) => {
   const [description, setDescription] = useState("");
   const user = useSelector((state: any) => state.user);
   const {playlist} = route.params;
+  const dispatch = useDispatch()
 
   
    
   const handleSubmit = async (userId: string) => {
 
-    /*let body = {
-      title: (title.length <= 0) ? album.title : title,
-      description: (description.length <= 0) ? album.description : description,
-      genre: (genre.length <= 0) ? album.genre : genre,
-      artistId: userId,
-      cover: (image .length <= 0) ? album.cover : image,
-      premium: album.premium,
-    };
+    const newTitle = (title.length <= 0) ? playlist.title : title
+    const newDescription = (description.length <= 0) ? playlist.description : description
 
-    console.log(body)
-    try {
-      const response = await axios.put(`https://spotifiuba-contenido.herokuapp.com/albums/${album.id}`,
-      body,
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            'accept': 'application/json'
-            },
-        });
-    } catch(error) {
-      console.error(error);
-    }*/
+    dispatch(updatePlaylist(playlist.id,newTitle ,newDescription))
+    
   }
 
   return (
@@ -106,7 +91,7 @@ const EditPlaylist = ({navigation, route}: {navigation: any, route: any}) => {
 
         <Pressable  disabled={(title.length <= 0) && (description.length <= 0) } onPress={async () => {
               await handleSubmit(user.userId);
-              navigation.goBack();
+              navigation.pop(2);
             }}>
           
           <View style={{ flexDirection: 'column', justifyContent: "center", alignSelf: "center"}}>

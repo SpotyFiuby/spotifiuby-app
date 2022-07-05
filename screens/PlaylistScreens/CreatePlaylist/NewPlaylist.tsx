@@ -11,6 +11,7 @@ import uuid from 'react-native-uuid';
 import axios from 'axios';
 import { checkForCameraRollPermission, uploadImageAsync } from '../../../components/UploadImage/UploadImage';
 import imagePickerStyles from '../../../components/UploadImage/'
+import { createPlaylist } from '../../../store/actions/userPlaylists.action';
 
 
 const NewPlaylist = ({navigation}: {navigation: any}) => {
@@ -21,31 +22,10 @@ const NewPlaylist = ({navigation}: {navigation: any}) => {
   const user = useSelector((state: any) => state.user);
 
   
- 
+  const dispatch = useDispatch()
    
   const handleSubmit = async (userId: string) => {
-    /*
-    let body = {
-      title: title,
-      description: description,
-      genre: genre,
-      artistId: userId,
-      cover: image,
-      premium: false,
-    };
-
-    try {
-      const response = await axios.post(`https://spotifiuba-contenido.herokuapp.com/albums/`,
-      body,
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            'accept': 'application/json'
-            },
-        });
-    } catch(error) {
-      console.error(error);
-    }*/
+    dispatch(createPlaylist(user.userId, title, description))
   }
 
   return (

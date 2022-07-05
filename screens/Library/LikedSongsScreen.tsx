@@ -44,8 +44,7 @@ const LikedSongsScreen = ({navigation}: {navigation: any}) => {
         <SafeAreaView>
             <GoBackButton/>
             {
-                (data.length > 0) ? 
-                (
+
                     <FlatList
                         data={data}
                         renderItem={({item, index}) => <SongListItem song={item} index={index} albumSongs={data} playlist={null}/>}
@@ -63,7 +62,6 @@ const LikedSongsScreen = ({navigation}: {navigation: any}) => {
                             
                         }
                     />
-                ) : <></>
             }
             
         </SafeAreaView>
