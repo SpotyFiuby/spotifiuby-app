@@ -27,11 +27,11 @@ export default (props: RootTabScreenProps) => {
   const isArtist = user.isArtist;
   return (
     <BottomTab.Navigator
-      initialRouteName="Home"
+      initialRouteName="home"
       >
         
       <BottomTab.Screen
-        name="Home"
+        name="home"
         component={HomeNavigator}
         options={{
           tabBarIcon: ({ color }) => <Entypo name="home" size={30} style={{ marginBottom: -3 }} color={color} />,
@@ -119,7 +119,7 @@ function HomeNavigator({navigation}: {navigation: any}) {
   return (
     <TabOneStack.Navigator>
       <TabOneStack.Screen
-        name="HomeScreen"
+        name="Home"
         component={HomeScreen}
         options={{ headerTitle: headerHome }}
       />
