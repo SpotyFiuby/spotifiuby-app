@@ -6,6 +6,7 @@ import thunk from "redux-thunk";
 import UserReducer from "./reducers/user.reducer";
 import UserFollowsReducer from "./reducers/userFollows.reducer";
 import UserPlaylistsReducer from "./reducers/userPlaylists.reducer";
+import NotificationsReducer from "./reducers/notifications.reducer";
 
 
 const RootReducer = combineReducers({
@@ -13,7 +14,8 @@ const RootReducer = combineReducers({
     musicPlayer: MusicPlayerReducer,
     user: UserReducer,
     userFollows: UserFollowsReducer,
-    userPlaylists: UserPlaylistsReducer
+    userPlaylists: UserPlaylistsReducer,
+    notifications: NotificationsReducer,
 })
 
 export default createStore(RootReducer, applyMiddleware(thunk));

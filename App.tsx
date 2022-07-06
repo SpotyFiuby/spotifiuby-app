@@ -1,12 +1,11 @@
 import { StatusBar } from 'expo-status-bar';
 import { firebase } from "./firebase";
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useSharedValue } from 'react-native-reanimated';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import MiniPlayer from './components/PlayerWidget/MiniPlayer';
 import Player from './components/PlayerWidget/Player';
 import Layout from './constants/Layout';
-
 import store from './store';
 import { Provider, useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
@@ -17,16 +16,85 @@ import useColorScheme from './hooks/useColorScheme';
 import Navigation from './navigation';
 import { setUserFollows } from './store/actions/userFollows.action';
 
+import * as Notifications from "expo-notifications"
+import * as Location from 'expo-location';
+import * as React from "react"
+import * as ImagePicker from 'expo-image-picker';
+import { addNotifications, setNotifications, unreadNotifications } from './store/actions/notifications.action';
+
+
+const registerForPushNotificationsAsync = async () => {
+
+  const { status: existingStatus } = await Notifications.getPermissionsAsync();
+  let finalStatus = existingStatus;
+  if (existingStatus !== 'granted') {
+    const { status } = await Notifications.requestPermissionsAsync();
+    finalStatus = status;
+  }
+  if (finalStatus !== 'granted') {
+      alert("You can grant notifications permissions inside your system's settings");
+    return;
+  
+  }
+  const token = (await Notifications.getExpoPushTokenAsync()).data;
+  
+
+  console.log(token)
+  
+  return token
+
+    
+};
+
+/*
 const AppWrapper = () => {
   return (
     <Provider store={store}>
       <App/>
     </Provider>
   )
+}*/
+
+/*
+  
+*/
+
+
+class AppWrapper extends React.Component {
+  componentDidMount() {
+   registerForPushNotificationsAsync()
+  }
+
+  render() {
+    return (
+      <Provider store={store}>
+        <App/>
+      </Provider>
+    )
+  }
 }
 
-
 const App = () => {
+
+  const [notifications, setPrevNotifications] = useState([])
+
+  const getNotifications = async () => {
+    const prev = (await Notifications.getPresentedNotificationsAsync())
+    if (prev.length > 0 ) {
+      dispatch(setNotifications(prev))
+      dispatch(unreadNotifications())
+    }
+  }
+
+
+  React.useEffect(() => {
+    getNotifications()
+    const subscription = Notifications.addNotificationReceivedListener(response => {
+      dispatch(unreadNotifications())
+      dispatch(addNotifications(response))
+    });
+  }, []);
+
   const isLoadingComplete = useCachedResources();
   const colorScheme = useColorScheme();
 
@@ -37,12 +105,14 @@ const App = () => {
 
   const sharedValue = useSharedValue(Layout.window.height)
 
+  
   const userHandler = user => {
     if (user)
       dispatch(setUser(user))
+      
   }
 
-
+  
   useEffect(
       () => firebase.auth().onAuthStateChanged(user => userHandler(user)),
       []
