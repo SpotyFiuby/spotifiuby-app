@@ -1,13 +1,6 @@
-import react, { useEffect, useState } from 'react';
-import { View, Text, Alert, SafeAreaView } from 'react-native';
+import { View, Text, SafeAreaView } from 'react-native';
 import styles from './styles';
-import SignUpForm from '../../components/LoginScreen/SignUpForm';
-import axios from 'axios';
-import { DeviceEventEmitter } from "react-native"
-import { firebase } from '../../firebase';
 import { useDispatch, useSelector } from 'react-redux';
-import { setToken, setUserId } from '../../store/actions/user.action';
-import { setProfile } from '../../components/Profile/Profile';
 import React from 'react';
 import { FlatList } from 'react-native-gesture-handler';
 import GoBackButton from '../../components/Buttons/GoBackButton';
