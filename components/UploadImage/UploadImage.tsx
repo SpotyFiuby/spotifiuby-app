@@ -5,7 +5,7 @@ import * as ImagePicker from 'expo-image-picker';
 import styles from './styles';
 import { storage } from '../../firebase';
 import uuid from 'react-native-uuid';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { setProfileImage } from '../../store/actions/user.action';
 
 const UploadImage = ({profileImage, userId}: {profileImage: string, userId: string}) => {

@@ -23,8 +23,8 @@ import NewPlaylist from '../screens/PlaylistScreens/CreatePlaylist';
 import PlaylistScreen from '../screens/PlaylistScreens/PlaylistScreen';
 import EditPlaylist from '../screens/PlaylistScreens/EditPlaylist';
 import AddToPlaylist from '../screens/PlaylistScreens/AddToPlaylist';
-
 import NotificationScreen from '../screens/NotificationScreen/NotificationScreen';
+import ChatScreen from '../screens/ChatScreen';
 
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -54,6 +54,7 @@ export const SignedInStack = () => (
         <Stack.Screen name="EditPlaylist" component={EditPlaylist} />
         <Stack.Screen name="AddToPlaylist" component={AddToPlaylist} />
         <Stack.Screen name="NotificationScreen" component={NotificationScreen} />
+        <Stack.Screen name="ChatScreen" component={ChatScreen} />
       </Stack.Navigator>
   )
   
