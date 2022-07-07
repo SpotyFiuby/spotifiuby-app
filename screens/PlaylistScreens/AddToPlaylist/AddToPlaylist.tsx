@@ -24,7 +24,7 @@ const AddToPlaylist = ({navigation, route}: {navigation: any, route: any}) => {
     // getting albums from artist
     let response: any;
     try {
-      response = await axios.get(`https://spotifiuba-contenido.herokuapp.com/playlists/`);
+      response = await axios.get(`https://spotifiuba-contenido.herokuapp.com/playlists/user/${user.userId}`);
       response = response;
     } catch(error) {
       response = (error as any).response;

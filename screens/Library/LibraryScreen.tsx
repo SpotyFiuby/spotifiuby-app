@@ -49,7 +49,7 @@ export default function LibraryScreen({navigation}: {navigation: any}) {
   const getPlaylists = async () => {
     // getting albums 
     try {
-      const response = await axios.get(`https://spotifiuba-contenido.herokuapp.com/playlists/`);
+      const response = await axios.get(`https://spotifiuba-contenido.herokuapp.com/playlists/user/${user.userId}`);
       setPlaylists(response.data)
     } catch(error) {
       setPlaylists([])
