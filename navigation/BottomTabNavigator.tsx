@@ -102,7 +102,7 @@ function HomeNavigator({navigation}: {navigation: any}) {
         width: '100%',
       }}>
         <View style={{
-          marginRight: 100,
+          marginRight: 80,
         }}>
           <Text style={{ fontSize: 18, color: 'white' }}>Home</Text>
         </View>
