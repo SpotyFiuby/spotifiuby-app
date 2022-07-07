@@ -16,6 +16,7 @@ import NewAlbum from '../screens/ArtistScreen/NewAlbum';
 import SearchScreen from '../screens/SearchScreen';
 import Premium from '../screens/Premium';
 import ProfileViewerScreen from '../screens/ProfileViewerScreen';
+import ChatScreen from '../screens/ChatScreen';
 
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -38,6 +39,7 @@ export const SignedInStack = () => (
         <Stack.Screen name="NewAlbum" component={NewAlbum} />
         <Stack.Screen name="Premium" component={Premium} />
         <Stack.Screen name="ProfileViewerScreen" component={ProfileViewerScreen} />
+        <Stack.Screen name="ChatScreen" component={ChatScreen} />
       </Stack.Navigator>
   )
   
