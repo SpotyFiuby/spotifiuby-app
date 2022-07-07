@@ -1,13 +1,16 @@
+import { Entypo } from "@expo/vector-icons";
 import axios from "axios";
 import React, { useEffect } from "react";
-import { View, Text, Image } from "react-native";
+import { View, Text, Image, Pressable } from "react-native";
 import { Caption, Title } from "react-native-paper";
+import { useSelector } from "react-redux";
 import styles from "./styles";
 
 
 export const getProfile = async (userId: string) => {
   const res = await axios.get(`https://spotifiuba-usuario.herokuapp.com/users/${userId}`);
   const user = res.data;
+  // console.log(user);
   // get user data
   const user_ = {
     firstName: user.firstName? user.firstName : user.email,
@@ -21,7 +24,7 @@ export const getProfile = async (userId: string) => {
     isPremium: user.isPremium,
     isArtist: user.isArtist,
     token: user.token,
-    userId: user.userId,
+    userId: user.id,
   };
   
   return user_;
@@ -30,6 +33,7 @@ export const getProfile = async (userId: string) => {
 
 const ProfileViewer = ({navigation, userId}: {navigation: any, userId: string}) => {
     const [viewUser, setViewUser] = React.useState({});
+    const user_ = useSelector((state: any) => state.user);
 
     useEffect( () => {
       getProfile(userId).then(user => {
@@ -41,7 +45,7 @@ const ProfileViewer = ({navigation, userId}: {navigation: any, userId: string}) 
       return null;
     }
 
-    const { firstName, lastName, profileImage, username, location, phone, email, biography, isPremium, isArtist } = viewUser as any;
+    const { firstName, lastName, profileImage, username, location, phone, email, biography, isPremium, isArtist, userId: userViewId } = viewUser as any;
     return (
         <>
           <View style={styles.userInfoSection}>
@@ -57,13 +61,23 @@ const ProfileViewer = ({navigation, userId}: {navigation: any, userId: string}) 
                 }
               </View>
               <View style={{marginLeft: 30}}>
-                <Title style={[styles.title, {
-                  marginTop: 15,
-                  marginBottom:5,
-                  color: 'white'
-                }]}>
-                  {`${firstName} ${lastName}`}
-                </Title>
+                <View style={{ flexDirection: "row"}}>
+                  <Title style={[styles.title, {
+                    marginTop: 15,
+                    marginBottom:5,
+                    color: 'white'
+                  }]}>
+                    {`${firstName} ${lastName}`}
+                  </Title>
+                  <View style={{ marginLeft: 10}}>
+                    <Pressable onPress={() => {
+                      console.debug(`clicked chatscreen for user: ${user_.userId} to chat to user: ${userViewId}`);
+                      navigation.navigate('ChatScreen', { to: userViewId, from: user_.userId, toName: username });
+                    }}>
+                      <Entypo name="chat" size={28} color="white" />
+                    </Pressable>
+                  </View>
+                </View>
                 <Caption style={[styles.caption, {color: 'white'}]}>
                   {username}
                 </Caption>
