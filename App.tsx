@@ -21,9 +21,26 @@ import * as Location from 'expo-location';
 import * as React from "react"
 import * as ImagePicker from 'expo-image-picker';
 import { addNotifications, setNotifications, unreadNotifications } from './store/actions/notifications.action';
+import axios from 'axios';
 
 
-const registerForPushNotificationsAsync = async () => {
+export const setNotificationsToken = async (userId: number, token: string) => {
+  try {
+      const response = await axios.put(`https://spotifiuba-usuario.herokuapp.com/users/user_notification/${userId}`,
+      null,
+        {
+          params: {
+            user_token_notification: token,
+            },
+        });
+    } catch(error) {
+      console.error(error);
+    }
+      
+}
+
+
+const registerForPushNotificationsAsync = async (userId: number) => {
 
   const { status: existingStatus } = await Notifications.getPermissionsAsync();
   let finalStatus = existingStatus;
@@ -38,33 +55,13 @@ const registerForPushNotificationsAsync = async () => {
   }
   const token = (await Notifications.getExpoPushTokenAsync()).data;
   
-
-  console.log(token)
-  
+  setNotificationsToken(userId, token)
   return token
-
-    
 };
-
-/*
-const AppWrapper = () => {
-  return (
-    <Provider store={store}>
-      <App/>
-    </Provider>
-  )
-}*/
-
-/*
-  
-*/
 
 
 class AppWrapper extends React.Component {
-  componentDidMount() {
-   registerForPushNotificationsAsync()
-  }
-
+   
   render() {
     return (
       <Provider store={store}>
@@ -77,6 +74,8 @@ class AppWrapper extends React.Component {
 const App = () => {
 
   const [notifications, setPrevNotifications] = useState([])
+
+  //const [token, setToken] = useState("")
 
   const getNotifications = async () => {
     const prev = (await Notifications.getPresentedNotificationsAsync())
@@ -121,6 +120,7 @@ const App = () => {
   useEffect(() => {
     if (currentUser.userId){
       dispatch(setUserFollows(currentUser.userId))
+      registerForPushNotificationsAsync(currentUser.userId)
     }
       
   }, [currentUser.userId]);
