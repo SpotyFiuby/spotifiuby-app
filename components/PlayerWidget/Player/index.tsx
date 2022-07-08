@@ -86,7 +86,7 @@ const Player = ({sharedValue} ) => {
             <TouchableOpacity onPress={handleClosePlayerScreen}>
               <AntDesign name="down" size={24} color="white" />
             </TouchableOpacity>
-            <Text style={styles.title}>{songs[currentAudioIndex].name}</Text>
+            <Text style={styles.title}>{songs? songs[currentAudioIndex].name : ""}</Text>
             <Entypo name="dots-three-horizontal" size={24} color="white" />
           </View>
           <View style={styles.imageContainer}>
@@ -94,10 +94,9 @@ const Player = ({sharedValue} ) => {
           </View>
           <View style={styles.metadata}>
             <View>
-              <Text style={styles.song}>{songs[currentAudioIndex].name}</Text>
-              <Text style={styles.artist}>{songs[currentAudioIndex].authors}</Text>
+              <Text style={styles.song}>{songs? songs[currentAudioIndex].name : ""}</Text>
+              <Text style={styles.artist}>{songs? songs[currentAudioIndex].authors : ""}</Text>
             </View>
-            <AntDesign name='hearto' size={24} color={"white"}/>
           </View>
           <Slider
               style ={styles.slider}
@@ -113,7 +112,7 @@ const Player = ({sharedValue} ) => {
               <Text style={styles.progressLabelText}>{millisToMinutesAndSeconds(playbackDuration - playbackPosition)}</Text>
           </View>
           <View style={styles.controls}>
-            <Entypo name="shuffle" size={24} color="white" />
+            
             
             <TouchableOpacity onPress={() => handleNextorPrev(false)}>
               <AntDesign name="stepbackward" color="white" size={32} />
@@ -127,7 +126,7 @@ const Player = ({sharedValue} ) => {
               <AntDesign name="stepforward" color="white" size={32}/>
             </TouchableOpacity>
             
-            <Feather name="repeat" size={24} color="white" />
+            
           </View>
 
         </View>

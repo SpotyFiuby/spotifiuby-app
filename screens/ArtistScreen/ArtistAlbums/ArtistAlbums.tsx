@@ -1,4 +1,4 @@
-import { FlatList, TouchableOpacity, Image } from 'react-native';
+import { FlatList, TouchableOpacity, Image, Alert } from 'react-native';
 import { Text, View } from '../../../components/Themed';
 import styles from './styles';
 import React from 'react';
@@ -40,6 +40,34 @@ const ArtistAlbums = ({navigation}: {navigation: any}) => {
     }
   }
 
+  const deleteAlbum = (albumId: number) => {
+    Alert.alert(
+      "Are your sure?",
+      "Are you sure you want to delete this Album?",
+      [
+        // The "Yes" button
+        {
+          text: "Yes",
+          onPress: async () => {
+            try {
+              console.log(albumId)
+              const response = await axios.delete(`https://spotifiuba-contenido.herokuapp.com/albums/{albums_id}?album_id=${albumId}`)
+            }
+            catch(error) {
+              console.error(error)
+            }
+            
+          },
+        },
+        // The "No" button
+        // Does nothing but dismiss the dialog when tapped
+        {
+          text: "No",
+        },
+      ]
+    );
+  }
+
   const onRefresh = async () => {
     setRefreshing(true)
     await getArtistAlbums(user.userId)
@@ -77,10 +105,16 @@ const ArtistAlbums = ({navigation}: {navigation: any}) => {
         renderItem={({item}) => (
         <TouchableOpacity onPress={() => { navigation.navigate('ArtistAlbumSongs', {albumId: item.id});}}>
           <View style={styles.albumContainer}>
-            <Image source={{uri: "http://cdn.shopify.com/s/files/1/0481/9596/0985/products/Firingvinylrecordneonsign.jpg?v=1620971781"}}  style={styles.image} />
+            <Image source={{uri: item.cover}}  style={styles.image} />
             <View style={styles.rightContainer}>
-              <Text style={styles.songTitle}>{item.description}</Text>
+              <Text style={styles.songTitle}>{item.title}</Text>
             </View>
+            <TouchableOpacity onPress={() => navigation.navigate('EditAlbum', {album: item})}  style={{marginLeft: 300, position: 'absolute'}} >
+              <MaterialCommunityIcons name="pencil-outline" size={35} color="white" />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => deleteAlbum(item.id)}  style={{marginLeft: 340, position: 'absolute'}} >
+              <MaterialCommunityIcons name="delete" size={35} color="red" />
+            </TouchableOpacity>
           </View>
         </TouchableOpacity>
         )}

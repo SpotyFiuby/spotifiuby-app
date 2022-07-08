@@ -58,7 +58,6 @@ const MiniPlayer = ({sharedValue}) => {
                             <Text style={styles.artist}>{songs[currentAudioIndex].authors}</Text>
                         </View>
                         <View style={styles.iconsContainer}>
-                            <AntDesign name='hearto' size={30} color={"white"}/>
                             <TouchableOpacity onPress={handleOnPressSong}>
                               <Ionicons name={isPlaying ? 'pause' : 'play'} color="white" size={35} />
                             </TouchableOpacity>
@@ -67,7 +66,7 @@ const MiniPlayer = ({sharedValue}) => {
                 </View>
             </TouchableWithoutFeedback>
             
-                    
+            
             
         </View>
         

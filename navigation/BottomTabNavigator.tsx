@@ -6,11 +6,12 @@ import HomeScreen from '../screens/HomeScreen';
 import TabTwoScreen from '../screens/TabTwoScreen';
 import { Pressable, Text, View } from 'react-native';
 import * as React from 'react';
-import { FontAwesome, FontAwesome5, Entypo, EvilIcons } from '@expo/vector-icons';
+import { FontAwesome, FontAwesome5, Entypo, EvilIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 import AlbumScreen from '../screens/AlbumScreen';
 import { Octicons } from '@expo/vector-icons'; 
 import ArtistAlbums from '../screens/ArtistScreen/ArtistAlbums';
 import { useSelector } from 'react-redux';
+import LibraryScreen from '../screens/Library/LibraryScreen';
 import SearchScreen from '../screens/SearchScreen';
 import Premium from '../screens/Premium';
 
@@ -51,7 +52,7 @@ export default (props: RootTabScreenProps) => {
 
       <BottomTab.Screen
         name= "Library"
-        component={TabTwoScreen}
+        component={LibraryScreen}
         options={{
           title: 'Tu Biblioteca',
           tabBarIcon: ({ color }) => <FontAwesome name="bars" size={30} style={
@@ -89,6 +90,8 @@ export default (props: RootTabScreenProps) => {
 const TabOneStack = createStackNavigator<TabOneParamList>();
 
 function HomeNavigator({navigation}: {navigation: any}) {
+  const notifications_status = useSelector((state: any) => state.notifications.unreadNotifications);
+
   const headerHome = () => {
     return (
       <View style={{
@@ -99,12 +102,12 @@ function HomeNavigator({navigation}: {navigation: any}) {
         width: '100%',
       }}>
         <View style={{
-          marginRight: 120,
+          marginRight: 80,
         }}>
           <Text style={{ fontSize: 18, color: 'white' }}>Home</Text>
         </View>
         <View style={{
-          marginRight: 10,
+          marginRight: 20,
         }}>
         <Pressable onPress={() => {
           console.debug('Profile gear pressed');
@@ -112,6 +115,22 @@ function HomeNavigator({navigation}: {navigation: any}) {
         } }>
           <Octicons name="gear" size={30} color="white" />
         </Pressable>
+        
+        </View>
+        <View style={{
+        }}>
+        <Pressable onPress={() => {
+          navigation.navigate('NotificationScreen');
+        } }>
+          {
+            notifications_status ?
+            <MaterialCommunityIcons name="bell-alert" size={30} color="red" /> :
+            <MaterialCommunityIcons name="bell" size={30} color="white" />
+              
+          }
+          
+        </Pressable>
+        
         </View>
       </View>
     );

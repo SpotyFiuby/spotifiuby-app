@@ -2,9 +2,13 @@ import { Entypo } from "@expo/vector-icons";
 import axios from "axios";
 import React, { useEffect } from "react";
 import { View, Text, Image, Pressable } from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
 import { Caption, Title } from "react-native-paper";
-import { useSelector } from "react-redux";
 import styles from "./styles";
+import { SimpleLineIcons } from '@expo/vector-icons';
+import { useDispatch, useSelector } from "react-redux";
+import { followArtist, unfollowArtist } from "../../store/actions/userFollows.action";
+
 
 
 export const getProfile = async (userId: string) => {
@@ -32,14 +36,30 @@ export const getProfile = async (userId: string) => {
 
 
 const ProfileViewer = ({navigation, userId}: {navigation: any, userId: string}) => {
+    const dispatch = useDispatch()
     const [viewUser, setViewUser] = React.useState({});
-    const user_ = useSelector((state: any) => state.user);
+    const followedArtists = useSelector(state =>  state.userFollows.followedArtists)
+    const currentUser = useSelector((state: any) => state.user);
+
+    const _followArtist= async (artistId: number, userId: number) => {
+      dispatch(followArtist(artistId,userId)) 
+    }
+
+    const _unfollowArtist = async (artistId: number, userId: number) => {
+        dispatch(unfollowArtist(artistId,userId)) 
+    }
 
     useEffect( () => {
       getProfile(userId).then(user => {
         setViewUser(user);
       });
     }, []);
+
+    useEffect( () => {
+      console.log(followedArtists)
+    }, [followedArtists]);
+
+
 
     if (Object.keys(viewUser).length === 0) {
       return null;
@@ -71,8 +91,8 @@ const ProfileViewer = ({navigation, userId}: {navigation: any, userId: string}) 
                   </Title>
                   <View style={{ marginLeft: 10}}>
                     <Pressable onPress={() => {
-                      console.debug(`clicked chatscreen for user: ${user_.userId} to chat to user: ${userViewId}`);
-                      navigation.navigate('ChatScreen', { to: userViewId, from: user_.userId, toName: username });
+                      console.debug(`clicked chatscreen for user: ${currentUser.userId} to chat to user: ${userViewId}`);
+                      navigation.navigate('ChatScreen', { to: userViewId, from: currentUser.userId, toName: username });
                     }}>
                       <Entypo name="chat" size={28} color="white" />
                     </Pressable>
@@ -86,7 +106,29 @@ const ProfileViewer = ({navigation, userId}: {navigation: any, userId: string}) 
                   Premium User
                 </Caption>: null
                 }
+                { isArtist ?
+                  (
+                    followedArtists.includes(userId) ?
+                    (
+                      <TouchableOpacity style={{flexDirection: 'row', alignSelf:"left", borderColor: "red", borderWidth: 1, borderRadius: 10, marginTop: 10, padding: 5}}
+                        onPress={() =>  _unfollowArtist(userId, currentUser.userId)}
+                      >
+                        <Text style={{color: "red", marginRight: 10, fontSize: 20, marginLeft: 5}}>Unfollow</Text>
+                        <SimpleLineIcons name="user-unfollow" size={20} color="red" style={{marginRight: 5}}/>
+                      </TouchableOpacity> 
+                    ) : 
+                    (
+                      <TouchableOpacity style={{flexDirection: 'row', alignSelf:"left", borderColor: "white", borderWidth: 1, borderRadius: 10, marginTop: 10, padding: 5}}
+                        onPress={() => _followArtist(userId, currentUser.userId)}
+                      >
+                        <Text style={{color: "white", marginRight: 10, fontSize: 20, marginLeft: 5}}>Follow</Text>
+                        <SimpleLineIcons name="user-follow" size={20} color="white" style={{marginRight: 5}}/>
+                      </TouchableOpacity> 
+                    )
+                  ) : null
+                } 
               </View>
+
             </View>
           </View>
           <View>

@@ -53,7 +53,7 @@ const UploadImage = ({profileImage, userId}: {profileImage: string, userId: stri
   );
 };
 
-const checkForCameraRollPermission = async () => {
+export const checkForCameraRollPermission = async () => {
   const { status } = await ImagePicker.getMediaLibraryPermissionsAsync();
   if (status !== 'granted') {
     alert("Please grant camera roll permissions inside your system's settings");
@@ -62,7 +62,7 @@ const checkForCameraRollPermission = async () => {
   }
 };
 
-const uploadImageAsync = async (uri: string, filename: string) => {
+export const uploadImageAsync = async (uri: string, filename: string) => {
   // Why are we using XMLHttpRequest? See:
   // https://github.com/expo/expo/issues/2402#issuecomment-443726662
   const blob: any = await new Promise((resolve, reject) => {

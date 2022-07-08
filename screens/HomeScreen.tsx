@@ -7,17 +7,18 @@ import AlbumCategory from '../components/AlbumCategory';
 import albumCategories from '../data/albumCategories';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 
 export default function HomeScreen({ navigation }: RootTabScreenProps<'Home'>) {
 
   const [data, setData] = useState([[]])
   const [refreshing, setRefreshing] = useState(false);
-
+  const [recomendedAlbums, setRecomendedAlbums] = useState([[]])
+  const user = useSelector((state: any) => state.user);
   
   const getAlbums = async () => {
     // getting albums 
     try {
-      console.log(`getting artist albums`);
       const response = await axios.get(`https://spotifiuba-contenido.herokuapp.com/albums/`);
       setRefreshing(false)
       setData([response.data])
@@ -27,13 +28,27 @@ export default function HomeScreen({ navigation }: RootTabScreenProps<'Home'>) {
     }
   }
 
+  const getRecomendedAlbums = async () => {
+    // getting albums 
+    try {
+      const response = await axios.get(`https://spotifiuba-contenido.herokuapp.com/albums/recommended/?user_id=${user.userId}`);
+      setRefreshing(false)
+      setRecomendedAlbums([response.data])
+    } catch(error) {
+      console.error(error);
+      setRecomendedAlbums([[]])
+    }
+  }
+
   const onRefresh = async () => {
     setRefreshing(true)
     await getAlbums()
+    await getRecomendedAlbums()
   }
 
   useEffect(() => {
     getAlbums()
+    getRecomendedAlbums()
   },[])
 
   return (
@@ -44,10 +59,17 @@ export default function HomeScreen({ navigation }: RootTabScreenProps<'Home'>) {
         data={data}
         keyExtractor={(item, index)=> index}
         renderItem={({item}) => (
-          <AlbumCategory 
-            title={"Album"}
-            albums={item}
-          />
+          <View>
+            <AlbumCategory 
+              title={"Album"}
+              albums={data[0]}
+            />
+            <AlbumCategory 
+              title={"Recomended Albums"}
+              albums={recomendedAlbums[0]}
+            />
+          </View>
+          
         )}
       />
     </View>
