@@ -19,10 +19,14 @@
       "**/*"
     ],
     "ios": {
+      "bundleIdentifier": "com.spotifiuby.spotifiuby",
+      "buildNumber": "1.0.0",
       "supportsTablet": true,
       "usesIcloudStorage": true
     },
     "android": {
+      "package": "com.spotifiuby.spotifiuby",
+      "versionCode": 1,
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#000000"
