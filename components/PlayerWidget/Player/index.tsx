@@ -1,5 +1,5 @@
 import Animated, {useAnimatedStyle, withTiming} from "react-native-reanimated";
-import { AntDesign, Entypo, Feather } from '@expo/vector-icons'
+import { AntDesign, Entypo } from '@expo/vector-icons'
 import {
   Image,
   StyleSheet,
@@ -7,14 +7,13 @@ import {
   TouchableOpacity,
   View
 } from "react-native";
-import React, { useEffect, useRef, useState } from "react";
+import React, {  } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { Audio } from "expo-av";
 import Layout from "../../../constants/Layout";
 import { LinearGradient } from "expo-linear-gradient";
 import Slider from '@react-native-community/slider';
-import { playSound, playNextorPrev, playAndPauseSound } from "../../../store/actions/musicPlayer.action";
+import { playNextorPrev, playAndPauseSound } from "../../../store/actions/musicPlayer.action";
 import styles from "./styles";
 
 
@@ -29,7 +28,7 @@ const millisToMinutesAndSeconds = (millis: number) => {
 }
 
 
-const Player = ({sharedValue} ) => {
+const Player = ({sharedValue} : any) => {
   const dispatch = useDispatch()
   const sound = useSelector(state => state.musicPlayer.sound)
   const isPlaying = useSelector(state => state.musicPlayer.isPlaying)

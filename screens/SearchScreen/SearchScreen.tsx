@@ -189,7 +189,7 @@ const SearchScreen = ({ navigation }: { navigation: any }) => {
         
 
         {/* albums searched data */}
-        <ScrollView>
+        <ScrollView style={{marginBottom: 100}}>
             {
               searchedText !== ''?
               <View style={styles.albumCtn}>

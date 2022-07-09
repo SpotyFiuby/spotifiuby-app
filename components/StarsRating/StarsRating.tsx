@@ -1,6 +1,5 @@
 import React from "react";
 import { View } from "react-native";
-import styles from "./styles";
 import StarRating from 'react-native-star-rating-widget';
 
 

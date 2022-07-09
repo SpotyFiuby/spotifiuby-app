@@ -2,7 +2,7 @@ import { Octicons } from "@expo/vector-icons";
 import axios from "axios";
 import React from "react";
 import { Pressable, View, Text, Image } from "react-native";
-import { Avatar, Caption, Title } from "react-native-paper";
+import { Caption, Title } from "react-native-paper";
 import { useDispatch, useSelector } from "react-redux";
 import { setUserFields } from "../../store/actions/user.action";
 import styles from "./styles";

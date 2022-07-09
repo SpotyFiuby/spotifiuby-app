@@ -6,10 +6,8 @@ import { Song } from "../../types";
 import { TouchableOpacity } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { newSound, setSongs, showPlayer } from "../../store/actions/musicPlayer.action";
-import { AntDesign, MaterialCommunityIcons } from "@expo/vector-icons";
+import { AntDesign } from "@expo/vector-icons";
 import { followSong, unfollowSong } from "../../store/actions/userFollows.action";
-import { number } from "yup";
-import Navigation from "../../navigation";
 import { useNavigation } from "@react-navigation/native";
 import { removeSongFromPlaylist } from "../../store/actions/userPlaylists.action";
 
@@ -27,11 +25,8 @@ const SongListItem = (props: SongListItemProps) => {
     const dispatch = useDispatch()
     const play = useSelector(state => state.musicPlayer.play)
     const sound = useSelector(state => state.musicPlayer.sound)
-    const songs = useSelector(state =>  state.musicPlayer.songs)
     const likedSongs = useSelector(state =>  state.userFollows.likedSongs)
     const user = useSelector((state: any) => state.user);
-
-    const [addToPlaylistPressed, setAddToPlaylistPressed] = useState(false)
 
     const handleOnPress = () => {
         if (albumSongs.length > 0) {
