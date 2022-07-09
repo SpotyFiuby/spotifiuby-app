@@ -6,7 +6,8 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import albumHeaderStyles from '../../../components/AlbumHeader/styles'
 import albumDetails from "../../../data/albumDetails";
 import axios from 'axios';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { showPlayer } from '../../../store/actions/musicPlayer.action';
 
 
 const ArtistAlbumSongs = ({navigation, route}) => {
@@ -16,6 +17,7 @@ const ArtistAlbumSongs = ({navigation, route}) => {
     const [albumData, setAlbumData] = useState({})
     const [refreshing, setRefreshing] = useState(false);
     const user = useSelector((state: any) => state.user);
+    const dispatch = useDispatch()
 
     const deleteSong = (songId: string) => {
       Alert.alert(
@@ -72,6 +74,7 @@ const ArtistAlbumSongs = ({navigation, route}) => {
     }
 
     useEffect(() => {
+      dispatch(showPlayer(false))
       getAlbumSongs(albumId)
     },[])
 
@@ -81,6 +84,7 @@ const ArtistAlbumSongs = ({navigation, route}) => {
       
       <View style={{ alignSelf: 'flex-start', marginLeft: 20 }}>
         <Button title="Back" onPress={() => {
+          dispatch(showPlayer(true))
           return navigation.goBack();
         }} />
       </View>

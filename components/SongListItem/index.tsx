@@ -32,7 +32,7 @@ const SongListItem = (props: SongListItemProps) => {
         if (albumSongs.length > 0) {
             dispatch(setSongs(albumSongs))
             dispatch(newSound(sound, play, albumSongs,index))
-            dispatch(showPlayer(true,albumSongs,index))
+            dispatch(showPlayer(true))
         }
     }
 
