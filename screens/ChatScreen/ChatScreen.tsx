@@ -68,6 +68,9 @@ export default function Chat({ navigation, route }:{ navigation: any, route: any
       text,
       user
     });
+
+    console.log(from)
+    console.log(to)
   }, []);
     
 

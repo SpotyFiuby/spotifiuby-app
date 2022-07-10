@@ -44,6 +44,7 @@ export const updateUserData = async (token: string, userId: string, userData: an
     profileImage: userData.profileImage,
   };
   // setting user data in backend
+  console.log(body)
   try {
     console.log(`setting user data to backend userId: ${userId}`);
     const userDataRes = await axios.put(`https://spotifiuba-usuario.herokuapp.com/users/${userId}`,
@@ -53,6 +54,7 @@ export const updateUserData = async (token: string, userId: string, userData: an
           Authorization: `Bearer ${token}`,
           },
       });
+    console.log(userDataRes )
     dispatch(setUserFields(userData));
   } catch(error) {
     console.error(error);

@@ -1,7 +1,6 @@
 import React from 'react';
 import { View, Image, Text, TouchableWithoutFeedback, Alert } from 'react-native';
 import styles from './styles';
-import { Album } from '../../types';
 import { useNavigation } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
 
