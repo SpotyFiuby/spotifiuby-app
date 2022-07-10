@@ -18,6 +18,7 @@ const ArtistAlbumSongs = ({navigation, route}) => {
     const [refreshing, setRefreshing] = useState(false);
     const user = useSelector((state: any) => state.user);
     const dispatch = useDispatch()
+    const songs = useSelector((state: any) => state.musicPlayer.songs)
 
     const deleteSong = (songId: string) => {
       Alert.alert(
@@ -84,7 +85,8 @@ const ArtistAlbumSongs = ({navigation, route}) => {
       
       <View style={{ alignSelf: 'flex-start', marginLeft: 20 }}>
         <Button title="Back" onPress={() => {
-          dispatch(showPlayer(true))
+          if (songs)
+            dispatch(showPlayer(true))
           return navigation.goBack();
         }} />
       </View>

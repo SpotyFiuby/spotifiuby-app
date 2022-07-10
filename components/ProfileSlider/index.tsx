@@ -11,11 +11,10 @@ const ProfileSliderComponent = (props: any) => {
     const user = useSelector(state => state.user)
 
     const onPress = () => {
-        //if (props.profile.id !== user.userId)
+        if (props.profile.id !== user.userId)
             navigation.navigate('ProfileViewerScreen', { userId: props.profile.id });
-       /* else 
-        navigation.navigate('Profile');*/
-        console.log(`clicked on profile slider to view profile ${props.profile.id}`);
+        else 
+            navigation.navigate('EditProfile');
 
     }
     const profileImage = props.profile.profileImage;

@@ -51,13 +51,14 @@ const NotificationScreen =  () => {
                         renderItem={({item}) => {
                             return (
                             <TouchableOpacity onPress={() => {
-                                navigation.navigate('ProfileViewerScreen', { userId: item.request.content.data.userAdresseeId});
+                              console.log(item.request.content.data)
+                                navigation.navigate('ProfileViewerScreen', { userId: item.request.content.data.senderId});
                               }}>
                               <View style={styles.notificationBox}>
                                 <AntDesign name="exclamationcircleo" style={styles.icon} color="red" size={24} />
                                 <View>
                                     <Text style={styles.notificationTitle}>{item.request.content.title}</Text>
-                                    <Text style={styles.description}>{item.request.content.body}</Text>
+                                    <Text style={styles.description}>{item.request.content.data.senderFirstname}</Text>
                                 </View>
                                 
                             </View>

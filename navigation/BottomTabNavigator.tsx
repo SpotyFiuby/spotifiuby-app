@@ -14,6 +14,7 @@ import { useSelector } from 'react-redux';
 import LibraryScreen from '../screens/Library/LibraryScreen';
 import SearchScreen from '../screens/SearchScreen';
 import Premium from '../screens/Premium';
+import * as Notifications from "expo-notifications"
 
 /**
  * A bottom tab navigator displays tab buttons on the bottom of the display to switch screens.
@@ -26,6 +27,9 @@ export default (props: RootTabScreenProps) => {
   const colorScheme = useColorScheme();
   const user = useSelector((state: any) => state.user);
   const isArtist = user.isArtist;
+
+
+
   return (
     <BottomTab.Navigator
       initialRouteName="home"
@@ -45,7 +49,7 @@ export default (props: RootTabScreenProps) => {
         component={SearchScreen}
         options={{
           headerShown: false,
-          title: 'Buscar',
+          title: 'Search',
           tabBarIcon: ({ color }) => <EvilIcons name="search" size={30} style={{ marginBottom: -3}} color={color} />,
         }}
       />
@@ -54,7 +58,7 @@ export default (props: RootTabScreenProps) => {
         name= "Library"
         component={LibraryScreen}
         options={{
-          title: 'Tu Biblioteca',
+          title: 'Library',
           tabBarIcon: ({ color }) => <FontAwesome name="bars" size={30} style={
             { marginBottom: -3,
               transform: [{ rotate: '90deg'}]
@@ -91,6 +95,10 @@ const TabOneStack = createStackNavigator<TabOneParamList>();
 
 function HomeNavigator({navigation}: {navigation: any}) {
   const notifications_status = useSelector((state: any) => state.notifications.unreadNotifications);
+
+  const subscription = Notifications.addNotificationResponseReceivedListener(response => {
+    navigation.navigate('NotificationScreen');
+  });
 
   const headerHome = () => {
     return (

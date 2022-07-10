@@ -24,7 +24,6 @@ const styles = StyleSheet.create({
       fontSize:18,
       color: "black",
       marginLeft:10,
-      marginRight: 5,
     },
     notificationTitle:{
         fontSize:18,

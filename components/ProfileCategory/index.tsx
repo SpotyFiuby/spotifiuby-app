@@ -10,7 +10,7 @@ const ProfileCategory = (props: any) => {
         <View style={styles.container}>
             <Text style={styles.title}>{props.title}</Text>
             {
-                props.profiles.length > 0?
+                props.profiles.length > 0 ?
                 <FlatList
                     data={props.profiles}
                     renderItem={({item}) => <ProfileSlider profile={item}/>}
