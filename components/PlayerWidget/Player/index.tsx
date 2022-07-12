@@ -104,7 +104,8 @@ const Player = ({sharedValue} : any) => {
               maximumValue={1}
               minimumTrackTintColor="#FFFFFF"
               maximumTrackTintColor="#000000"
-              onSlidingComplete={()=>{}}
+              disabled={true}
+              
             />
           <View style={styles.progressLevelDuration}>
               <Text style={styles.progressLabelText}>{millisToMinutesAndSeconds(playbackPosition)}</Text>
