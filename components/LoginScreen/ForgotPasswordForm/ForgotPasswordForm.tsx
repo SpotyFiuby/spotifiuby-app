@@ -5,6 +5,7 @@ import { Formik } from 'formik';
 import * as Yup from 'yup';
 import Validator from 'email-validator';
 import { firebase } from '../../../firebase';
+import React from 'react';
 
 
 const ForgotPasswordForm = ({ navigation, forgotPasswordData = { email: '' } }) => {

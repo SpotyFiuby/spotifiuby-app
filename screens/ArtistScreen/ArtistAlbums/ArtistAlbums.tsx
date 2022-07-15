@@ -3,7 +3,6 @@ import { Text, View } from '../../../components/Themed';
 import styles from './styles';
 import React from 'react';
 import { MaterialCommunityIcons } from '@expo/vector-icons'; 
-import albums from '../../../data/albums';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { useEffect } from 'react';

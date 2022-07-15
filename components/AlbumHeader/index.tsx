@@ -67,7 +67,7 @@ const AlbumHeader = (props: any) => {
         if (album.songs.length > 0) {
             dispatch(setSongs(album.songs))
             dispatch(newSound(sound, play, album.songs,0))
-            dispatch(showPlayer(true, album.songs, 0))
+            dispatch(showPlayer(true))
         }
     }
 

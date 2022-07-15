@@ -145,9 +145,9 @@ const _playNextOrPrev = async (sound, play, songs, currentAudioIndex, next) => {
   return {status, index}
 }
 
-export const showPlayer = (show, songs, index) => ({
+export const showPlayer = (show) => ({
   type:SHOW_PLAYER,
-  payload: {show: show, songs: songs, currentIndex: index},
+  payload: {show: show},
 })
 
 export const setSongs = (songs: any) => {

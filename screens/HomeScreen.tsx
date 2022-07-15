@@ -4,7 +4,6 @@ import { StyleSheet, FlatList, View } from 'react-native';
 import { RootTabScreenProps } from '../types';
 
 import AlbumCategory from '../components/AlbumCategory';
-import albumCategories from '../data/albumCategories';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -49,7 +48,10 @@ export default function HomeScreen({ navigation }: RootTabScreenProps<'Home'>) {
   useEffect(() => {
     getAlbums()
     getRecomendedAlbums()
+
   },[])
+
+
 
   return (
     <View style={styles.container}>

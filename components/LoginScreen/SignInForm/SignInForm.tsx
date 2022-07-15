@@ -1,4 +1,4 @@
-import react, {useState} from 'react';
+import {useState} from 'react';
 import { View, Text, TextInput} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import styles from './styles';
@@ -6,6 +6,7 @@ import CustomButton from '../../Buttons/CustomButton';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import Validator from 'email-validator';
+import React from 'react';
 const MIN_PASSWORD_LEN = 6;
 
 const SignInForm = ({navigation, onSignIn, onForgotPassword, onSignUp}:{navigation: any, onSignIn: any, onForgotPassword: any, onSignUp: any}) => {

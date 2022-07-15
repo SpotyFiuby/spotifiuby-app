@@ -54,7 +54,7 @@ const registerForPushNotificationsAsync = async (userId: number) => {
   
   }
   const token = (await Notifications.getExpoPushTokenAsync()).data;
-  
+
   setNotificationsToken(userId, token)
   return token
 };

@@ -2,7 +2,7 @@ import { AntDesign } from "@expo/vector-icons";
 import { Formik } from "formik";
 import React from "react";
 import { Pressable, View, Text, TextInput } from "react-native";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { getProfile, updateUserData } from "../Profile/Profile";
 import UploadImage from "../UploadImage";
 import styles from "./styles";

@@ -1,5 +1,6 @@
 import { FontAwesome } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+import React from "react";
 import { TouchableOpacity, View, Button } from "react-native";
 
 const CustomButton = () => {

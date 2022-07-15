@@ -1,17 +1,20 @@
 import React from 'react';
 import { View, Image, Text, TouchableWithoutFeedback } from 'react-native';
 import styles from './styles';
-import { Album } from '../../types';
 import { useNavigation } from '@react-navigation/native';
+import { useSelector } from 'react-redux';
 
 
 const ProfileSliderComponent = (props: any) => {
     
     const navigation = useNavigation();
+    const user = useSelector(state => state.user)
 
     const onPress = () => {
-        navigation.navigate('ProfileViewerScreen', { userId: props.profile.id });
-        console.log(`clicked on profile slider to view profile ${props.profile.id}`);
+        if (props.profile.id !== user.userId)
+            navigation.navigate('ProfileViewerScreen', { userId: props.profile.id });
+        else 
+            navigation.navigate('EditProfile');
 
     }
     const profileImage = props.profile.profileImage;

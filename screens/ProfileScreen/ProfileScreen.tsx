@@ -17,16 +17,6 @@ const ProfileScreen = ({navigation, userId}: {navigation: any, userId: string}) 
      
      <Profile navigation={navigation}/>
       <View style={styles.container}>
-      <FlatList
-        data={albumCategories}
-        renderItem={({item}) => (
-          <AlbumCategory 
-            title={item.title}
-            albums={item.albums}
-            keyExtractor={(item: any) => item.id}
-          />
-        )}
-      />
       </View>
       
     </SafeAreaView>

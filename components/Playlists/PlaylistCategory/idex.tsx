@@ -1,11 +1,8 @@
 import React from "react";
 import { View, Text, FlatList, TouchableOpacity } from 'react-native';
-import navigation from "../../../navigation";
-import AlbumComponent from "../../Album";
 import styles from "./styles"
 import { SimpleLineIcons } from '@expo/vector-icons'; 
 import { useNavigation } from "@react-navigation/native";
-import { white } from "react-native-paper/lib/typescript/styles/colors";
 import PlaylistComponent from "../Playlist";
 
 

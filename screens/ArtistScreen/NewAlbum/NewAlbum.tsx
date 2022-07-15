@@ -13,6 +13,7 @@ import { checkForCameraRollPermission, uploadImageAsync } from '../../../compone
 import imagePickerStyles from '../../../components/UploadImage/'
 import SelectDropdown from 'react-native-select-dropdown';
 import { ScrollView } from 'react-native-gesture-handler';
+import { showPlayer } from '../../../store/actions/musicPlayer.action';
 
 
 const NewAlbum = ({navigation}: {navigation: any}) => {
@@ -24,8 +25,10 @@ const NewAlbum = ({navigation}: {navigation: any}) => {
   const user = useSelector((state: any) => state.user);
   const [genres, setGenres] = useState({})
   const [premium, setPremium] = useState(false);
-
+  const songs = useSelector((state: any) => state.musicPlayer.songs)
   const [imageUri, setImageUri] = useState<string>(null);
+  const dispatch = useDispatch()
+  
   
   const getGenres = async () => {
     try {
@@ -59,6 +62,7 @@ const NewAlbum = ({navigation}: {navigation: any}) => {
    };
  
    useEffect(() => {
+      dispatch(showPlayer(false))
      checkForCameraRollPermission()
      getGenres()
    }, []);
@@ -93,6 +97,8 @@ const NewAlbum = ({navigation}: {navigation: any}) => {
         <SafeAreaView style={styles.safeAreaContainer}>
           <View style={{ alignSelf: 'flex-start', marginLeft: 20 }}>
             <Button title="Back" onPress={() => {
+              if (songs)
+                dispatch(showPlayer(true))
               return navigation.goBack();
             }} />
           </View>
@@ -177,7 +183,10 @@ const NewAlbum = ({navigation}: {navigation: any}) => {
 
           <View style={{ marginLeft: 250, flex: 1, flexDirection: 'row', marginTop: 30 }}>
               
-            <Pressable onPress={() => {navigation.goBack()}}>
+            <Pressable onPress={() => {
+              if (songs)
+                dispatch(showPlayer(true))
+              navigation.goBack()}}>
               <View style={{ flexDirection: 'column', justifyContent: "center", alignSelf: "center", marginEnd: 30 }}>
                 <AntDesign name="closecircleo" size={30} color="white" />
                 <Text style={{color: "white"}}>Cancel</Text>
@@ -186,6 +195,8 @@ const NewAlbum = ({navigation}: {navigation: any}) => {
 
             <Pressable  disabled={(title.length <= 0) || (genre.length <= 0)|| (description.length <= 0) || (image.length <= 0)} onPress={async () => {
                   await handleSubmit(user.userId);
+                  if (songs)
+                    dispatch(showPlayer(true))
                   navigation.goBack();
                 }}>
               

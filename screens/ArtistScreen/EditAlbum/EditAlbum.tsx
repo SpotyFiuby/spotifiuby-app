@@ -12,6 +12,7 @@ import axios from 'axios';
 import { checkForCameraRollPermission, uploadImageAsync } from '../../../components/UploadImage/UploadImage';
 import imagePickerStyles from '../../../components/UploadImage/'
 import SelectDropdown from 'react-native-select-dropdown';
+import { showPlayer } from '../../../store/actions/musicPlayer.action';
 
 
 const EditAlbum = ({navigation, route}: {navigation: any, route: any}) => {
@@ -24,8 +25,9 @@ const EditAlbum = ({navigation, route}: {navigation: any, route: any}) => {
   const [genres, setGenres] = useState({})
   const [genre, setGenre] = useState(album.genre);
   const [premium, setPremium] = useState(album.premium);
-
+  const dispatch = useDispatch()
   const [imageUri, setImageUri] = useState<string>(null);
+  const songs = useSelector((state: any) => state.musicPlayer.songs)
   
   const addImage = async () => {
    let _image = await ImagePicker.launchImageLibraryAsync({
@@ -59,7 +61,8 @@ const EditAlbum = ({navigation, route}: {navigation: any, route: any}) => {
   }
 
    useEffect(() => {
-        setImageUri(album.cover)
+      dispatch(showPlayer(false))
+      setImageUri(album.cover)
      checkForCameraRollPermission()
      getGenres()
    }, []);
@@ -96,6 +99,8 @@ const EditAlbum = ({navigation, route}: {navigation: any, route: any}) => {
     <SafeAreaView style={styles.safeAreaContainer}>
       <View style={{ alignSelf: 'flex-start', marginLeft: 20 }}>
         <Button title="Back" onPress={() => {
+          if (songs)
+            dispatch(showPlayer(true))
           return navigation.goBack();
         }} />
       </View>
@@ -192,7 +197,10 @@ const EditAlbum = ({navigation, route}: {navigation: any, route: any}) => {
 
       <View style={{ marginLeft: 250, flex: 1, flexDirection: 'row', marginTop: 50 }}>
           
-        <Pressable onPress={() => {navigation.goBack()}}>
+        <Pressable onPress={() => {
+          if (songs)
+            dispatch(showPlayer(true))
+          navigation.goBack()}}>
           <View style={{ flexDirection: 'column', justifyContent: "center", alignSelf: "center", marginEnd: 30 }}>
             <AntDesign name="closecircleo" size={30} color="white" />
             <Text style={{color: "white"}}>Cancel</Text>
@@ -201,6 +209,8 @@ const EditAlbum = ({navigation, route}: {navigation: any, route: any}) => {
 
         <Pressable  disabled={(title.length <= 0) && (genre.length <= 0)&& (description.length <= 0) && (image.length <= 0)} onPress={async () => {
               await handleSubmit(user.userId);
+              if (songs)
+                dispatch(showPlayer(true))
               navigation.goBack();
             }}>
           

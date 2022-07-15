@@ -1,15 +1,14 @@
-import { AntDesign, FontAwesome5, Ionicons } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
 import { Image, Text, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 
 import React from "react";
-import { playAndPauseSound, playSound } from "../../../store/actions/musicPlayer.action";
+import { playAndPauseSound } from "../../../store/actions/musicPlayer.action";
 import styles from './styles';
 import { withTiming } from "react-native-reanimated";
-import Slider from "@react-native-community/slider";
 import * as Progress from 'react-native-progress';
 
-const MiniPlayer = ({sharedValue}) => {
+const MiniPlayer = ({sharedValue} : any) => {
   const dispatch = useDispatch()
   const sound = useSelector(state => state.musicPlayer.sound)
   const isPlaying = useSelector(state => state.musicPlayer.isPlaying)

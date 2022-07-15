@@ -7,13 +7,16 @@ import React, {
 import { Button, Text, TouchableOpacity, View } from 'react-native';
 import { GiftedChat } from 'react-native-gifted-chat';
 import { database, firestore } from '../../firebase';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import axios from 'axios';
+import { showPlayer } from '../../store/actions/musicPlayer.action';
 
 export default function Chat({ navigation, route }:{ navigation: any, route: any }) {
   const [messages, setMessages] = useState<any>([]);
   const { to, from, toName } = route.params;
-
+  const songs = useSelector((state: any) => state.musicPlayer.songs)
   const user = useSelector((state: any) => state.user);
+  const dispatch = useDispatch()
 
   const onSignOut = () => {
     console.log('pressed logging out');
@@ -39,6 +42,7 @@ export default function Chat({ navigation, route }:{ navigation: any, route: any
   }, [navigation]);
 
   useEffect(() => {
+    dispatch(showPlayer(false))
     const collectionRef = firestore.collection(database, calculateIndex(to, from));
     const q = firestore.query(collectionRef, firestore.orderBy('createdAt', 'desc'));
 
@@ -56,7 +60,7 @@ export default function Chat({ navigation, route }:{ navigation: any, route: any
     return () => unsubscribe();
   }, []);
 
-  const onSend = useCallback((messages = []) => {
+  const onSend = useCallback(async (messages = []) => {
     setMessages((previousMessages: any) =>
       GiftedChat.append(previousMessages, messages)
     );
@@ -68,6 +72,13 @@ export default function Chat({ navigation, route }:{ navigation: any, route: any
       text,
       user
     });
+
+    try {
+      const response = await axios.put(`https://spotifiuba-usuario.herokuapp.com/users/newMessageNotification/${from}/${to}`,
+      null);
+    } catch(error) {
+      console.error(error);
+    }
   }, []);
     
 
@@ -75,6 +86,8 @@ export default function Chat({ navigation, route }:{ navigation: any, route: any
     <>
     <View style={{ alignSelf: 'flex-start', marginRight: 30, marginTop: 50 }}>
       <Button title="Back" onPress={() => {
+          if (songs)
+            dispatch(showPlayer(true))
           return navigation.goBack();
       }} />
     </View>

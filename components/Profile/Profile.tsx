@@ -2,7 +2,7 @@ import { Octicons } from "@expo/vector-icons";
 import axios from "axios";
 import React from "react";
 import { Pressable, View, Text, Image } from "react-native";
-import { Avatar, Caption, Title } from "react-native-paper";
+import { Caption, Title } from "react-native-paper";
 import { useDispatch, useSelector } from "react-redux";
 import { setUserFields } from "../../store/actions/user.action";
 import styles from "./styles";
@@ -44,6 +44,7 @@ export const updateUserData = async (token: string, userId: string, userData: an
     profileImage: userData.profileImage,
   };
   // setting user data in backend
+  console.log(body)
   try {
     console.log(`setting user data to backend userId: ${userId}`);
     const userDataRes = await axios.put(`https://spotifiuba-usuario.herokuapp.com/users/${userId}`,
@@ -53,6 +54,7 @@ export const updateUserData = async (token: string, userId: string, userData: an
           Authorization: `Bearer ${token}`,
           },
       });
+    console.log(userDataRes )
     dispatch(setUserFields(userData));
   } catch(error) {
     console.error(error);

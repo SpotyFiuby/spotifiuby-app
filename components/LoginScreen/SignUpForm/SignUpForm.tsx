@@ -1,4 +1,4 @@
-import react, {useRef, useState} from 'react';
+import {useRef, useState} from 'react';
 import { View, Text, TextInput, Button, Alert} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import styles from './styles';
@@ -9,6 +9,7 @@ import Validator from 'email-validator';
 const MIN_PASSWORD_LEN = 6;
 import PhoneInput from 'react-native-phone-number-input';
 import { sendWhatsappVerification } from "../verify/verify";
+import React from 'react';
 
 const SignUpForm = ({ navigation, signInData = { email: '', password: ''} }) => {
     const signUpFormSchema = Yup.object().shape({

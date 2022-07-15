@@ -140,7 +140,17 @@ export const followArtist = (artistId: number, userId: number) => {
           })
           
       } catch(error) {
-        console.error(error);
+        if((error as any).response.status == 409){
+          //El artista no recibe notificaciones
+          dispatch({
+            type: FOLLOW_ARTIST,
+            payload: {newArtist: artistId}
+          })
+        }
+        else {
+          console.error(error)
+        }
+          
       }
       
   }
