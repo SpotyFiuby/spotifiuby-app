@@ -4,9 +4,10 @@ const styles = StyleSheet.create({
     container: {
       flex: 1,
       alignItems: 'center',
+      marginTop: 20,
     },
     title: {
-        fontSize: 40,
+        fontSize: 35,
         fontWeight: 'bold',
         marginTop: 80,
         marginBottom: 10,
@@ -32,6 +33,7 @@ const styles = StyleSheet.create({
       marginTop: 30,
     },
     upgradeToPremiumButton: {
+      marginTop: 20,
       borderWidth: 1,
       borderColor: '#293133',
       alignItems: 'center',
@@ -44,7 +46,7 @@ const styles = StyleSheet.create({
       
     },
     upgradeToPremiumButtonText: {
-      fontSize: 25,
+      fontSize: 20,
       color: "white",
       fontWeight: "bold",
       textAlign: "center",

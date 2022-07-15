@@ -27,6 +27,7 @@ export default (props: RootTabScreenProps) => {
   const colorScheme = useColorScheme();
   const user = useSelector((state: any) => state.user);
   const isArtist = user.isArtist;
+  const isPremium = user.isPremium;
 
 
 
@@ -78,6 +79,8 @@ export default (props: RootTabScreenProps) => {
           }}
         />: null
       }
+       
+      { !isPremium?
       <BottomTab.Screen
           name= "Premium"
           component={Premium}
@@ -86,7 +89,8 @@ export default (props: RootTabScreenProps) => {
             title: 'premium',
             tabBarIcon: ({ color }) => <FontAwesome5 name="spotify" size={30} style={{ marginBottom: -3}} color={color} />,
           }}
-      />
+      />: null
+      }
     </BottomTab.Navigator>
   );
 }

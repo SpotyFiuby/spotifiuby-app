@@ -1,7 +1,6 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import * as React from 'react';
 
-import NotFoundScreen from '../screens/NotFoundScreen';
 import { RootStackParamList } from '../types';
 import BottomTabNavigator from './BottomTabNavigator';
 import SignInScreen from '../screens/SignInScreen';
@@ -40,7 +39,6 @@ export const SignedInStack = () => (
         <Stack.Screen name="Home" component={BottomTabNavigator} options={{ headerShown: false }} />
         <Stack.Screen name="Profile" component={ProfileScreen} />
         <Stack.Screen name="EditProfile" component={EditProfileScreen} />
-        <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
         <Stack.Screen name="ArtistAlbumSongs" component={ArtistAlbumSongs} />
         <Stack.Screen name="Search" component={SearchScreen} />
         <Stack.Screen name="UploadSong" component={UploadSong} />
