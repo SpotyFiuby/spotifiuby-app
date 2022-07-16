@@ -6,7 +6,19 @@ import * as Yup from 'yup';
 import Validator from 'email-validator';
 import { firebase } from '../../../firebase';
 import React from 'react';
+import axios from 'axios';
 
+
+const getCurrentDate=()=>{
+
+    var date = new Date().getDate();
+    var month = new Date().getMonth() + 1;
+    var year = new Date().getFullYear();
+
+    //Alert.alert(date + '-' + month + '-' + year);
+    // You can turn it in to your desired format
+    return date + '-' + month + '-' + year;//format: dd-mm-yyyy;
+}
 
 const ForgotPasswordForm = ({ navigation, forgotPasswordData = { email: '' } }) => {
     const ForgotPasswordFormSchema = Yup.object().shape({
@@ -28,6 +40,21 @@ const ForgotPasswordForm = ({ navigation, forgotPasswordData = { email: '' } }) 
                     }, style: 'cancel'},
                 ],
             );
+
+            try {
+                const res = await axios.post(`https://spotifiuba-metricas.herokuapp.com/metrics/resetpassword`, {
+                    date: getCurrentDate(),
+                }, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'accept': 'application/json'
+                        }
+                });
+            }
+            catch(error) {
+                console.error(error);
+            }
+
         } catch(error) {
             Alert.alert(
                 '⚠ Email not found', '',
