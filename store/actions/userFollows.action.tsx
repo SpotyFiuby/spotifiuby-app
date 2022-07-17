@@ -23,7 +23,7 @@ export const followAlbum = (albumId: number, userId: number) => {
             payload: {newAlbum: response.data.id}
           })
       } catch(error) {
-        console.error(error);
+        console.log(error);
       }
       
   }
@@ -45,7 +45,7 @@ export const unfollowAlbum = (albumId: number, userId: number) => {
               payload: {album: albumId}
             })
         } catch(error) {
-          console.error(error);
+          console.log(error);
         }
         
     }
@@ -67,7 +67,7 @@ export const followSong = (songId: number, userId: number) => {
           })
           
       } catch(error) {
-        console.error(error);
+        console.log(error);
       }
       
   }
@@ -89,7 +89,7 @@ export const unfollowSong = (songId: number, userId: number) => {
               payload: {song: songId}
             })
         } catch(error) {
-          console.error(error);
+          console.log(error);
         }
         
     }
@@ -110,7 +110,7 @@ return async (dispatch) => {
               artists: artistsResponse.data.map((artist: { id: number }) => artist.id)}
         })
     } catch(error) {
-        console.error(error);
+        console.log(error);
     }
     
 }
