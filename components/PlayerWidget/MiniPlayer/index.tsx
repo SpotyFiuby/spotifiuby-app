@@ -38,36 +38,46 @@ const MiniPlayer = ({sharedValue} : any) => {
     }
 
     return (
-        <View>
-            <View style={styles.sliderContainer}>
-                <Progress.Bar
-                        width={null}
-                        color={"lightgray"}
-                        progress={calculateSlider()}
-                        style={styles.slider}
-                    />
-            </View>
-                
-            <TouchableWithoutFeedback onPress={handleOnPress}>
-                <View style={styles.container}>
-                    <Image source={{uri: "https://static.vecteezy.com/system/resources/previews/003/484/892/original/neon-music-note-on-the-brick-wall-eps-10-illustration-vector.jpg"}}  style={styles.image} />
-                    <View style={styles.rightContainer}>
-                        <View style={styles.nameContainer}>
-                            <Text style={styles.title}>{songs[currentAudioIndex].name}</Text>
-                            <Text style={styles.artist}>{songs[currentAudioIndex].authors}</Text>
-                        </View>
-                        <View style={styles.iconsContainer}>
-                            <TouchableOpacity onPress={handleOnPressSong}>
-                              <Ionicons name={isPlaying ? 'pause' : 'play'} color="white" size={35} />
-                            </TouchableOpacity>
-                        </View>
+
+            
+        <>
+            {
+                songs ? 
+                songs[currentAudioIndex] ?
+                <View>
+                    <View style={styles.sliderContainer}>
+                    <Progress.Bar
+                            width={null}
+                            color={"lightgray"}
+                            progress={calculateSlider()}
+                            style={styles.slider}
+                        />
                     </View>
-                </View>
-            </TouchableWithoutFeedback>
+                    <TouchableWithoutFeedback onPress={handleOnPress}>
+                    <View style={styles.container}>
+                            <Image source={{uri: "https://static.vecteezy.com/system/resources/previews/003/484/892/original/neon-music-note-on-the-brick-wall-eps-10-illustration-vector.jpg"}}  style={styles.image} />
+                            <View style={styles.rightContainer}>
+                                <View style={styles.nameContainer}>
+                                    <Text style={styles.title}>{songs[currentAudioIndex].name}</Text>
+                                    <Text style={styles.artist}>{songs[currentAudioIndex].authors}</Text>
+                                </View>
+                                <View style={styles.iconsContainer}>
+                                    <TouchableOpacity onPress={handleOnPressSong}>
+                                    <Ionicons name={isPlaying ? 'pause' : 'play'} color="white" size={35} />
+                                    </TouchableOpacity>
+                                </View>
+                            </View>
+                        </View>
+                    </TouchableWithoutFeedback> 
+                </View> : null : null
+            }
+        </>
+
             
             
             
-        </View>
+            
+
         
     )
 }

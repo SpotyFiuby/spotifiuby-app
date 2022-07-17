@@ -5,7 +5,7 @@ const styles = StyleSheet.create({
         position: 'absolute',
         flexDirection: 'row',
         backgroundColor: '#131313',
-        bottom: 75,
+        bottom: 49,
         width: '100%',
         borderWidth: 2,
         borderColor: 'black',
@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
         borderWidth: 0,
     },
     sliderContainer: {
-        bottom: 115,
+        bottom: 116,
         position: 'absolute',
         width: '100%'
     },

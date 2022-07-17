@@ -75,11 +75,16 @@ const Player = ({sharedValue} : any) => {
 
 
   return (
+
       <Animated.View style={[styles.mainContainer, mainContainerAnimatedStyle]}>
-        <LinearGradient
+      <LinearGradient
         colors={["#252850", "#191414"]}
         style={StyleSheet.absoluteFill}
         />
+
+      {
+        songs ? 
+        songs[currentAudioIndex] ?
         <View style={styles.container}>
           <View style={styles.header}>
             <TouchableOpacity onPress={handleClosePlayerScreen}>
@@ -129,7 +134,9 @@ const Player = ({sharedValue} : any) => {
             
           </View>
 
-        </View>
+        </View> : null : null
+      }
+
         
         
         
