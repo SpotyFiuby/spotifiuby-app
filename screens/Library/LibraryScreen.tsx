@@ -30,7 +30,7 @@ export default function LibraryScreen({navigation}: {navigation: any}) {
       const response = await axios.get(`https://spotifiuba-usuario.herokuapp.com/users/user_followings/${user.userId}`);
       setFollowedArtistsData(response.data)
     } catch(error) {
-      console.error(error);
+      console.log(error)
       setData([])
     }
   }
@@ -41,7 +41,7 @@ export default function LibraryScreen({navigation}: {navigation: any}) {
       const response = await axios.get(`http://spotifiuba-contenido.herokuapp.com/users/favourite_albums/${user.userId}`);
       setData(response.data)
     } catch(error) {
-      console.error(error);
+      console.log(error)
       setData([])
     }
   }
