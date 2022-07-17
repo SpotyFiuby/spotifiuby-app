@@ -54,7 +54,7 @@ const PlaylistScreen = () => {
                             </View>
                         }
                         ListFooterComponent={
-                            <View style={{marginBottom: 100}}>
+                            <View style={{marginBottom: 200}}>
                                 
                             </View>
                             

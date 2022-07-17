@@ -10,6 +10,18 @@ import { setEmail, setToken, setUserId } from '../../store/actions/user.action';
 import { setProfile } from '../../components/Profile/Profile';
 import { onFacebookButtonPress } from '../../components/LoginScreen/federatedAuth/FacebookAuth/facebook';
 
+const getCurrentDate=()=>{
+
+    var date = new Date().getDate();
+    var month = new Date().getMonth() + 1;
+    var year = new Date().getFullYear();
+
+    //Alert.alert(date + '-' + month + '-' + year);
+    // You can turn it in to your desired format
+    return date + '-' + month + '-' + year;//format: dd-mm-yyyy;
+}
+
+
 const SignInScreen = ({ navigation }: { navigation: any }) => {
   const dispatch = useDispatch();
 
@@ -37,6 +49,22 @@ const SignInScreen = ({ navigation }: { navigation: any }) => {
           dispatch(setEmail(email));
           console.debug(`Sign In successful with token: ${token}, userId: ${userId}`);
           await firebase.auth().signInWithEmailAndPassword(email,password);
+
+
+            try {
+                const res = await axios.post(`https://spotifiuba-metricas.herokuapp.com/metrics/standardlogin`, {
+                    date: getCurrentDate(),
+                }, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'accept': 'application/json'
+                        }
+                });
+            }
+            catch(error) {
+                console.error(error);
+            }
+
       } catch(error) {
           console.error(error);
           Alert.alert(
@@ -113,6 +141,22 @@ const SignInScreen = ({ navigation }: { navigation: any }) => {
   
         // set user profile on sign up
         dispatch(await setProfile(token, userId));
+
+        
+        try {
+            const res = await axios.post(`https://spotifiuba-metricas.herokuapp.com/metrics/federetedsignup`, {
+                date: getCurrentDate(),
+            }, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'accept': 'application/json'
+                    }
+            });
+        }
+        catch(error) {
+            console.error(error);
+        }
+
       } catch(error) {
           console.error(error);
           Alert.alert('Error', 'Error signing up');
@@ -129,6 +173,22 @@ const SignInScreen = ({ navigation }: { navigation: any }) => {
       // sign in user backend and navigate to home
       console.debug(`Federated User exists, signing in with email: ${email}`);
       onSignInPressed(email, `${id}-${email}`);
+
+
+    try {
+        const res = await axios.post(`https://spotifiuba-metricas.herokuapp.com/metrics/federetedlogin`, {
+            date: getCurrentDate(),
+        }, {
+            headers: {
+                'Content-Type': 'application/json',
+                'accept': 'application/json'
+                }
+        });
+    }
+    catch(error) {
+        console.error(error);
+    }
+
     } else {
       // user does not exist, create them
       console.debug(`Federated Facebook User does not exist, creating user with email: ${email}`);

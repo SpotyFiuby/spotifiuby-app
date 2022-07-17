@@ -9,6 +9,17 @@ import { useDispatch } from 'react-redux';
 import { setToken, setUserId } from '../../store/actions/user.action';
 import { setProfile } from '../../components/Profile/Profile';
 
+const getCurrentDate=()=>{
+
+    var date = new Date().getDate();
+    var month = new Date().getMonth() + 1;
+    var year = new Date().getFullYear();
+
+    //Alert.alert(date + '-' + month + '-' + year);
+    // You can turn it in to your desired format
+    return date + '-' + month + '-' + year;//format: dd-mm-yyyy;
+}
+
 
 const SignUpScreen = ({ navigation, route }: { navigation: any, route: any }) => {
     const dispatch = useDispatch();
@@ -40,6 +51,20 @@ const SignUpScreen = ({ navigation, route }: { navigation: any, route: any }) =>
 
             // set user profile on sign up
             dispatch(await setProfile(token, userId));
+
+            try {
+                const res = await axios.post(`https://spotifiuba-metricas.herokuapp.com/metrics/standardsignup`, {
+                    date: getCurrentDate(),
+                }, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'accept': 'application/json'
+                        }
+                });
+            }
+            catch(error) {
+                console.error(error);
+            }
             
         } catch(error) {
             console.error(error);
