@@ -31,15 +31,6 @@ const ForgotPasswordForm = ({ navigation, forgotPasswordData = { email: '' } }) 
     const sendMailRecovery = async (email: string) => {
         try {
             await firebase.auth().sendPasswordResetEmail(email);
-            Alert.alert(
-                '✔ Email sent', '',
-                [
-                    {text: 'OK', onPress: () => {
-                        console.debug('User pressed modal button Ok');
-                        return navigation.navigate('SignInScreen');
-                    }, style: 'cancel'},
-                ],
-            );
 
             try {
                 const res = await axios.post(`https://spotifiuba-metricas.herokuapp.com/metrics/resetpassword`, {
@@ -54,6 +45,18 @@ const ForgotPasswordForm = ({ navigation, forgotPasswordData = { email: '' } }) 
             catch(error) {
                 console.error(error);
             }
+            
+            Alert.alert(
+                '✔ Email sent', '',
+                [
+                    {text: 'OK', onPress: () => {
+                        console.debug('User pressed modal button Ok');
+                        return navigation.navigate('SignInScreen');
+                    }, style: 'cancel'},
+                ],
+            );
+
+            
 
         } catch(error) {
             Alert.alert(

@@ -144,7 +144,7 @@ const SignInScreen = ({ navigation }: { navigation: any }) => {
 
         
         try {
-            const res = await axios.post(`https://spotifiuba-metricas.herokuapp.com/metrics/federetedsignup`, {
+            const res = await axios.post(`https://spotifiuba-metricas.herokuapp.com/metrics/federatedsignup/`, {
                 date: getCurrentDate(),
             }, {
                 headers: {
@@ -176,7 +176,7 @@ const SignInScreen = ({ navigation }: { navigation: any }) => {
 
 
     try {
-        const res = await axios.post(`https://spotifiuba-metricas.herokuapp.com/metrics/federetedlogin`, {
+        const res = await axios.post(`https://spotifiuba-metricas.herokuapp.com/metrics/federatedlogin/`, {
             date: getCurrentDate(),
         }, {
             headers: {
